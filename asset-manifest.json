@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/elite4you/static/css/main.0f22cb03.chunk.css",
+    "main.js": "/elite4you/static/js/main.61d403f3.chunk.js",
+    "main.js.map": "/elite4you/static/js/main.61d403f3.chunk.js.map",
+    "runtime~main.js": "/elite4you/static/js/runtime~main.9b0a14d8.js",
+    "runtime~main.js.map": "/elite4you/static/js/runtime~main.9b0a14d8.js.map",
+    "static/js/2.d2d347c2.chunk.js": "/elite4you/static/js/2.d2d347c2.chunk.js",
+    "static/js/2.d2d347c2.chunk.js.map": "/elite4you/static/js/2.d2d347c2.chunk.js.map",
+    "index.html": "/elite4you/index.html",
+    "precache-manifest.b53f5fd4888334d39c31d878858faa29.js": "/elite4you/precache-manifest.b53f5fd4888334d39c31d878858faa29.js",
+    "service-worker.js": "/elite4you/service-worker.js",
+    "static/css/main.0f22cb03.chunk.css.map": "/elite4you/static/css/main.0f22cb03.chunk.css.map"
+  }
+}
