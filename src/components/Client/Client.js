@@ -52,22 +52,12 @@ const styles = theme => ({
   },
   appBar: {
     marginLeft: drawerWidth,
-    backgroundColor: '#262626',
+    backgroundColor: '#ec6d6d',
     [theme.breakpoints.up('md')]: {
       width: `calc(100% - ${drawerWidth}px)`,
     },
   },
-  appBar_2:{
-    top: 55,
-    marginLeft: drawerWidth,
-    backgroundColor: '#262626',
-    [theme.breakpoints.up('md')]: {
-      width: `calc(100% - ${drawerWidth}px)`,
-    },
-    [theme.breakpoints.up('sm')]: {
-      display: 'none',
-    },
-  },
+
   menuButton: {
     marginRight: 20,
     [theme.breakpoints.up('md')]: {
@@ -85,13 +75,6 @@ const styles = theme => ({
     fontFamily: "'Dancing Script', cursive;",
     textDecoration: "none"
   },
-  Title_2:{
-    textAlign: "center",
-    letterSpacing: 5,
-    fontFamily: "'Dancing Script', cursive;",
-    padding: "15px 0 !important",
-    textDecoration: "none"
-  },
   toolbar: theme.mixins.toolbar,
   drawerPaper: {
     backgroundColor: "#fff",
@@ -99,11 +82,8 @@ const styles = theme => ({
   },
   content: {
     flexGrow: 1,
-    margin: "60px 0",
-    padding: theme.spacing.unit * 3,
-    [theme.breakpoints.up('sm')]: {
-      margin: '0',
-    },
+    margin: 0,
+    padding: `${theme.spacing.unit * 3}px 0px`,
   },
   search: {
     position: 'relative',
@@ -395,11 +375,6 @@ class Client extends Component {
                               </IconButton>
                             </div>
                   </Toolbar>
-            </AppBar>
-            <AppBar className={classes.appBar_2} position="fixed">
-              <Typography component={Link} to={`/`} className={classes.Title_2}  variant="h4" color="inherit">
-              Elite4Her
-              </Typography>
             </AppBar>
             {renderMenu}
             {renderMobileMenu}
