@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "d5a6d33dec8d597f92b259af422582f3",
+    "revision": "8c0fc00ad00603c3f8acb85e9462d455",
     "url": "/elite4you/index.html"
   },
   {
-    "revision": "440d38f9ef2ce3642d4c",
+    "revision": "dfc4cd0fc208e8ce3418",
     "url": "/elite4you/static/css/main.71d94465.chunk.css"
   },
   {
@@ -12,8 +12,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/elite4you/static/js/2.d5c624c9.chunk.js"
   },
   {
-    "revision": "440d38f9ef2ce3642d4c",
-    "url": "/elite4you/static/js/main.00f7e728.chunk.js"
+    "revision": "dfc4cd0fc208e8ce3418",
+    "url": "/elite4you/static/js/main.e31de2b4.chunk.js"
   },
   {
     "revision": "944be8ed5484c5eb4c4e",
