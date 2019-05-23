@@ -62,7 +62,7 @@ const styles = theme => ({
     p_:{
         fontFamily: "'Open Sans',Helvetica,Arial,Sans-Serif",
         fontSize: 20,
-        letterSpacing: 4,
+        letterSpacing: 3,
         textTransform: "lowercase",
         lineHeight: "2em",
         backgroundColor: "#ffffff87",
@@ -77,7 +77,7 @@ const styles = theme => ({
     under_p_:{
         fontFamily: "'Open Sans',Helvetica,Arial,Sans-Serif",
         fontSize: 14,
-        letterSpacing: 4,
+        letterSpacing: 3,
         textTransform: "lowercase",
         lineHeight: "2em",
         backgroundColor: "#ffffff87",
