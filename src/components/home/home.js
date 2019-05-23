@@ -159,6 +159,7 @@ const styles = theme => ({
     flexDirection: "row",
     margin: "0 auto",
     justifyContent: "space-evenly",
+    backgroundColor: "#f3f3f3",
   },
 })
 
@@ -260,7 +261,7 @@ class home extends Component {
       <div className={classes.InsidePaper}>
         <div className={classes.toolbar} />
         <Typography className="title"  variant="h3" color="inherit" noWrap>
-              Elite4You
+              Elite4Her
         </Typography>
         <Divider />
         <List>
@@ -323,7 +324,7 @@ class home extends Component {
                           <MenuIcon />
                           </IconButton>
                           <Typography className={classes.Title}  variant="h4" color="inherit">
-                              Elite4You
+                              Elite4Her
                           </Typography>
                           <div className={classes.search}>
                                 <div className={classes.searchIcon}>
@@ -372,7 +373,7 @@ class home extends Component {
             </AppBar>
             <AppBar className={classes.appBar_2} position="fixed">
               <Typography className={classes.Title_2}  variant="h4" color="inherit">
-                              Elite4You
+              Elite4Her
               </Typography>
             </AppBar>
             {renderMenu}

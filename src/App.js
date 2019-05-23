@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter  as Router, Route, Switch } from 'react-router-dom';
 import './App.scss';
 import home from './components/home/home';
 
@@ -9,12 +9,15 @@ const pagenotfound = ({ location }) => (
   </div>
 )
 
+
+
 class App extends Component {
 
   render(){
+
     return (
       <div className="App">
-          <Router>
+          <Router  basename={ process.env.PUBLIC_URL }>
                   <div id="content">
                     <Switch>
                         <Route path='/' exact component={home} />
@@ -28,3 +31,4 @@ class App extends Component {
 }
 
 export default App;
+
