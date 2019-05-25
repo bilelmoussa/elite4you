@@ -1,3 +1,6 @@
+@import "~slick-carousel/slick/slick.css";
+@import "~slick-carousel/slick/slick-theme.css";
+
 *{
     padding: 0;
     margin: 0;
@@ -7,6 +10,8 @@
 body{
     background-color: #f1f1f1 !important;
     min-height: 650px;
+    width: 100vw;
+    overflow-x: hidden;
 }
 
 .title{
@@ -31,13 +36,52 @@ body{
 }
 
  #bg_1{
-    background-image: url('./static//wallpaper_5.jpg');
+    background-image: url('./static//wallpaper_6.jpg');
 }
 
 #bg_2{
-    background-image: url('./static//wallpaper_4.jpg');
+    background-image: url('./static//wallpaper_7.jpg');
 }
 
 #bg_3{
     background-image: url('./static//wallpaper_3.jpg');
 }
+
+.silde{
+    position: relative;
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: #d64b4b;
+    width: 60% !important;
+    margin: 0 auto;
+    padding-top: 90%;
+}
+
+#container_slider{
+    display: flex;
+    width: 100%;
+    overflow: hidden;
+}
+
+.container_slick {
+    margin: 0;
+    padding: 40px;
+    width: 99%;
+    color: #333;
+    background: #ff7070;
+    margin-top: 50px;
+}
+
+.inside_slide{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+}
+

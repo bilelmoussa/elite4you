@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter  as Router, Route, Switch } from 'react-router-dom';
 import './App.scss';
-import Client from './components/Client/Client'
+import Client from './components/Client/Client';
 
 const pagenotfound = ({ location }) => (
   <div>

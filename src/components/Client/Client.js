@@ -82,8 +82,12 @@ const styles = theme => ({
   },
   content: {
     flexGrow: 1,
-    margin: 0,
+    width: "100%",
+    margin: "60px 0 0 0",
     padding: `${theme.spacing.unit * 3}px 0px`,
+    [theme.breakpoints.up('md')]: {
+      width: `calc(100% - ${drawerWidth}px)`,
+    },
   },
   search: {
     position: 'relative',
@@ -200,6 +204,11 @@ class Client extends Component {
     this.setState({ mobileMoreAnchorEl: null });
   };
 
+  handleCloseBtn = () =>{
+    this.setState({mobileOpen: false})
+  };
+
+
   render() {
     const { classes, theme } = this.props;
     const { anchorEl, mobileMoreAnchorEl } = this.state;
@@ -265,36 +274,36 @@ class Client extends Component {
     const drawer = (
       <div className={classes.InsidePaper}>
         <div className={classes.toolbar} />
-        <Typography component={Link} to={`/`} className="title"  variant="h3" color="inherit" noWrap>
+        <Typography onClick={this.handleCloseBtn} component={Link} to={`/`} className="title"  variant="h3" color="inherit" noWrap>
               Elite4Her
         </Typography>
         <Divider />
         <List>
-            <ListItem  component={Link} to={`/Womens`} button  className={classes.List_Item}>
+            <ListItem onClick={this.handleCloseBtn}  component={Link} to={`/Womens`} button  className={classes.List_Item}>
               <ListItemText classes={{primary: classes.List_Text}} primary="Womens" />
             </ListItem>
-            <ListItem component={Link} to={`/Kids`} button className={classes.List_Item}>
+            <ListItem onClick={this.handleCloseBtn} component={Link} to={`/Kids`} button className={classes.List_Item}>
               <ListItemText classes={{primary: classes.List_Text}} primary="Kids" />
             </ListItem>
-            <ListItem component={Link} to={`/Sale`} button className={classes.List_Item}>
+            <ListItem onClick={this.handleCloseBtn} component={Link} to={`/Sale`} button className={classes.List_Item}>
               <ListItemText classes={{primary: classes.List_Text}} primary="Sale" />
             </ListItem>
         </List>
         <Divider />
         <List>
-        <ListItem component={Link} to={`/New-Products`} button  className={classes.List_Item}>
+        <ListItem onClick={this.handleCloseBtn} component={Link} to={`/New-Products`} button  className={classes.List_Item}>
             <ListItemText classes={{primary: classes.List_Text}} primary="New Products" />
         </ListItem>
-        <ListItem component={Link} to={`/Trend`} button  className={classes.List_Item}>
+        <ListItem onClick={this.handleCloseBtn} component={Link} to={`/Trend`} button  className={classes.List_Item}>
             <ListItemText classes={{primary: classes.List_Text}} primary="Trend" />
         </ListItem>
         </List>
         <Divider />
         <List>
-        <ListItem component={Link} to={`/Contact-Us`} button  className={classes.List_Item}>
+        <ListItem onClick={this.handleCloseBtn} component={Link} to={`/Contact-Us`} button  className={classes.List_Item}>
             <ListItemText classes={{primary: classes.List_Text}} primary="Contact Us" />
         </ListItem>
-        <ListItem component={Link} to={`/About-Us`} button  className={classes.List_Item}>
+        <ListItem onClick={this.handleCloseBtn} component={Link} to={`/About-Us`} button  className={classes.List_Item}>
             <ListItemText classes={{primary: classes.List_Text}} primary="About Us" />
         </ListItem>
         </List>
@@ -406,7 +415,6 @@ class Client extends Component {
                     </Hidden>
               </nav>
               <main className={classes.content}>
-                <div className={classes.toolbar} />
  
                           <Switch>
                                 <Route exact path={'/'} component={home} />
