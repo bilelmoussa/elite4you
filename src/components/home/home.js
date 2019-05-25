@@ -63,8 +63,7 @@ const styles = theme => ({
         backgroundColor: "#ff7070",
         '&:hover': {
               backgroundColor: "#d86060",
-        },
-        
+        },  
     },
     p_:{
         fontFamily: "'Roboto', sans-serif;",
@@ -92,10 +91,12 @@ const styles = theme => ({
         borderRadius: 5,
         color: "#222"
     },
+
     under_B_inside_p:{
         fontSize: 18,
         textTransform: "uppercase"
     },
+
     button_Base :{
         position: "absolute",
         width: "100%",
@@ -103,6 +104,9 @@ const styles = theme => ({
         top: 0,
         left: 0,
         color: theme.palette.common.white,
+        '&:hover': {
+            opacity: "0.85",
+        },
     }
 })
 
@@ -198,7 +202,7 @@ class home extends Component {
                         <Slider {...settings}>
                             <div className="silde">
                                <div className="inside_slide">
-                                    <ButtonBase className={classes.button_Base}>
+                                    <ButtonBase  classes={{root:classes.button_Base}}>
                                         <div className="inside_button_slide">
                                                 <div className="Img_Gallery" id="GB_1"/>
                                                 <div className="under_Img_Gallery">
@@ -211,7 +215,7 @@ class home extends Component {
                             </div>
                             <div  className="silde">
                                 <div className="inside_slide">
-                                    <ButtonBase className={classes.button_Base}>
+                                    <ButtonBase classes={{root:classes.button_Base}}>
                                         <div className="inside_button_slide">
                                                 <div className="Img_Gallery" id="GB_2"/>
                                                 <div className="under_Img_Gallery">
@@ -225,7 +229,7 @@ class home extends Component {
                             </div>
                             <div  className="silde">
                                 <div className="inside_slide">
-                                    <ButtonBase className={classes.button_Base}>
+                                    <ButtonBase classes={{root:classes.button_Base}}>
                                         <div className="inside_button_slide">
                                                 <div className="Img_Gallery" id="GB_3"/>
                                                 <div className="under_Img_Gallery">
@@ -239,7 +243,7 @@ class home extends Component {
                             </div>
                             <div  className="silde">
                                 <div className="inside_slide">
-                                <ButtonBase className={classes.button_Base}>
+                                <ButtonBase classes={{root:classes.button_Base}}>
                                         <div className="inside_button_slide">
                                                 <div className="Img_Gallery"/>
                                                 <div className="under_Img_Gallery">
@@ -252,7 +256,7 @@ class home extends Component {
                             </div>
                             <div  className="silde">
                                 <div className="inside_slide">
-                                <ButtonBase className={classes.button_Base}>
+                                <ButtonBase classes={{root:classes.button_Base}}>
                                         <div className="inside_button_slide">
                                                 <div className="Img_Gallery"/>
                                                 <div className="under_Img_Gallery">
@@ -265,7 +269,7 @@ class home extends Component {
                             </div>
                             <div  className="silde">
                                 <div className="inside_slide">
-                                <ButtonBase className={classes.button_Base}>
+                                <ButtonBase classes={{root:classes.button_Base}}>
                                         <div className="inside_button_slide">
                                                 <div className="Img_Gallery"/>
                                                 <div className="under_Img_Gallery">
@@ -278,7 +282,7 @@ class home extends Component {
                             </div>
                             <div  className="silde">
                                 <div className="inside_slide">
-                                <ButtonBase className={classes.button_Base}>
+                                <ButtonBase classes={{root:classes.button_Base}}>
                                         <div className="inside_button_slide">
                                                 <div className="Img_Gallery"/>
                                                 <div className="under_Img_Gallery">
@@ -291,7 +295,7 @@ class home extends Component {
                             </div>
                             <div  className="silde">
                                 <div className="inside_slide">
-                                <ButtonBase className={classes.button_Base}>
+                                <ButtonBase classes={{root:classes.button_Base}}>
                                         <div className="inside_button_slide">
                                                 <div className="Img_Gallery"/>
                                                 <div className="under_Img_Gallery">
