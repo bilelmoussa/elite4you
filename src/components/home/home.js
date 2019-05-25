@@ -67,12 +67,12 @@ const styles = theme => ({
         
     },
     p_:{
-        fontFamily: "'Open Sans',Helvetica,Arial,Sans-Serif",
+        fontFamily: "Times New Roman, Times, serif",
         fontSize: 20,
         letterSpacing: 1,
-        textTransform: "lowercase",
+        textTransform: "capitalize",
         lineHeight: "2em",
-        backgroundColor: "#ffffff47",
+        backgroundColor: "#ffffff75",
         padding: 10,
         borderRadius: 5,
         color: "#222"
@@ -82,12 +82,12 @@ const styles = theme => ({
         textTransform: "uppercase"
     },
     under_p_:{
-        fontFamily: "'Open Sans',Helvetica,Arial,Sans-Serif",
+        fontFamily: "Times New Roman, Times, serif",
         fontSize: 14,
         letterSpacing: 1,
-        textTransform: "lowercase",
+        textTransform: "capitalize",
         lineHeight: "2em",
-        backgroundColor: "#fff",
+        backgroundColor: "#ec6d6d47",
         padding: 10,
         borderRadius: 5,
         color: "#222"
@@ -153,10 +153,6 @@ class home extends Component {
         return (
                 <div id="home">
                     <div id="show_case">
-                            <div  className={classes.under_side_text}>
-                                    <p className={classes.under_p_}><b className={classes.under_B_inside_p}>Womens</b> <br/> Id enim pariatur qui eiusmod. Ad velit mollit sint est in id culpa proident elit aliquip .</p> 
-                                    <Button component={Link} to={`/Womens`} variant="contained" color="primary" classes={{root: classes.button}}>Explore</Button>  
-                            </div>
                             <div id="bg_1" className={classes.bg_showcase}>
                                 <Button component={Link} to={`/Womens`} className={classes.button_Base}>
                                 <div className={classes.left_side_text}>
@@ -166,8 +162,8 @@ class home extends Component {
                                 </Button>
                             </div>
                             <div  className={classes.under_side_text}>
-                                    <p className={classes.under_p_}><b className={classes.under_B_inside_p}>Kids</b> <br/> Id enim pariatur qui eiusmod. Ad velit mollit sint est in id culpa proident elit aliquip .</p> 
-                                    <Button component={Link} to={`/Kids`} variant="contained" color="primary" classes={{root: classes.button}}>Explore</Button>  
+                                    <p className={classes.under_p_}><b className={classes.under_B_inside_p}>Womens</b> <br/> Id enim pariatur qui eiusmod. Ad velit mollit sint est in id culpa proident elit aliquip .</p> 
+                                    <Button component={Link} to={`/Womens`} variant="contained" color="primary" classes={{root: classes.button}}>Explore</Button>  
                             </div>
                             <div id="bg_2" className={classes.bg_showcase}>
                                 <Button component={Link} to={`/kids`}  className={classes.button_Base}>
@@ -178,8 +174,8 @@ class home extends Component {
                                 </Button>
                             </div>
                             <div  className={classes.under_side_text}>
-                                    <p className={classes.under_p_}><b className={classes.under_B_inside_p}>Find More</b> <br/> Id enim pariatur qui eiusmod. Ad velit mollit sint est in id culpa proident elit aliquip .</p> 
-                                    <Button component={Link} to={`/Sale`} variant="contained" color="primary" classes={{root: classes.button}}>Explore</Button>  
+                                    <p className={classes.under_p_}><b className={classes.under_B_inside_p}>Kids</b> <br/> Id enim pariatur qui eiusmod. Ad velit mollit sint est in id culpa proident elit aliquip .</p> 
+                                    <Button component={Link} to={`/Kids`} variant="contained" color="primary" classes={{root: classes.button}}>Explore</Button>  
                             </div>
                             <div id="bg_3" className={classes.bg_showcase}>
                                 <Button component={Link} to={`/Sale`} className={classes.button_Base}>
@@ -188,6 +184,10 @@ class home extends Component {
                                     <Button variant="contained" color="primary" classes={{root: classes.button}}>Explore</Button>  
                                 </div>
                                 </Button>
+                            </div>
+                            <div  className={classes.under_side_text}>
+                                    <p className={classes.under_p_}><b className={classes.under_B_inside_p}>Find More</b> <br/> Id enim pariatur qui eiusmod. Ad velit mollit sint est in id culpa proident elit aliquip .</p> 
+                                    <Button component={Link} to={`/Sale`} variant="contained" color="primary" classes={{root: classes.button}}>Explore</Button>  
                             </div>
                             
                     </div>
