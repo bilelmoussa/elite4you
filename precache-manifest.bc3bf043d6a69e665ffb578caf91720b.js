@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "1b43b29bb9476a98e451c9e14c222f69",
+    "revision": "dc329c2d143ae7126e9ee0ecee29178e",
     "url": "/elite4you/index.html"
   },
   {
@@ -8,20 +8,32 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/elite4you/static/css/2.377cfcf8.chunk.css"
   },
   {
-    "revision": "6871ed78e1a556b5b854",
-    "url": "/elite4you/static/css/main.5b69fa4b.chunk.css"
+    "revision": "9b9f5d1b5c476c9d73f0",
+    "url": "/elite4you/static/css/main.61622754.chunk.css"
   },
   {
     "revision": "911c4248457488367310",
     "url": "/elite4you/static/js/2.a457bff4.chunk.js"
   },
   {
-    "revision": "6871ed78e1a556b5b854",
-    "url": "/elite4you/static/js/main.ecd1634f.chunk.js"
+    "revision": "9b9f5d1b5c476c9d73f0",
+    "url": "/elite4you/static/js/main.ffce4b00.chunk.js"
   },
   {
     "revision": "944be8ed5484c5eb4c4e",
     "url": "/elite4you/static/js/runtime~main.9b0a14d8.js"
+  },
+  {
+    "revision": "c3f97d4835889b9bd7c6b220cfff2143",
+    "url": "/elite4you/static/media/Gallery_1.c3f97d48.webp"
+  },
+  {
+    "revision": "b2b3a847ec216c366077d8076097f497",
+    "url": "/elite4you/static/media/Gallery_2.b2b3a847.jpg"
+  },
+  {
+    "revision": "83771d9471d5a3e51711684c393cb458",
+    "url": "/elite4you/static/media/Gallery_3.83771d94.jpg"
   },
   {
     "revision": "b7c9e1e479de3b53f1e4e30ebac2403a",
