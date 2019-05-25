@@ -153,6 +153,10 @@ class home extends Component {
         return (
                 <div id="home">
                     <div id="show_case">
+                            <div  className={classes.under_side_text}>
+                                    <p className={classes.under_p_}><b className={classes.under_B_inside_p}>Womens</b> <br/> Id enim pariatur qui eiusmod. Ad velit mollit sint est in id culpa proident elit aliquip .</p> 
+                                    <Button component={Link} to={`/Womens`} variant="contained" color="primary" classes={{root: classes.button}}>Explore</Button>  
+                            </div>
                             <div id="bg_1" className={classes.bg_showcase}>
                                 <Button component={Link} to={`/Womens`} className={classes.button_Base}>
                                 <div className={classes.left_side_text}>
@@ -162,8 +166,8 @@ class home extends Component {
                                 </Button>
                             </div>
                             <div  className={classes.under_side_text}>
-                                    <p className={classes.under_p_}><b className={classes.under_B_inside_p}>Womens</b> <br/> Id enim pariatur qui eiusmod. Ad velit mollit sint est in id culpa proident elit aliquip .</p> 
-                                    <Button component={Link} to={`/Womens`} variant="contained" color="primary" classes={{root: classes.button}}>Explore</Button>  
+                                    <p className={classes.under_p_}><b className={classes.under_B_inside_p}>Kids</b> <br/> Id enim pariatur qui eiusmod. Ad velit mollit sint est in id culpa proident elit aliquip .</p> 
+                                    <Button component={Link} to={`/Kids`} variant="contained" color="primary" classes={{root: classes.button}}>Explore</Button>  
                             </div>
                             <div id="bg_2" className={classes.bg_showcase}>
                                 <Button component={Link} to={`/kids`}  className={classes.button_Base}>
@@ -174,8 +178,8 @@ class home extends Component {
                                 </Button>
                             </div>
                             <div  className={classes.under_side_text}>
-                                    <p className={classes.under_p_}><b className={classes.under_B_inside_p}>Kids</b> <br/> Id enim pariatur qui eiusmod. Ad velit mollit sint est in id culpa proident elit aliquip .</p> 
-                                    <Button component={Link} to={`/Kids`} variant="contained" color="primary" classes={{root: classes.button}}>Explore</Button>  
+                                    <p className={classes.under_p_}><b className={classes.under_B_inside_p}>Find More</b> <br/> Id enim pariatur qui eiusmod. Ad velit mollit sint est in id culpa proident elit aliquip .</p> 
+                                    <Button component={Link} to={`/Sale`} variant="contained" color="primary" classes={{root: classes.button}}>Explore</Button>  
                             </div>
                             <div id="bg_3" className={classes.bg_showcase}>
                                 <Button component={Link} to={`/Sale`} className={classes.button_Base}>
@@ -185,57 +189,117 @@ class home extends Component {
                                 </div>
                                 </Button>
                             </div>
-                            <div  className={classes.under_side_text}>
-                                    <p className={classes.under_p_}><b className={classes.under_B_inside_p}>Find More</b> <br/> Id enim pariatur qui eiusmod. Ad velit mollit sint est in id culpa proident elit aliquip .</p> 
-                                    <Button component={Link} to={`/Sale`} variant="contained" color="primary" classes={{root: classes.button}}>Explore</Button>  
-                            </div>
+                            
                     </div>
 
                     <div id="container_slider">
                     <div className="container_slick">
+                        <h2>Discount Products</h2>
                         <Slider {...settings}>
                             <div className="silde">
                                <div className="inside_slide">
                                     <ButtonBase className={classes.button_Base}>
-
+                                        <div className="inside_button_slide">
+                                                <div className="Img_Gallery" id="GB_1"/>
+                                                <div className="under_Img_Gallery">
+                                                    <p className="slide_title"> Knotted T-Shirt Midi Dress</p>
+                                                    <p className="Slide_Price"><b className="old_price">$29.00</b>$24.00</p>
+                                                </div>
+                                        </div>
                                     </ButtonBase>
                                </div>
                             </div>
                             <div  className="silde">
                                 <div className="inside_slide">
                                     <ButtonBase className={classes.button_Base}>
-
+                                        <div className="inside_button_slide">
+                                                <div className="Img_Gallery" id="GB_2"/>
+                                                <div className="under_Img_Gallery">
+                                                    <p className="slide_title">Zoey Button Up Tie-Front Maxi Dress
+                                                    </p>
+                                                    <p className="Slide_Price"><b className="old_price">$45.00</b>$39.00</p>
+                                                </div>
+                                        </div>
                                     </ButtonBase>
                                 </div>
                             </div>
                             <div  className="silde">
                                 <div className="inside_slide">
-                                    <ButtonBase className={classes.button_Base}></ButtonBase>
+                                    <ButtonBase className={classes.button_Base}>
+                                        <div className="inside_button_slide">
+                                                <div className="Img_Gallery" id="GB_3"/>
+                                                <div className="under_Img_Gallery">
+                                                    <p className="slide_title">Harlee Printed Button Front Midi Dress
+                                                    </p>
+                                                    <p className="Slide_Price"><b className="old_price">$45.00</b>$39.00</p>
+                                                </div>
+                                        </div>
+                                    </ButtonBase>
                                 </div>
                             </div>
                             <div  className="silde">
                                 <div className="inside_slide">
-                                <ButtonBase className={classes.button_Base}></ButtonBase>
+                                <ButtonBase className={classes.button_Base}>
+                                        <div className="inside_button_slide">
+                                                <div className="Img_Gallery"/>
+                                                <div className="under_Img_Gallery">
+                                                    <p className="slide_title"></p>
+                                                    <p className="Slide_Price"></p>
+                                                </div>
+                                        </div>
+                                </ButtonBase>
                                 </div>
                             </div>
                             <div  className="silde">
                                 <div className="inside_slide">
-                                <ButtonBase className={classes.button_Base}></ButtonBase>
+                                <ButtonBase className={classes.button_Base}>
+                                        <div className="inside_button_slide">
+                                                <div className="Img_Gallery"/>
+                                                <div className="under_Img_Gallery">
+                                                    <p className="slide_title"></p>
+                                                    <p className="Slide_Price"></p>
+                                                </div>
+                                        </div>
+                                </ButtonBase>
                                 </div>
                             </div>
                             <div  className="silde">
                                 <div className="inside_slide">
-                                <ButtonBase className={classes.button_Base}></ButtonBase>
+                                <ButtonBase className={classes.button_Base}>
+                                        <div className="inside_button_slide">
+                                                <div className="Img_Gallery"/>
+                                                <div className="under_Img_Gallery">
+                                                    <p className="slide_title"></p>
+                                                    <p className="Slide_Price"></p>
+                                                </div>
+                                        </div>
+                                </ButtonBase>
                                 </div>
                             </div>
                             <div  className="silde">
                                 <div className="inside_slide">
-                                <ButtonBase className={classes.button_Base}></ButtonBase>
+                                <ButtonBase className={classes.button_Base}>
+                                        <div className="inside_button_slide">
+                                                <div className="Img_Gallery"/>
+                                                <div className="under_Img_Gallery">
+                                                    <p className="slide_title"></p>
+                                                    <p className="Slide_Price"></p>
+                                                </div>
+                                        </div>
+                                </ButtonBase>
                                 </div>
                             </div>
                             <div  className="silde">
                                 <div className="inside_slide">
-                                <ButtonBase className={classes.button_Base}></ButtonBase>
+                                <ButtonBase className={classes.button_Base}>
+                                        <div className="inside_button_slide">
+                                                <div className="Img_Gallery"/>
+                                                <div className="under_Img_Gallery">
+                                                    <p className="slide_title"></p>
+                                                    <p className="Slide_Price"></p>
+                                                </div>
+                                        </div>
+                                </ButtonBase>
                                 </div>
                             </div>
                         </Slider>
