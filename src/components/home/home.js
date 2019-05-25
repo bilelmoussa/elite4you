@@ -67,7 +67,7 @@ const styles = theme => ({
         
     },
     p_:{
-        fontFamily: "Times New Roman, Times, serif",
+        fontFamily: "'Roboto', sans-serif;",
         fontSize: 20,
         letterSpacing: 1,
         textTransform: "capitalize",
@@ -82,7 +82,7 @@ const styles = theme => ({
         textTransform: "uppercase"
     },
     under_p_:{
-        fontFamily: "Times New Roman, Times, serif",
+        fontFamily: "'Roboto', sans-serif;",
         fontSize: 14,
         letterSpacing: 1,
         textTransform: "capitalize",
