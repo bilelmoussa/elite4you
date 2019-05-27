@@ -33,17 +33,10 @@ import Trend from '../Trend/Trend';
 import ContactUs from '../ContactUs/ContactUs';
 import AboutUs from '../AboutUs/AboutUs'
 import home from '../home/home'
-import TextField from "@material-ui/core/TextField";
 import { createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
-import Button from '@material-ui/core/Button';
+import NewsLetter from '../../StyleComponents/NewsLetter/NewsLetter'
 
-const theme_2 = createMuiTheme({
-  palette: {
-    primary: { main: '#ff8989' }, 
-    type: "dark"
-  },
-});
 
 const theme_1 = createMuiTheme({
   palette: {
@@ -158,9 +151,6 @@ const styles = theme => ({
   },
   List_Item:{
     textAlign: "center",
-    "&:hover": {
-      backgroundColor: fade(theme.palette.common.black, 0.08)
-    }
   },
   List_Text:{
     fontSize: 18,
@@ -182,52 +172,6 @@ const styles = theme => ({
     justifyContent: "space-evenly",
     backgroundColor: "#f3f3f3",
   },
-
-  News_sub_title: {
-    textAlign: "center",
-    display: "flex",
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1),
-    textTransform: "uppercase",
-    color: "#fff",
-    letterSpacing: 2,
-    overflow: 'hidden'
-  },
-
-  textField: {
-    margin: `0 ${theme.spacing(1)}px`,
-    width: "70%",
-    maxWidth: 700,
-    minWidth: 250,
-  },
-
-  cssLabel: {
-    color : '#ec6d6d',
-  },
-  
-  button:{
-    margin: theme.spacing(1),
-    color: '#ffffff',
-    [theme.breakpoints.down('xs')]: {
-      width: 250,
-      margin: `${theme.spacing(3)}px ${theme.spacing(1)}px`,
-    }, 
-  },
-
-  FormControll:{
-    position: "relative",
-    display: "flex",
-    flexDirection: "row",
-    flexWrap: "wrap",
-    height: "100%",
-    width: "100%",
-    margin: "30px 0",
-    overflow: "hidden",
-    [theme.breakpoints.down('xs')]: {
-      justifyContent: "center",
-    }, 
-  },
-
   footer:{
     position: "relative",
     display: "flex",
@@ -327,10 +271,7 @@ class Client extends Component {
     this.setState({mobileOpen: false})
   };
 
-  handleChange = name => event => {
-    this.setState({[name]: event.target.value });
-  };
-
+  
   render() {
     const { classes } = this.props;
     const { anchorEl, mobileMoreAnchorEl } = this.state;
@@ -516,7 +457,7 @@ class Client extends Component {
                     <Drawer
                       container={this.props.container}
                       variant="temporary"
-                      anchor={theme_2.direction === 'rtl' ? 'right' : 'left'}
+                      anchor={theme_1.direction === 'rtl' ? 'right' : 'left'}
                       open={this.state.mobileOpen}
                       onClose={this.handleDrawerToggle}
                       classes={{
@@ -539,6 +480,7 @@ class Client extends Component {
                     </Hidden>
               </nav>
               </ThemeProvider>
+
               <main className={classes.content}>
  
                           <Switch>
@@ -553,35 +495,7 @@ class Client extends Component {
                                 <Route component={pagenotfound}/>
                           </Switch>  
 
-                          <ThemeProvider theme={theme_2}>
-                            <div className="News_sub">
-                                  <div className={classes.News_sub_title}>
-                                    <h2>subscribe to our newslletter</h2>
-                                  </div>
-                                  <form className={classes.FormControll}>
-                                  
-                                      <TextField 
-                                            classes={{root: classes.textField}} 
-                                            value={this.state.Email_User} 
-                                            label="Email" 
-                                            onChange={this.handleChange("Email_User")}
-                                            margin="normal"
-                                            variant="filled"
-                                            InputLabelProps={{
-                                              classes: {
-                                                root: classes.cssLabel,  
-                                              },
-                                            }}
-                                        />
-                                        <Button 
-                                            color="primary"
-                                            variant="contained"
-                                            className={classes.button}
-                                        >
-                                          subscribe
-                                        </Button>  
-                                  </form>
-                            </div>  
+                          <NewsLetter />
 
                         <div className={classes.footer}>
                               <List className={classes.ListMenu}>
@@ -621,7 +535,6 @@ class Client extends Component {
                               </List>
 
                         </div>
-                    </ThemeProvider> 
 
               </main>
       </div>
