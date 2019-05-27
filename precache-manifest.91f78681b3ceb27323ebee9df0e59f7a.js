@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "41f092a2f84f0dd7170d02e679b31621",
+    "revision": "5f7be518b2e65c9f5fb446e06c9c8956",
     "url": "/elite4you/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/elite4you/static/css/2.d60546df.chunk.css"
   },
   {
-    "revision": "763b28fec05567edb6a6",
+    "revision": "19fac1281da114f62ad7",
     "url": "/elite4you/static/css/main.413f874b.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/elite4you/static/js/2.13d6b9b7.chunk.js"
   },
   {
-    "revision": "763b28fec05567edb6a6",
-    "url": "/elite4you/static/js/main.2a1b348c.chunk.js"
+    "revision": "19fac1281da114f62ad7",
+    "url": "/elite4you/static/js/main.caf32994.chunk.js"
   },
   {
     "revision": "944be8ed5484c5eb4c4e",
