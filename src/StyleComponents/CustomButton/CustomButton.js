@@ -1,24 +1,42 @@
-import React from 'react';
-import { createMuiTheme } from '@material-ui/core/styles';
-import { ThemeProvider } from '@material-ui/core/styles';
-import purple from '@material-ui/core/colors/purple';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { createMuiTheme, withStyles } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/styles';
 import Button from '@material-ui/core/Button';
 
 const theme = createMuiTheme({
   palette: {
-    primary: { main: purple[500] }, // Purple and green play nicely together.
-    secondary: { main: '#11cb5f' }, // This is just green.A700 as hex.
+    primary: { main: '#ff8989' }, 
   },
 });
 
-function Palette() {
-  return (
-      
-    <ThemeProvider theme={theme}>
-      <Button color="primary">Primary</Button>
-      <Button color="secondary">Secondary</Button>
-    </ThemeProvider>
-  );
+const styles = (theme) =>({
+    button:{
+          margin: theme.spacing(1),
+          color: '#ffffff',
+          [theme.breakpoints.down('xs')]: {
+            width: 250,
+            margin: `${theme.spacing(3)}px ${theme.spacing(1)}px`,
+          }, 
+    },
+})
+
+class CustomButton extends Component {
+  render() {
+    const {classes} = this.props;
+    return (
+      <ThemeProvider theme={theme}>
+          <Button className={classes.button}  variant="contained" color="primary">{this.props.btnValue}</Button>
+      </ThemeProvider>
+    )
+  }
 }
 
-export default Palette;
+CustomButton.propTypes = {
+    classes: PropTypes.object.isRequired,
+}
+
+export default withStyles(styles)(CustomButton)
+
+
+
