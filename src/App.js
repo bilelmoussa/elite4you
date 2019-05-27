@@ -3,6 +3,10 @@ import { BrowserRouter  as Router, Route, Switch } from 'react-router-dom';
 import './App.scss';
 import Client from './components/Client/Client';
 
+
+
+
+
 const pagenotfound = ({ location }) => (
   <div>
     <h3> wf No match for <code>{location.pathname}</code></h3>

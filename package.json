@@ -4,8 +4,8 @@
   "private": true,
   "homepage": "https://bilelmoussa.github.io/elite4you/",
   "dependencies": {
-    "@material-ui/core": "^3.9.3",
-    "@material-ui/icons": "^3.0.2",
+    "@material-ui/core": "^4.0.0",
+    "@material-ui/icons": "^4.0.0",
     "axios": "^0.18.0",
     "gh-pages": "^2.0.1",
     "history": "^4.9.0",

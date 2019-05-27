@@ -3,9 +3,7 @@ import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
-import Slider from "react-slick";
-import ButtonBase from '@material-ui/core/ButtonBase';
-
+import SlickComponent from '../../StyleComponents/SlickComponent/SlickComponent'
 
 
 
@@ -63,6 +61,9 @@ const styles = theme => ({
         backgroundColor: "#ff7070",
         '&:hover': {
               backgroundColor: "#d86060",
+        },
+        [theme.breakpoints.down('xs')]: {
+            margin: "10px auto",
         },  
     },
     p_:{
@@ -86,10 +87,10 @@ const styles = theme => ({
         letterSpacing: 1,
         textTransform: "capitalize",
         lineHeight: "2em",
-        backgroundColor: "#ec6d6d47",
         padding: 10,
         borderRadius: 5,
-        color: "#222"
+        color: "#222",
+        textAlign: "center"
     },
 
     under_B_inside_p:{
@@ -104,10 +105,8 @@ const styles = theme => ({
         top: 0,
         left: 0,
         color: theme.palette.common.white,
-        '&:hover': {
-            opacity: "0.85",
-        },
-    }
+    },
+
 })
 
 
@@ -116,43 +115,60 @@ class home extends Component {
         super();
         this.state = {
             display: true,
-            width: 600
+            width: 600,
+            Sold_data : [
+                {
+                    ProductImage: "Gallery_1.webp",
+                    ProductName: "Knotted T-Shirt Midi Dress",
+                    ProductPrice: 20.00,
+                    ProductOldPrice: 35.00,
+                    Discount: 10,
+                },
+                {
+                    ProductImage: "Gallery_2.jpg",
+                    ProductName: "Zoey Button Up Tie-Front Maxi Dress",
+                    ProductPrice: 20.00,
+                    ProductOldPrice: 39.00,
+                    Discount: 10,
+                },
+                {
+                    ProductImage: "Gallery_3.jpg",
+                    ProductName: "Harlee Printed Button Front Midi Dress",
+                    ProductPrice: 30.00,
+                    ProductOldPrice: 39.00,
+                    Discount: 10,
+                    newProduct: true
+                }
+            ],
+            NewProducts_data: [
+                {
+                    ProductImage: "Gallery_4.webp",
+                    ProductName: "Evie Ruffle Dress",
+                    ProductPrice: 36.00,
+                    newProduct: true
+                },
+                {
+                    ProductImage: "Gallery_3.jpg",
+                    ProductName: "Harlee Printed Button Front Midi Dress",
+                    ProductPrice: 30.00,
+                    ProductOldPrice: 39.00,
+                    Discount: 10,
+                    newProduct: true
+                },
+                {
+                    ProductImage: "Gallery_5.webp",
+                    ProductName: "Delilah Button Front Mini Dress",
+                    ProductPrice: 36.00,
+                    newProduct: true
+                },
+            ]
         }
     }
+
+
     render() {
         const { classes } = this.props;
-        const settings = {
-            dots: false,
-            infinite: true,
-            slidesToShow: 4,
-            slidesToScroll: 4,
-            responsive: [
-                {
-                    breakpoint: 1024,
-                    settings: {
-                      slidesToShow: 3,
-                      slidesToScroll: 3,
-                      infinite: true,
-                      dots: false
-                    }
-                },
-                {
-                    breakpoint: 600,
-                    settings: {
-                      slidesToShow: 2,
-                      slidesToScroll: 2,
-                      initialSlide: 2
-                    }
-                },
-                {
-                    breakpoint: 480,
-                    settings: {
-                      slidesToShow: 1,
-                      slidesToScroll: 1
-                    }
-                }
-            ]
-          };
+        const { Sold_data, NewProducts_data } = this.state;
 
         return (
                 <div id="home">
@@ -196,120 +212,9 @@ class home extends Component {
                             
                     </div>
 
-                    <div id="container_slider">
-                    <div className="container_slick">
-                        <h2>Discount Products</h2>
-                        <Slider {...settings}>
-                            <div className="silde">
-                               <div className="inside_slide">
-                                    <ButtonBase  classes={{root:classes.button_Base}}>
-                                        <div className="inside_button_slide">
-                                                <div className="Img_Gallery" id="GB_1"/>
-                                                <div className="under_Img_Gallery">
-                                                    <p className="slide_title"> Knotted T-Shirt Midi Dress</p>
-                                                    <p className="Slide_Price"><b className="old_price">$29.00</b>$24.00</p>
-                                                </div>
-                                        </div>
-                                    </ButtonBase>
-                               </div>
-                            </div>
-                            <div  className="silde">
-                                <div className="inside_slide">
-                                    <ButtonBase classes={{root:classes.button_Base}}>
-                                        <div className="inside_button_slide">
-                                                <div className="Img_Gallery" id="GB_2"/>
-                                                <div className="under_Img_Gallery">
-                                                    <p className="slide_title">Zoey Button Up Tie-Front Maxi Dress
-                                                    </p>
-                                                    <p className="Slide_Price"><b className="old_price">$45.00</b>$39.00</p>
-                                                </div>
-                                        </div>
-                                    </ButtonBase>
-                                </div>
-                            </div>
-                            <div  className="silde">
-                                <div className="inside_slide">
-                                    <ButtonBase classes={{root:classes.button_Base}}>
-                                        <div className="inside_button_slide">
-                                                <div className="Img_Gallery" id="GB_3"/>
-                                                <div className="under_Img_Gallery">
-                                                    <p className="slide_title">Harlee Printed Button Front Midi Dress
-                                                    </p>
-                                                    <p className="Slide_Price"><b className="old_price">$45.00</b>$39.00</p>
-                                                </div>
-                                        </div>
-                                    </ButtonBase>
-                                </div>
-                            </div>
-                            <div  className="silde">
-                                <div className="inside_slide">
-                                <ButtonBase classes={{root:classes.button_Base}}>
-                                        <div className="inside_button_slide">
-                                                <div className="Img_Gallery"/>
-                                                <div className="under_Img_Gallery">
-                                                    <p className="slide_title"></p>
-                                                    <p className="Slide_Price"></p>
-                                                </div>
-                                        </div>
-                                </ButtonBase>
-                                </div>
-                            </div>
-                            <div  className="silde">
-                                <div className="inside_slide">
-                                <ButtonBase classes={{root:classes.button_Base}}>
-                                        <div className="inside_button_slide">
-                                                <div className="Img_Gallery"/>
-                                                <div className="under_Img_Gallery">
-                                                    <p className="slide_title"></p>
-                                                    <p className="Slide_Price"></p>
-                                                </div>
-                                        </div>
-                                </ButtonBase>
-                                </div>
-                            </div>
-                            <div  className="silde">
-                                <div className="inside_slide">
-                                <ButtonBase classes={{root:classes.button_Base}}>
-                                        <div className="inside_button_slide">
-                                                <div className="Img_Gallery"/>
-                                                <div className="under_Img_Gallery">
-                                                    <p className="slide_title"></p>
-                                                    <p className="Slide_Price"></p>
-                                                </div>
-                                        </div>
-                                </ButtonBase>
-                                </div>
-                            </div>
-                            <div  className="silde">
-                                <div className="inside_slide">
-                                <ButtonBase classes={{root:classes.button_Base}}>
-                                        <div className="inside_button_slide">
-                                                <div className="Img_Gallery"/>
-                                                <div className="under_Img_Gallery">
-                                                    <p className="slide_title"></p>
-                                                    <p className="Slide_Price"></p>
-                                                </div>
-                                        </div>
-                                </ButtonBase>
-                                </div>
-                            </div>
-                            <div  className="silde">
-                                <div className="inside_slide">
-                                <ButtonBase classes={{root:classes.button_Base}}>
-                                        <div className="inside_button_slide">
-                                                <div className="Img_Gallery"/>
-                                                <div className="under_Img_Gallery">
-                                                    <p className="slide_title"></p>
-                                                    <p className="Slide_Price"></p>
-                                                </div>
-                                        </div>
-                                </ButtonBase>
-                                </div>
-                            </div>
-                        </Slider>
-                        </div>  
-                    </div>
-                   
+                   <SlickComponent data={Sold_data} title="Discount Products"/>
+                   <SlickComponent data={NewProducts_data} title="New Products"/>
+
                 </div>            
         )
     }
@@ -319,4 +224,6 @@ home.propTypes = {
     classes: PropTypes.object.isRequired,
 }
 
-export default withStyles(styles )(home);
+export default withStyles(styles)(home);
+
+

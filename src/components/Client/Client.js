@@ -33,7 +33,23 @@ import Trend from '../Trend/Trend';
 import ContactUs from '../ContactUs/ContactUs';
 import AboutUs from '../AboutUs/AboutUs'
 import home from '../home/home'
+import TextField from "@material-ui/core/TextField";
+import { createMuiTheme } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/styles';
+import Button from '@material-ui/core/Button';
 
+const theme_2 = createMuiTheme({
+  palette: {
+    primary: { main: '#ff8989' }, 
+    type: "dark"
+  },
+});
+
+const theme_1 = createMuiTheme({
+  palette: {
+    type: "light"
+  },
+});
 
 const drawerWidth = 280;
 
@@ -73,7 +89,7 @@ const styles = theme => ({
       display: 'none',
     },
     fontFamily: "'Dancing Script', cursive;",
-    textDecoration: "none"
+    textDecoration: "none",
   },
   toolbar: theme.mixins.toolbar,
   drawerPaper: {
@@ -83,8 +99,8 @@ const styles = theme => ({
   content: {
     flexGrow: 1,
     width: "100%",
-    margin: "60px 0 0 0",
-    padding: `${theme.spacing.unit * 3}px 0px`,
+    margin: "32px 0 0 0",
+    padding: `${theme.spacing(3)}px 0 0 0`,
     [theme.breakpoints.up('md')]: {
       width: `calc(100% - ${drawerWidth}px)`,
     },
@@ -96,16 +112,16 @@ const styles = theme => ({
     '&:hover': {
       backgroundColor: fade(theme.palette.common.white, 0.25),
     },
-    marginRight: theme.spacing.unit * 2,
+    marginRight: theme.spacing(2),
     marginLeft: 0,
     width: '100%',
     [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing.unit * 3,
+      marginLeft: theme.spacing(3),
       width: 'auto',
     },
   },
   searchIcon: {
-    width: theme.spacing.unit * 9,
+    width: theme.spacing(9),
     height: '100%',
     position: 'absolute',
     pointerEvents: 'none',
@@ -118,10 +134,10 @@ const styles = theme => ({
     width: '100%',
   },
   inputInput: {
-    paddingTop: theme.spacing.unit,
-    paddingRight: theme.spacing.unit,
-    paddingBottom: theme.spacing.unit,
-    paddingLeft: theme.spacing.unit * 10,
+    paddingTop: theme.spacing(1),
+    paddingRight: theme.spacing(1),
+    paddingBottom: theme.spacing(1),
+    paddingLeft: theme.spacing(10),
     transition: theme.transitions.create('width'),
     width: '100%',
     [theme.breakpoints.up('md')]: {
@@ -141,7 +157,10 @@ const styles = theme => ({
     },
   },
   List_Item:{
-    textAlign: "center"
+    textAlign: "center",
+    "&:hover": {
+      backgroundColor: fade(theme.palette.common.black, 0.08)
+    }
   },
   List_Text:{
     fontSize: 18,
@@ -163,6 +182,103 @@ const styles = theme => ({
     justifyContent: "space-evenly",
     backgroundColor: "#f3f3f3",
   },
+
+  News_sub_title: {
+    textAlign: "center",
+    display: "flex",
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+    textTransform: "uppercase",
+    color: "#fff",
+    letterSpacing: 2,
+    overflow: 'hidden'
+  },
+
+  textField: {
+    margin: `0 ${theme.spacing(1)}px`,
+    width: "70%",
+    maxWidth: 700,
+    minWidth: 250,
+  },
+
+  cssLabel: {
+    color : '#ec6d6d',
+  },
+  
+  button:{
+    margin: theme.spacing(1),
+    color: '#ffffff',
+    [theme.breakpoints.down('xs')]: {
+      width: 250,
+      margin: `${theme.spacing(3)}px ${theme.spacing(1)}px`,
+    }, 
+  },
+
+  FormControll:{
+    position: "relative",
+    display: "flex",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    height: "100%",
+    width: "100%",
+    margin: "30px 0",
+    overflow: "hidden",
+    [theme.breakpoints.down('xs')]: {
+      justifyContent: "center",
+    }, 
+  },
+
+  footer:{
+    position: "relative",
+    display: "flex",
+    flexDirection: "row",
+    width: "100%",
+    padding: 15,
+    backgroundColor: '#222',
+    justifyContent: "space-around",
+    [theme.breakpoints.down('xs')]: {
+      flexDirection: "column"
+    },
+  },
+
+  Footer_List_Text:{
+    fontSize: 10,
+    letterSpacing: 2,
+    fontFamily: "'Orbitron', sans-serif;",
+    color: '#f1f1f1',
+    textTransform: "capitalize",
+    [theme.breakpoints.down('xs')]: {
+      fontSize: 8,
+    },
+  },
+
+  ListMenu:{
+    overflow: 'hidden',
+    [theme.breakpoints.down('xs')]: {
+      width: '200px',
+      margin: '0 auto'
+    },
+  },
+
+  rootListText:{
+    padding: 5,
+  },
+
+  List_Name:{
+    textAlign: "center",
+    color: "#ffffff",
+    fontSize: 14,
+    letterSpacing: 3,
+    textTransform: "capitalize",
+    margin: '20px 0',
+    fontFamily: "'Orbitron', sans-serif",
+    padding: 8,
+    borderRadius: 5,
+    [theme.breakpoints.down('xs')]: {
+      fontSize: 12,
+    },
+  }
+  
 })
 
 
@@ -172,6 +288,8 @@ const pagenotfound = ({ location }) => (
   </div>
 )
 
+
+
 class Client extends Component {
   constructor(){
     super();
@@ -179,6 +297,7 @@ class Client extends Component {
       mobileOpen: false,
       anchorEl: null,
       mobileMoreAnchorEl: null,
+      Email_User: "",
     }
 
   }
@@ -208,12 +327,16 @@ class Client extends Component {
     this.setState({mobileOpen: false})
   };
 
+  handleChange = name => event => {
+    this.setState({[name]: event.target.value });
+  };
 
   render() {
-    const { classes, theme } = this.props;
+    const { classes } = this.props;
     const { anchorEl, mobileMoreAnchorEl } = this.state;
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
 
 
     const renderMenu = (
@@ -326,7 +449,8 @@ class Client extends Component {
 
     return (
       <div className={classes.root}>
-      <CssBaseline />
+      <ThemeProvider theme={theme_1}>
+            <CssBaseline />
           	<AppBar className={classes.appBar} position="fixed">
                   <Toolbar>
                           <IconButton
@@ -392,7 +516,7 @@ class Client extends Component {
                     <Drawer
                       container={this.props.container}
                       variant="temporary"
-                      anchor={theme.direction === 'rtl' ? 'right' : 'left'}
+                      anchor={theme_2.direction === 'rtl' ? 'right' : 'left'}
                       open={this.state.mobileOpen}
                       onClose={this.handleDrawerToggle}
                       classes={{
@@ -414,6 +538,7 @@ class Client extends Component {
                       </Drawer>
                     </Hidden>
               </nav>
+              </ThemeProvider>
               <main className={classes.content}>
  
                           <Switch>
@@ -428,6 +553,76 @@ class Client extends Component {
                                 <Route component={pagenotfound}/>
                           </Switch>  
 
+                          <ThemeProvider theme={theme_2}>
+                            <div className="News_sub">
+                                  <div className={classes.News_sub_title}>
+                                    <h2>subscribe to our newslletter</h2>
+                                  </div>
+                                  <form className={classes.FormControll}>
+                                  
+                                      <TextField 
+                                            classes={{root: classes.textField}} 
+                                            value={this.state.Email_User} 
+                                            label="Email" 
+                                            onChange={this.handleChange("Email_User")}
+                                            margin="normal"
+                                            variant="filled"
+                                            InputLabelProps={{
+                                              classes: {
+                                                root: classes.cssLabel,  
+                                              },
+                                            }}
+                                        />
+                                        <Button 
+                                            color="primary"
+                                            variant="contained"
+                                            className={classes.button}
+                                        >
+                                          subscribe
+                                        </Button>  
+                                  </form>
+                            </div>  
+
+                        <div className={classes.footer}>
+                              <List className={classes.ListMenu}>
+                                  <p className={classes.List_Name}>useful links</p>          
+                                  <ListItem button  classes={{root:classes.List_Item, button: classes.rootListText}}>
+                                    <ListItemText classes={{primary: classes.Footer_List_Text}} primary="About us" />
+                                  </ListItem>
+                                  <ListItem  button classes={{root:classes.List_Item, button: classes.rootListText}}>
+                                    <ListItemText classes={{primary: classes.Footer_List_Text}} primary="My account" />
+                                  </ListItem>
+                              </List>
+
+                              <List className={classes.ListMenu}>
+                                  <p className={classes.List_Name}>help</p>          
+                                  <ListItem button  classes={{root:classes.List_Item, button: classes.rootListText}}>
+                                    <ListItemText classes={{primary: classes.Footer_List_Text}} primary="Contact Us" />
+                                  </ListItem>
+                                  <ListItem  button classes={{root:classes.List_Item, button: classes.rootListText}}>
+                                    <ListItemText classes={{primary: classes.Footer_List_Text}} primary="FAQ" />
+                                  </ListItem>
+                                  <ListItem  button classes={{root:classes.List_Item, button: classes.rootListText}}>
+                                    <ListItemText classes={{primary: classes.Footer_List_Text}} primary="shipping" />
+                                  </ListItem>
+                                  <ListItem  button classes={{root:classes.List_Item, button: classes.rootListText}}>
+                                    <ListItemText classes={{primary: classes.Footer_List_Text}} primary="payment" />
+                                  </ListItem>
+                              </List>
+
+                              <List className={classes.ListMenu}>
+                                  <p className={classes.List_Name}>Social media</p>          
+                                  <ListItem button  classes={{root:classes.List_Item, button: classes.rootListText}}>
+                                    <ListItemText classes={{primary: classes.Footer_List_Text}} primary="facebook" />
+                                  </ListItem>
+                                  <ListItem  button classes={{root:classes.List_Item, button: classes.rootListText}}>
+                                    <ListItemText classes={{primary: classes.Footer_List_Text}} primary="instagram" />
+                                  </ListItem>
+                              </List>
+
+                        </div>
+                    </ThemeProvider> 
+
               </main>
       </div>
     )
@@ -437,7 +632,6 @@ class Client extends Component {
 Client.propTypes = {
   classes: PropTypes.object.isRequired,
   container: PropTypes.object,
-  theme: PropTypes.object.isRequired,
 }
 
-export default withStyles(styles, { withTheme: true })(Client)
+export default withStyles(styles)(Client)
