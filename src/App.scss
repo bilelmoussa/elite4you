@@ -208,5 +208,30 @@ body{
     padding: 40px 15px;
 }
 
+.container_route{
+    position: absolute;
+    display: flex;
+    height: 100vh;
+    width: 100%;
+    min-height: 650px;
+}
 
+.DropzoneArea-dropZone-257{
+    width: 60% !important;
+    min-width: 250px !important;
+    margin: 20px auto !important;
+    background-color: #333 !important;
+}
 
+.MuiGrid-spacing-xs-8{
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 20px;
+}
+
+.MuiGrid-spacing-xs-8 > .MuiGrid-item{
+    padding: 32px !important;
+    max-width: 33.333333% !important;
+    min-width: 220px !important;
+    margin: 0 auto !important;
+}

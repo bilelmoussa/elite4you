@@ -1,35 +1,39 @@
 import React, { Component } from 'react';
-import { BrowserRouter  as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter  as Router, Route, Switch, Redirect } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import store from './store';
 import './App.scss';
 import Client from './components/Client/Client';
+import Admin from './components/Admin/Admin'
+import PageNotFound from './components/PageNotFound/PageNotFound'
+import setAuthToken from './setAuthToken';
+import { setCurrentUser } from './action/authentication';
 
-
-
-
-
-const pagenotfound = ({ location }) => (
-  <div>
-    <h3> wf No match for <code>{location.pathname}</code></h3>
-  </div>
-)
-
-
+if(localStorage.jwtToken) {
+  setAuthToken(localStorage.jwtToken);
+  const decoded = localStorage.jwtToken;
+  store.dispatch(setCurrentUser(decoded));
+}
 
 class App extends Component {
 
   render(){
 
     return (
+      <Provider store = { store }>
       <div className="App">
           <Router  basename={ process.env.PUBLIC_URL }>
                   <div id="content">
                     <Switch>
-                        <Route path='/'  component={Client} />
-                        <Route component={pagenotfound}/>
+                        <Route exact path='/' render={()=>(<Redirect to="/client"/>)}/>
+                        <Route path='/client'  component={Client} />
+                        <Route path='/Admin' component={Admin} />
+                        <Route component={PageNotFound}/>
                     </Switch>
                   </div>
           </Router>
       </div>
+      </Provider>
     );
   }
 }

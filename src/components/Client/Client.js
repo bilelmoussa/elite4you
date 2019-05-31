@@ -16,6 +16,7 @@ import AboutUs from '../AboutUs/AboutUs';
 import home from '../home/home';
 import NewsLetter from '../../StyleComponents/NewsLetter/NewsLetter';
 import Navigation from '../../StyleComponents/Navigation/Navigation';
+import PageNotFound from '../PageNotFound/PageNotFound'
 
 const drawerWidth = 280;
 
@@ -55,7 +56,9 @@ const styles = theme => ({
       fontSize: 8,
     },
   },
-
+  List_Item:{
+    textAlign: "center",
+  },
   ListMenu:{
     overflow: 'hidden',
     [theme.breakpoints.down('xs')]: {
@@ -86,18 +89,8 @@ const styles = theme => ({
 })
 
 
-const pagenotfound = ({ location }) => (
-  <div>
-    <h3>No match for <code>{location.pathname}</code></h3>
-  </div>
-)
-
-
-
 class Client extends Component {
  
-
-  
   render() {
     const { classes } = this.props;
  
@@ -108,15 +101,15 @@ class Client extends Component {
 
         <main className={classes.content}>
                           <Switch>
-                                <Route exact path={'/'} component={home} />
-                                <Route exact path={'/Womens'} component={Womens} />
-                                <Route exact path={'/Kids'} component={Kids} />
-                                <Route exact path={'/Sale'} component={Sale} />
-                                <Route exact path={'/New-Products'} component={NewProducts} />
-                                <Route exact path={'/Trend'} component={Trend} />
-                                <Route exact path={'/Contact-Us'} component={ContactUs} />
-                                <Route exact path={'/About-Us'} component={AboutUs} />
-                                <Route component={pagenotfound}/>
+                                <Route exact path={'/client'} component={home} />
+                                <Route exact path={'/client/Womens'} component={Womens} />
+                                <Route exact path={'/client/Kids'} component={Kids} />
+                                <Route exact path={'/client/Sale'} component={Sale} />
+                                <Route exact path={'/client/New-Products'} component={NewProducts} />
+                                <Route exact path={'/client/Trend'} component={Trend} />
+                                <Route exact path={'/client/Contact-Us'} component={ContactUs} />
+                                <Route exact path={'/client/About-Us'} component={AboutUs} />
+                                <Route component={PageNotFound}/>
                           </Switch>  
 
                           <NewsLetter />
