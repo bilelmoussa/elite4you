@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter  as Router, Route, Switch, Redirect } from 'react-router-dom';
+import { HashRouter  as Router, Route, Switch, Redirect } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from './store';
 import './App.scss';
@@ -18,11 +18,11 @@ if(localStorage.jwtToken) {
 class App extends Component {
 
   render(){
-
+    console.log(process.env.PUBLIC_URL);
     return (
       <Provider store = { store }>
       <div className="App">
-          <Router  basename={ process.env.PUBLIC_URL }>
+          <Router  basename={process.env.PUBLIC_URL + '/'} >
                   <div id="content">
                     <Switch>
                         <Route exact path='/' render={()=>(<Redirect to="/client"/>)}/>

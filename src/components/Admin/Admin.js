@@ -38,11 +38,11 @@ class Admin extends Component {
 
         return (
             <Switch>
-                <Route exact path='/Admin' render={()=>(
+                <Route  exact path='/Admin' render={()=>(
                         this.state.IsLoggedIn ? (
-                            <Redirect to="/Admin/login"/>
+                            <Redirect exact to="/Admin/login"/>
                         ) : (
-                            <Redirect to="/Admin/dashboard"/>
+                            <Redirect exact to="/Admin/dashboard"/>
                         ) 
                     )}/>
                 <Route exact path='/Admin/login' component={LogIn} />

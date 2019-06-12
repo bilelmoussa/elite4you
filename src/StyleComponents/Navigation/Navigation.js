@@ -267,6 +267,9 @@ class Navigation extends Component {
         </Typography>
         <Divider />
         <List>
+            <ListItem onClick={this.handleCloseBtn}  component={Link} to={`/Admin`} button  className={classes.List_Item}>
+              <ListItemText classes={{primary: classes.List_Text}} primary="Admin" />
+            </ListItem>
             <ListItem onClick={this.handleCloseBtn}  component={Link} to={`/client/Womens`} button  className={classes.List_Item}>
               <ListItemText classes={{primary: classes.List_Text}} primary="Womens" />
             </ListItem>

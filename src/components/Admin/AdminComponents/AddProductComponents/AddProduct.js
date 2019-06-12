@@ -12,7 +12,8 @@ import FilledInput from '@material-ui/core/FilledInput';
 import InputLabel from '@material-ui/core/InputLabel';
 import {isEmpty} from '../../../../is-empty';
 import Chip from '@material-ui/core/Chip';
-import {DropzoneArea} from 'material-ui-dropzone'
+import Upload from '../../../../StyleComponents/upload/Upload';
+
 
 const styles = theme =>({
     paper: {
@@ -20,9 +21,9 @@ const styles = theme =>({
         flexDirection: "column",
         flexWrap: "nowrap",
         padding: theme.spacing(3, 2),
-        width: "60%",
+        width: "80%",
         minWidth: 300,
-        maxWidth: 1000,
+        maxWidth: 1200,
         margin: "50px auto",
         overflow: "hidden",
         [theme.breakpoints.down('md')]: {
@@ -133,16 +134,34 @@ class AddProduct extends Component {
         this.setState({ProductColors: ProductColors})
     }
 
+    handleSubmit = (event) =>{
+        event.preventDefault();
+    }
+
+    onFilesAdded = (files) => {
+        this.setState(prevState => ({
+          files: prevState.files.concat(files)
+        }));
+    }
+
+    handeleDeleteFile = (target) =>{
+        const {files} = this.state;
+        let index = files.indexOf(target);
+        if (index !== -1) {
+            files.splice(index, 1);
+        this.setState({files: files});
+        }
+    }
+
     render() {
         const {classes} = this.props;
-        console.log(this.state.files);
 
         return (
             <Card className={classes.paper}>
                 <Typography className={classes.Title} variant="h6" color="inherit">
                     Add a New Product 
                 </Typography>
-                <form className={classes.form}>
+                <form className={classes.form} onSubmit={this.handleSubmit}>
                     <TextField 
                         classes={{root: classes.textField}} 
                         value={this.state.ProductName} 
@@ -178,9 +197,7 @@ class AddProduct extends Component {
                         label="Quantity"
                         value={this.state.ProductQuantity}
                         onChange={this.handleChange("ProductQuantity")}
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
+
                         margin="normal"
                         variant="filled"
                         allowNegative={false}
@@ -222,20 +239,14 @@ class AddProduct extends Component {
                                 key={i}
                                 label={color}
                                 className={classes.chip}
-                                onDelete={this.handleDelete(color)}                               
+                                onDelete={this.handleDelete(color)}                  
                             />
                         ))}
                         </div>
                        
                     </div>
 
-                    <DropzoneArea 
-                        onChange={this.handleFileChange}
-                        showPreviewsInDropzone={false}
-                        showPreviews = {true}
-                        showAlerts={false}
-                        filesLimit={6}
-                    />       
+                    <Upload  onFilesAdded={this.onFilesAdded} handeleDeleteFile={this.handeleDeleteFile} />
 
                     <Button 
                         className={classes.button}  variant="contained" 
