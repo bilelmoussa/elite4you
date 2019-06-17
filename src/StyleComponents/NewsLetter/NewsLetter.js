@@ -5,18 +5,18 @@ import TextField from "@material-ui/core/TextField";
 import CustomButton from '../CustomButton/CustomButton';
 import PropTypes from 'prop-types';
 
-const theme_2 = createMuiTheme({
+const theme = createMuiTheme({
     palette: {
       primary: { main: '#ff8989' }, 
       type: "dark"
     },
 });
 
-const styles = (theme_2) =>({
+const styles = (theme) =>({
     News_sub_title: {
         textAlign: "center",
         display: "flex",
-        margin: `0 ${theme_2.spacing(1)}px`,
+        margin: `0 ${theme.spacing(1)}px`,
         textTransform: "uppercase",
         color: "#fff",
         letterSpacing: 2,
@@ -24,7 +24,7 @@ const styles = (theme_2) =>({
     },
 
     textField: {
-        margin: `0 ${theme_2.spacing(1)}px`,
+        margin: `0 ${theme.spacing(1)}px`,
         width: "70%",
         maxWidth: 700,
         minWidth: 250,
@@ -43,7 +43,7 @@ const styles = (theme_2) =>({
         width: "100%",
         margin: "30px 0",
         overflow: "hidden",
-        [theme_2.breakpoints.down('xs')]: {
+        [theme.breakpoints.down('xs')]: {
           justifyContent: "center",
         }, 
     },
@@ -64,7 +64,7 @@ class NewsLetter extends Component {
     render() {
         const {classes} = this.props;
         return (
-            <ThemeProvider theme={theme_2}>
+            <ThemeProvider theme={theme}>
             <div className="News_sub">
                 <div className={classes.News_sub_title}>
                     <h2>subscribe to our newslletter</h2>

@@ -27,9 +27,7 @@ import LocalGroceryStore from '@material-ui/icons/LocalGroceryStore'
 import { Link } from 'react-router-dom';
 
 const theme = createMuiTheme({
-    palette: {
-      type: "light"
-    },
+
 });
 
 const drawerWidth = 280;
@@ -58,6 +56,7 @@ const styles = theme =>({
           display: 'none',
         },
       },
+
       Title:{
         letterSpacing: 5,
         [theme.breakpoints.up('md')]: {
@@ -69,11 +68,14 @@ const styles = theme =>({
         fontFamily: "'Dancing Script', cursive;",
         textDecoration: "none",
       },
+
       toolbar: theme.mixins.toolbar,
+
       drawerPaper: {
         backgroundColor: "#fff",
         width: drawerWidth,
       },
+      
       content: {
         flexGrow: 1,
         width: "100%",
@@ -262,39 +264,36 @@ class Navigation extends Component {
     const drawer = (
       <div className={classes.InsidePaper}>
         <div className={classes.toolbar} />
-        <Typography onClick={this.handleCloseBtn} component={Link} to={`/client`} className="title"  variant="h3" color="inherit" noWrap>
+        <Typography onClick={this.handleCloseBtn} component={Link} to={`/home`} className="title"  variant="h3" color="inherit" noWrap>
               Elite4Her
         </Typography>
         <Divider />
         <List>
-            <ListItem onClick={this.handleCloseBtn}  component={Link} to={`/Admin`} button  className={classes.List_Item}>
-              <ListItemText classes={{primary: classes.List_Text}} primary="Admin" />
-            </ListItem>
-            <ListItem onClick={this.handleCloseBtn}  component={Link} to={`/client/Womens`} button  className={classes.List_Item}>
+            <ListItem onClick={this.handleCloseBtn}  component={Link} to={`/home/Womens`} button  className={classes.List_Item}>
               <ListItemText classes={{primary: classes.List_Text}} primary="Womens" />
             </ListItem>
-            <ListItem onClick={this.handleCloseBtn} component={Link} to={`/client/Kids`} button className={classes.List_Item}>
+            <ListItem onClick={this.handleCloseBtn} component={Link} to={`/home/Kids`} button className={classes.List_Item}>
               <ListItemText classes={{primary: classes.List_Text}} primary="Kids" />
             </ListItem>
-            <ListItem onClick={this.handleCloseBtn} component={Link} to={`/client/Sale`} button className={classes.List_Item}>
+            <ListItem onClick={this.handleCloseBtn} component={Link} to={`/home/Sale`} button className={classes.List_Item}>
               <ListItemText classes={{primary: classes.List_Text}} primary="Sale" />
             </ListItem>
         </List>
         <Divider />
         <List>
-        <ListItem onClick={this.handleCloseBtn} component={Link} to={`/client/New-Products`} button  className={classes.List_Item}>
+        <ListItem onClick={this.handleCloseBtn} component={Link} to={`/home/NewProducts`} button  className={classes.List_Item}>
             <ListItemText classes={{primary: classes.List_Text}} primary="New Products" />
         </ListItem>
-        <ListItem onClick={this.handleCloseBtn} component={Link} to={`/client/Trend`} button  className={classes.List_Item}>
+        <ListItem onClick={this.handleCloseBtn} component={Link} to={`/home/Trend`} button  className={classes.List_Item}>
             <ListItemText classes={{primary: classes.List_Text}} primary="Trend" />
         </ListItem>
         </List>
         <Divider />
         <List>
-        <ListItem onClick={this.handleCloseBtn} component={Link} to={`/client/Contact-Us`} button  className={classes.List_Item}>
+        <ListItem onClick={this.handleCloseBtn} component={Link} to={`/home/ContactUs`} button  className={classes.List_Item}>
             <ListItemText classes={{primary: classes.List_Text}} primary="Contact Us" />
         </ListItem>
-        <ListItem onClick={this.handleCloseBtn} component={Link} to={`/client/About-Us`} button  className={classes.List_Item}>
+        <ListItem onClick={this.handleCloseBtn} component={Link} to={`/home/AboutUs`} button  className={classes.List_Item}>
             <ListItemText classes={{primary: classes.List_Text}} primary="About Us" />
         </ListItem>
         </List>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles, createMuiTheme } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -17,6 +17,19 @@ import home from '../home/home';
 import NewsLetter from '../../StyleComponents/NewsLetter/NewsLetter';
 import Navigation from '../../StyleComponents/Navigation/Navigation';
 import PageNotFound from '../PageNotFound/PageNotFound'
+import { ThemeProvider } from '@material-ui/styles';
+
+const theme = createMuiTheme({
+  palette: {
+    type: "light"
+  },
+});
+
+const theme_2 = createMuiTheme({
+  palette: {
+    type: "dark"
+  },
+});
 
 const drawerWidth = 280;
 
@@ -56,9 +69,11 @@ const styles = theme => ({
       fontSize: 8,
     },
   },
+  
   List_Item:{
     textAlign: "center",
   },
+
   ListMenu:{
     overflow: 'hidden',
     [theme.breakpoints.down('xs')]: {
@@ -68,7 +83,7 @@ const styles = theme => ({
   },
 
   rootListText:{
-    padding: 5,
+    padding: "8px 15px"
   },
 
   List_Name:{
@@ -97,23 +112,27 @@ class Client extends Component {
     return (
       <div className={classes.root}>
         <CssBaseline />
+        <ThemeProvider theme={theme} >
+
         <Navigation />
 
         <main className={classes.content}>
-                          <Switch>
-                                <Route exact path={'/client'} component={home} />
-                                <Route exact path={'/client/Womens'} component={Womens} />
-                                <Route exact path={'/client/Kids'} component={Kids} />
-                                <Route exact path={'/client/Sale'} component={Sale} />
-                                <Route exact path={'/client/New-Products'} component={NewProducts} />
-                                <Route exact path={'/client/Trend'} component={Trend} />
-                                <Route exact path={'/client/Contact-Us'} component={ContactUs} />
-                                <Route exact path={'/client/About-Us'} component={AboutUs} />
-                                <Route component={PageNotFound}/>
-                          </Switch>  
+
+                              <Switch>
+                                    <Route exact path={'/home'} component={home} />
+                                    <Route exact path={'/home/Womens'} component={Womens} />
+                                    <Route exact path={'/home/Kids'} component={Kids} />
+                                    <Route exact path={'/home/Sale'} component={Sale} />
+                                    <Route exact path={'/home/NewProducts'} component={NewProducts} />
+                                    <Route exact path={'/home/Trend'} component={Trend} />
+                                    <Route exact path={'/home/ContactUs'} component={ContactUs} />
+                                    <Route exact path={'/home/AboutUs'} component={AboutUs} />
+                                    <Route component={PageNotFound}/>
+                              </Switch>
 
                           <NewsLetter />
 
+                        <ThemeProvider theme={theme_2} >
                         <div className={classes.footer}>
                               <List className={classes.ListMenu}>
                                   <p className={classes.List_Name}>useful links</p>          
@@ -152,8 +171,11 @@ class Client extends Component {
                               </List>
 
                         </div>
+                        </ThemeProvider>
 
               </main>
+              </ThemeProvider>
+
       </div>
     )
   }

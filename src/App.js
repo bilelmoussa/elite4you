@@ -25,8 +25,8 @@ class App extends Component {
           <Router  basename={process.env.PUBLIC_URL + '/'} >
                   <div id="content">
                     <Switch>
-                        <Route exact path='/' render={()=>(<Redirect to="/client"/>)}/>
-                        <Route path='/client'  component={Client} />
+                        <Route exact path='/' render={()=>(<Redirect to="/home"/>)}/>
+                        <Route path='/home'  component={Client} />
                         <Route path='/Admin' component={Admin} />
                         <Route component={PageNotFound}/>
                     </Switch>

@@ -197,7 +197,6 @@ class AddProduct extends Component {
                         label="Quantity"
                         value={this.state.ProductQuantity}
                         onChange={this.handleChange("ProductQuantity")}
-
                         margin="normal"
                         variant="filled"
                         allowNegative={false}
@@ -221,8 +220,8 @@ class AddProduct extends Component {
                                 <option value={'Purple'}>Purple</option>
                                 <option value={"Blue"}>Blue</option>
                                 <option value={"Green"}>Green</option>
-                                <option value={'Grey'}>Brown</option>                                 
-                                <option value={'Grey'}>Black</option>
+                                <option value={'Grey'}>Brown</option>         
+                                <option value={'Black'}>Black</option>
                             </Select>
                         </FormControl>
 

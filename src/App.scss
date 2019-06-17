@@ -8,7 +8,7 @@
 }
 
 body{
-    background-color: #f1f1f1 !important;
+    background-color: #fff !important;
     min-height: 650px;
     width: 100vw;
     overflow-x: hidden;
@@ -219,4 +219,41 @@ body{
 
 .FileInput {
     display: none;
-  }
+}
+
+.page_container{
+    padding: 20px;
+}
+
+.page_title{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    width: 100%;
+    margin: 20px 0;
+
+    h1{
+        color: #333;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        padding: 10px 0;
+        border-bottom: 2px solid #ec6d6d;
+    }
+}
+
+.page_content{
+    width: 100%;
+    min-width: 300px;
+    padding: 20px;
+    display: flex;
+    flex-direction: row;
+    margin: 20px 0;
+}
+
+.side_filter_nav{
+    display: flex;
+    flex-direction: column;
+    width: 280px;
+    overflow: hidden;
+}
+

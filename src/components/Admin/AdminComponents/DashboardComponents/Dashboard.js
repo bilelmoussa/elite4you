@@ -260,7 +260,7 @@ class DashboardComponent extends Component {
                             </div>
                             <Divider />
                             <List>
-                                <ListItem onClick={this.handleMobileDrawerClose}  component={Link} to={`/client`} button  className={classes.List_Item}>
+                                <ListItem onClick={this.handleMobileDrawerClose}  component={Link} to={`/home`} button  className={classes.List_Item}>
                                     <ListItemIcon>
                                         <Home style={styles.account_circle} />
                                     </ListItemIcon>
@@ -294,7 +294,7 @@ class DashboardComponent extends Component {
                                 </div>
                                 <Divider />
                                 <List>
-                                    <ListItem onClick={this.handleDrawerClose}  component={Link} to={`/client`} button  className={classes.List_Item}>
+                                    <ListItem onClick={this.handleDrawerClose}  component={Link} to={`/home`} button  className={classes.List_Item}>
                                         <ListItemIcon>
                                             <Home style={styles.account_circle} />
                                         </ListItemIcon>
