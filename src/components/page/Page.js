@@ -14,7 +14,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import TextField from "@material-ui/core/TextField";
 import NumberFormat from 'react-number-format';
 import Button from '@material-ui/core/Button';
-
+import Chip from '@material-ui/core/Chip';
 
 
 
@@ -55,7 +55,19 @@ const styles = theme =>({
         display: "flex",
         flexDirection: "column",
         padding: "20px 0",
-    }
+    },
+    PanelTitle:{
+        textTransform: "uppercase"
+    },
+    ChipContainer:{
+        display: "flex",
+        flexDirection: "row",
+        flexWrap: "wrap",
+        margin: '20px 0',
+    },
+    chip: {  
+        margin: theme.spacing(0.5),
+    },
 })
 
 
@@ -79,20 +91,38 @@ class Page extends Component {
             S: false,
             XXL: false,
             MinPrice: "",
-            MaxPrice: ""
+            MaxPrice: "",
+            Filters: [],
         }
     }
 
     handleChange  = (name) => event =>{
-        this.setState({...this.state, [name]: event.target.checked})
+        this.setState({...this.state, [name]: event.target.checked});
+        this.AddFilter(name);
     }
 
     handleInputChange = name => event => {
         this.setState({[name]: event.target.value });
     }
 
-    handlePriceChange(event){
+    handlePriceSubmit = (event)=>{
         event.preventDefault();
+        const {MinPrice, MaxPrice} = this.state;
+        const value = `${MinPrice}-${MaxPrice}`;
+        this.AddFilter(value);
+        this.setState({MinPrice: "", MaxPrice: ""});
+    }
+
+    handleDelete = filter => () =>{
+        const {Filters} = this.state;
+        const chipToDelete = Filters.indexOf(filter);
+        Filters.splice(chipToDelete, 1);
+        this.setState({ProductColors: Filters, [filter]: false})
+    }
+
+    AddFilter = (value) =>{
+        const { Filters } = this.state;
+        this.setState({Filters: [...Filters, value]});
     }
 
     render() {
@@ -242,6 +272,17 @@ class Page extends Component {
             )
         }
 
+        const defaultRefine = ()=>{
+                if(this.state.Filters.length === 0){
+                    return(
+                        <p>No filters applied</p>
+                    )
+                }else{
+                    return null;
+                }
+            
+        }
+
         return (
             <div className="page_container">
                 <div className="page_title">
@@ -253,11 +294,25 @@ class Page extends Component {
                             {BreadContent()}
                         </Breadcrumbs>
                         <div className={classes.FilterSubLink}>
-                            <h3>{this.props.title}</h3>
+                            <h3 className={classes.PanelTitle}>{this.props.title}</h3>
                             <div className={classes.SubLinks}>
                                 <Link className={classes.Panel_Link}  color="inherit" href={`${pathname}/clothing`}>Clothing</Link>
                                     <Link className={classes.Panel_Link}  color="inherit" href={`${pathname}/Shoes`}>Shoes</Link>
                                     <Link className={classes.Panel_Link} color="inherit" href={`${pathname}/Accessories`}>Accessories</Link>
+                            </div>
+                        </div>
+                        <div className={classes.FilterSubLink}>
+                            <h3 className={classes.PanelTitle}>refine by</h3>
+                            <div className={classes.ChipContainer}>
+                                {defaultRefine()}
+                                {this.state.Filters.map((filter, i)=>(
+                                    <Chip
+                                        key={i}
+                                        label={filter}
+                                        className={classes.chip}
+                                        onDelete={this.handleDelete(filter)} 
+                                    />
+                                    ))}
                             </div>
                         </div>
                         
@@ -267,7 +322,7 @@ class Page extends Component {
                             aria-controls="panel1a-content"
                             id="panel1a-header"
                             >
-                            <h3>Colors</h3>
+                            <h3 className={classes.PanelTitle}>Colors</h3>
                             </ExpansionPanelSummary>
                             <ExpansionPanelDetails className={classes.PanelDetailes}>
                                 {ColorsPicker()}
@@ -279,7 +334,7 @@ class Page extends Component {
                             aria-controls="panel1a-content"
                             id="panel1a-header"
                             >
-                            <h3>Size</h3>
+                            <h3 className={classes.PanelTitle}>Size</h3>
                             </ExpansionPanelSummary>
                             <ExpansionPanelDetails className={classes.PanelDetailes}>
                                 {SizePicker()}
@@ -291,10 +346,10 @@ class Page extends Component {
                             aria-controls="panel1a-content"
                             id="panel1a-header"
                             >
-                            <h3>Price</h3>
+                            <h3 className={classes.PanelTitle}>Price</h3>
                             </ExpansionPanelSummary>
                             <ExpansionPanelDetails>
-                                <form className={classes.form} onSubmit={this.handlePriceChange} >
+                                <form className={classes.form} onSubmit={this.handlePriceSubmit} >
                                     <NumberFormat
                                         classes={{root: classes.textField}} 
                                         customInput={TextField}

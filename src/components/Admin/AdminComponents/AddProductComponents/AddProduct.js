@@ -224,7 +224,6 @@ class AddProduct extends Component {
                                 <option value={'Black'}>Black</option>
                             </Select>
                         </FormControl>
-
                         <Button 
                             className={classes.color_button}  variant="contained" 
                             color="primary"
