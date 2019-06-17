@@ -1,23 +1,23 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "6d378ad5711237fcb81877a5809aa964",
+    "revision": "10e325bde283559eb062b6845a39d841",
     "url": "/elite4you/index.html"
   },
   {
-    "revision": "4479efec15fbf8eb3ced",
-    "url": "/elite4you/static/css/2.0840645a.chunk.css"
+    "revision": "839f3393244614b2b2a6",
+    "url": "/elite4you/static/css/2.6dbb8d9f.chunk.css"
   },
   {
-    "revision": "ad9d3837db8cea681526",
+    "revision": "6f79426fb2bafe5fddfb",
     "url": "/elite4you/static/css/main.fff57c9a.chunk.css"
   },
   {
-    "revision": "4479efec15fbf8eb3ced",
-    "url": "/elite4you/static/js/2.8c2c1617.chunk.js"
+    "revision": "839f3393244614b2b2a6",
+    "url": "/elite4you/static/js/2.32579a69.chunk.js"
   },
   {
-    "revision": "ad9d3837db8cea681526",
-    "url": "/elite4you/static/js/main.b948c3b2.chunk.js"
+    "revision": "6f79426fb2bafe5fddfb",
+    "url": "/elite4you/static/js/main.6afc3f2a.chunk.js"
   },
   {
     "revision": "944be8ed5484c5eb4c4e",
