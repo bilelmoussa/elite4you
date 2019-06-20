@@ -1,5 +1,5 @@
 import { SET_CURRENT_USER } from '../action/types';
-import { isEmpty } from '../is-empty';
+import { empty } from '../is-empty';
 
 
 const initialState = {
@@ -12,7 +12,7 @@ export default function(state = initialState, action){
         case SET_CURRENT_USER:
             return {
                 ...state,
-                IsLoggedIn: !isEmpty(action.payload),
+                IsLoggedIn: !empty(action.payload),
                 user: action.payload
             } 
         default:

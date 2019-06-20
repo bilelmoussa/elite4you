@@ -16,7 +16,8 @@ import NumberFormat from 'react-number-format';
 import Button from '@material-ui/core/Button';
 import Chip from '@material-ui/core/Chip';
 import Visibility from '@material-ui/icons/Visibility'
-
+import {empty} from '../../is-empty';
+import ProductDialog from '../../StyleComponents/ProductDialog/ProductDialog';
 
 const styles = theme =>({
     PanelDetailes:{
@@ -82,6 +83,7 @@ class Page extends Component {
     constructor(props){
         super(props);
         this.state = {
+            DialogOpen: false,
             White: false,
             Yellow: false,
             Orange: false,
@@ -99,6 +101,7 @@ class Page extends Component {
             MinPrice: "",
             MaxPrice: "",
             Filters: [],
+            DialogProduct: {},
             Products : [
                 {
                     ProductImage: "Gallery_1.webp",
@@ -296,18 +299,38 @@ class Page extends Component {
 
     handleChange  = (name) => event =>{
         this.setState({...this.state, [name]: event.target.checked});
-        this.AddFilter(name);
+        const {Filters} = this.state;
+        const FilterDelete = Filters.indexOf(name);
+        if(FilterDelete === -1){
+            this.AddFilter(name);
+        }else{
+            Filters.splice(FilterDelete, 1);
+        }
     }
 
     handleInputChange = name => event => {
         this.setState({[name]: event.target.value });
     }
 
+    filterPrice(){
+        const {Filters} = this.state;
+        Filters.forEach((filter, i)=>{
+            if(/(\d+)-(\d+)/.test(filter)){
+                const FilterDelete = Filters.indexOf(filter);
+                Filters.splice(FilterDelete, 1);
+                this.setState({Filters: Filters});
+            }
+        })
+    }
+
     handlePriceSubmit = (event)=>{
         event.preventDefault();
         const {MinPrice, MaxPrice} = this.state;
         const value = `${MinPrice}-${MaxPrice}`;
-        this.AddFilter(value);
+        this.filterPrice();
+        if(!empty(MinPrice) || !empty(MaxPrice)){
+            this.AddFilter(value);
+        }
         this.setState({MinPrice: "", MaxPrice: ""});
     }
 
@@ -359,6 +382,14 @@ class Page extends Component {
                 </div>
             )
         }   
+    }
+
+    handleDialogOpen = (product) => () => {
+        this.setState({DialogOpen: true, DialogProduct: product});
+    }
+    
+    handleDialogClose = ()=> {
+        this.setState({DialogOpen: false})
     }
 
     render() {
@@ -530,7 +561,7 @@ class Page extends Component {
                         <div key={i} className="ProductCard">
                             <div className="ProductOnHoverBG"></div>
                             <div className="ProductOnHoverInfo">
-                                <Visibility className="VisibilityProduct" />
+                                <Visibility className="VisibilityProduct" onClick={this.handleDialogOpen(d)}/>
                                 <Button className={classes.ButtonProduct} variant="contained" color="primary">add to cart</Button>
                             </div>
                             {this.Discount(d)}
@@ -667,7 +698,7 @@ class Page extends Component {
                     </div>  
 
                 </div>
-
+                <ProductDialog open={this.state.DialogOpen} handleDialogClose={this.handleDialogClose} product={this.state.DialogProduct} />
             </div>
         )
     }

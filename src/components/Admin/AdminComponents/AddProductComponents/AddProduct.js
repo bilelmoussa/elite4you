@@ -10,7 +10,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import FilledInput from '@material-ui/core/FilledInput';
 import InputLabel from '@material-ui/core/InputLabel';
-import {isEmpty} from '../../../../is-empty';
+import {empty} from '../../../../is-empty';
 import Chip from '@material-ui/core/Chip';
 import Upload from '../../../../StyleComponents/upload/Upload';
 
@@ -116,7 +116,7 @@ class AddProduct extends Component {
 
     AddColor = () =>{
         const {Color, ProductColors} = this.state;
-        if(!isEmpty(Color) && Color != 0){
+        if(!empty(Color) && Color != 0){
             this.setState({ProductColors: [...ProductColors, Color], Color: "0"});
         } 
     }
