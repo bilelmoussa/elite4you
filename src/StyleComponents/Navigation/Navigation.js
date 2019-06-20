@@ -34,7 +34,7 @@ const drawerWidth = 280;
 
 const styles = theme =>({
       drawer: {
-        [theme.breakpoints.up('md')]: {
+        [theme.breakpoints.up('lg')]: {
           width: drawerWidth,
           flexShrink: 0,
         },
@@ -45,24 +45,24 @@ const styles = theme =>({
       appBar: {
         marginLeft: drawerWidth,
         backgroundColor: '#ec6d6d',
-        [theme.breakpoints.up('md')]: {
+        [theme.breakpoints.up('lg')]: {
           width: `calc(100% - ${drawerWidth}px)`,
         },
       },
     
       menuButton: {
         marginRight: 20,
-        [theme.breakpoints.up('md')]: {
+        [theme.breakpoints.up('lg')]: {
           display: 'none',
         },
       },
 
       Title:{
         letterSpacing: 5,
-        [theme.breakpoints.up('md')]: {
+        [theme.breakpoints.up('lg')]: {
           display: 'none',
         },
-        [theme.breakpoints.down('xs')]: {
+        [theme.breakpoints.down('md')]: {
           display: 'none',
         },
         fontFamily: "'Dancing Script', cursive;",
@@ -81,7 +81,7 @@ const styles = theme =>({
         width: "100%",
         margin: "32px 0 0 0",
         padding: `${theme.spacing(3)}px 0 0 0`,
-        [theme.breakpoints.up('md')]: {
+        [theme.breakpoints.up('lg')]: {
           width: `calc(100% - ${drawerWidth}px)`,
         },
       },
@@ -126,13 +126,13 @@ const styles = theme =>({
       },
       sectionMobile: {
         display: 'flex',
-        [theme.breakpoints.up('md')]: {
+        [theme.breakpoints.up('lg')]: {
           display: 'none',
         },
       },
       sectionDesktop: {
         display: 'none',
-        [theme.breakpoints.up('md')]: {
+        [theme.breakpoints.up('lg')]: {
           display: 'flex',
         },
       },
@@ -269,8 +269,8 @@ class Navigation extends Component {
         </Typography>
         <Divider />
         <List>
-            <ListItem onClick={this.handleCloseBtn}  component={Link} to={`/home/Womens`} button  className={classes.List_Item}>
-              <ListItemText classes={{primary: classes.List_Text}} primary="Womens" />
+            <ListItem onClick={this.handleCloseBtn}  component={Link} to={`/home/Women`} button  className={classes.List_Item}>
+              <ListItemText classes={{primary: classes.List_Text}} primary="Women" />
             </ListItem>
             <ListItem onClick={this.handleCloseBtn} component={Link} to={`/home/Kids`} button className={classes.List_Item}>
               <ListItemText classes={{primary: classes.List_Text}} primary="Kids" />
@@ -376,7 +376,7 @@ class Navigation extends Component {
             {renderMenu}
             {renderMobileMenu}
             <nav className={classes.drawer}>
-                <Hidden mdUp implementation="css">
+                <Hidden lgUp implementation="css">
                     <Drawer
                       container={this.props.container}
                       variant="temporary"
@@ -390,7 +390,7 @@ class Navigation extends Component {
                       {drawer}
                     </Drawer>
                     </Hidden>
-                    <Hidden smDown implementation="css">
+                    <Hidden mdDown implementation="css">
                       <Drawer
                         classes={{
                           paper: classes.drawerPaper,

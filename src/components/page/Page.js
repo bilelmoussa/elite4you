@@ -15,7 +15,7 @@ import TextField from "@material-ui/core/TextField";
 import NumberFormat from 'react-number-format';
 import Button from '@material-ui/core/Button';
 import Chip from '@material-ui/core/Chip';
-
+import Visibility from '@material-ui/icons/Visibility'
 
 
 const styles = theme =>({
@@ -25,9 +25,6 @@ const styles = theme =>({
     Expansion_Panel:{
         margin: "0 !important",
         boxShadow: "none !important" 
-    },
-    Bread_crumbs:{
-        margin: "15px 20px"
     },
     Panel_Link:{
         margin: "5px 0",
@@ -68,6 +65,15 @@ const styles = theme =>({
     chip: {  
         margin: theme.spacing(0.5),
     },
+    ButtonProduct:{
+        width: 150,
+        overflow: "hidden",
+        margin: "0 auto",
+        backgroundColor:"#ec6d6d",
+        '&:hover':{
+            backgroundColor: "#bd5555"
+        }
+    }
 })
 
 
@@ -93,6 +99,198 @@ class Page extends Component {
             MinPrice: "",
             MaxPrice: "",
             Filters: [],
+            Products : [
+                {
+                    ProductImage: "Gallery_1.webp",
+                    ProductName: "Knotted T-Shirt Midi Dress",
+                    ProductPrice: 20.00,
+                    ProductOldPrice: 35.00,
+                    Discount: 10,
+                },
+                {
+                    ProductImage: "Gallery_2.jpg",
+                    ProductName: "Zoey Button Up Tie-Front Maxi Dress",
+                    ProductPrice: 20.00,
+                    ProductOldPrice: 39.00,
+                    Discount: 10,
+                },
+                {
+                    ProductImage: "Gallery_3.jpg",
+                    ProductName: "Harlee Printed Button Front Midi Dress",
+                    ProductPrice: 30.00,
+                    ProductOldPrice: 39.00,
+                    Discount: 10,
+                    newProduct: true
+                },
+                {
+                    ProductImage: "Gallery_3.jpg",
+                    ProductName: "Harlee Printed Button Front Midi Dress",
+                    ProductPrice: 30.00,
+                    ProductOldPrice: 39.00,
+                    Discount: 10,
+                    newProduct: true
+                },
+                {
+                    ProductImage: "Gallery_3.jpg",
+                    ProductName: "Harlee Printed Button Front Midi Dress",
+                    ProductPrice: 30.00,
+                    ProductOldPrice: 39.00,
+                    Discount: 10,
+                    newProduct: true
+                },
+                {
+                    ProductImage: "Gallery_3.jpg",
+                    ProductName: "Harlee Printed Button Front Midi Dress",
+                    ProductPrice: 30.00,
+                    ProductOldPrice: 39.00,
+                    Discount: 10,
+                    newProduct: true
+                },
+                {
+                    ProductImage: "Gallery_3.jpg",
+                    ProductName: "Harlee Printed Button Front Midi Dress",
+                    ProductPrice: 30.00,
+                    ProductOldPrice: 39.00,
+                    Discount: 10,
+                    newProduct: true
+                },
+                {
+                    ProductImage: "Gallery_3.jpg",
+                    ProductName: "Harlee Printed Button Front Midi Dress",
+                    ProductPrice: 30.00,
+                    ProductOldPrice: 39.00,
+                    Discount: 10,
+                    newProduct: true
+                },
+                {
+                    ProductImage: "Gallery_3.jpg",
+                    ProductName: "Harlee Printed Button Front Midi Dress",
+                    ProductPrice: 30.00,
+                    ProductOldPrice: 39.00,
+                    Discount: 10,
+                    newProduct: true
+                },
+                {
+                    ProductImage: "Gallery_3.jpg",
+                    ProductName: "Harlee Printed Button Front Midi Dress",
+                    ProductPrice: 30.00,
+                    ProductOldPrice: 39.00,
+                    Discount: 10,
+                    newProduct: true
+                },
+                {
+                    ProductImage: "Gallery_3.jpg",
+                    ProductName: "Harlee Printed Button Front Midi Dress",
+                    ProductPrice: 30.00,
+                    ProductOldPrice: 39.00,
+                    Discount: 10,
+                    newProduct: true
+                },
+                {
+                    ProductImage: "Gallery_3.jpg",
+                    ProductName: "Harlee Printed Button Front Midi Dress",
+                    ProductPrice: 30.00,
+                    ProductOldPrice: 39.00,
+                    Discount: 10,
+                    newProduct: true
+                },
+                {
+                    ProductImage: "Gallery_3.jpg",
+                    ProductName: "Harlee Printed Button Front Midi Dress",
+                    ProductPrice: 30.00,
+                    ProductOldPrice: 39.00,
+                    Discount: 10,
+                    newProduct: true
+                },
+                {
+                    ProductImage: "Gallery_3.jpg",
+                    ProductName: "Harlee Printed Button Front Midi Dress",
+                    ProductPrice: 30.00,
+                    ProductOldPrice: 39.00,
+                    Discount: 10,
+                    newProduct: true
+                },
+                {
+                    ProductImage: "Gallery_3.jpg",
+                    ProductName: "Harlee Printed Button Front Midi Dress",
+                    ProductPrice: 30.00,
+                    ProductOldPrice: 39.00,
+                    Discount: 10,
+                    newProduct: true
+                },
+                {
+                    ProductImage: "Gallery_3.jpg",
+                    ProductName: "Harlee Printed Button Front Midi Dress",
+                    ProductPrice: 30.00,
+                    ProductOldPrice: 39.00,
+                    Discount: 10,
+                    newProduct: true
+                },
+                {
+                    ProductImage: "Gallery_3.jpg",
+                    ProductName: "Harlee Printed Button Front Midi Dress",
+                    ProductPrice: 30.00,
+                    ProductOldPrice: 39.00,
+                    Discount: 10,
+                    newProduct: true
+                },
+                {
+                    ProductImage: "Gallery_3.jpg",
+                    ProductName: "Harlee Printed Button Front Midi Dress",
+                    ProductPrice: 30.00,
+                    ProductOldPrice: 39.00,
+                    Discount: 10,
+                    newProduct: true
+                },
+                {
+                    ProductImage: "Gallery_3.jpg",
+                    ProductName: "Harlee Printed Button Front Midi Dress",
+                    ProductPrice: 30.00,
+                    ProductOldPrice: 39.00,
+                    Discount: 10,
+                    newProduct: true
+                },
+                {
+                    ProductImage: "Gallery_3.jpg",
+                    ProductName: "Harlee Printed Button Front Midi Dress",
+                    ProductPrice: 30.00,
+                    ProductOldPrice: 39.00,
+                    Discount: 10,
+                    newProduct: true
+                },
+                {
+                    ProductImage: "Gallery_3.jpg",
+                    ProductName: "Harlee Printed Button Front Midi Dress",
+                    ProductPrice: 30.00,
+                    ProductOldPrice: 39.00,
+                    Discount: 10,
+                    newProduct: true
+                },
+                {
+                    ProductImage: "Gallery_3.jpg",
+                    ProductName: "Harlee Printed Button Front Midi Dress",
+                    ProductPrice: 30.00,
+                    ProductOldPrice: 39.00,
+                    Discount: 10,
+                    newProduct: true
+                },
+                {
+                    ProductImage: "Gallery_3.jpg",
+                    ProductName: "Harlee Printed Button Front Midi Dress",
+                    ProductPrice: 30.00,
+                    ProductOldPrice: 39.00,
+                    Discount: 10,
+                    newProduct: true
+                },
+                {
+                    ProductImage: "Gallery_3.jpg",
+                    ProductName: "Harlee Printed Button Front Midi Dress",
+                    ProductPrice: 30.00,
+                    ProductOldPrice: 39.00,
+                    Discount: 10,
+                    newProduct: true
+                }
+            ],
         }
     }
 
@@ -117,12 +315,50 @@ class Page extends Component {
         const {Filters} = this.state;
         const chipToDelete = Filters.indexOf(filter);
         Filters.splice(chipToDelete, 1);
-        this.setState({ProductColors: Filters, [filter]: false})
+        this.setState({ProductColors: Filters, [filter]: false, MinPrice: "", MaxPrice: ""})
     }
 
     AddFilter = (value) =>{
         const { Filters } = this.state;
         this.setState({Filters: [...Filters, value]});
+    }
+
+    Discount(d){
+        if(d.Discount !== 0 && d.Discount){
+            return(
+                <div className="DiscountTag" style={{margin: "20px 30px"}}>-{d.Discount}%</div>
+            )
+        }else{
+            return null;
+        }
+    }
+
+    NewProduct(d){
+        if(d.newProduct){
+            return(
+                <div className="NewTag" style={{margin: "20px 30px"}}>New</div>
+            )
+        }else{
+            return null;
+        }
+    }
+
+    ProductInfo(d){
+        if(d.ProductOldPrice !== 0 && d.ProductOldPrice){
+            return(
+                <div className="under_Img_Gallery">
+                    <p className="slide_title">{d.ProductName}</p>
+                    <p className="Slide_Price"><b className="old_price">${d.ProductOldPrice}</b>${d.ProductPrice}</p>
+                </div>
+            )
+        }else{
+            return(
+                <div className="under_Img_Gallery">
+                    <p className="slide_title">{d.ProductName}</p>
+                    <p className="Slide_Price">${d.ProductPrice}</p>
+                </div>
+            )
+        }   
     }
 
     render() {
@@ -280,17 +516,39 @@ class Page extends Component {
                 }else{
                     return null;
                 }
-            
         }
 
-        return (
-            <div className="page_container">
-                <div className="page_title">
-                    <h1>{this.props.title}</h1>
-                </div>
-                <div className="page_content">  
-                    <div className="side_filter_nav">
-                        <Breadcrumbs aria-label="Breadcrumb" className={classes.Bread_crumbs}>
+        const RenderProduts = ()=>{
+            if(this.state.Products.length === 0){
+                return(
+                    <p>No Products are Added yet !</p>
+                )
+            }else{
+                return(
+                    this.state.Products.map((d, i)=>{
+                       return(
+                        <div key={i} className="ProductCard">
+                            <div className="ProductOnHoverBG"></div>
+                            <div className="ProductOnHoverInfo">
+                                <Visibility className="VisibilityProduct" />
+                                <Button className={classes.ButtonProduct} variant="contained" color="primary">add to cart</Button>
+                            </div>
+                            {this.Discount(d)}
+                            {this.NewProduct(d)}
+                            <img className="ProductImg" alt="" src={require(`../../static/${d.ProductImage}`)}/>
+                            {this.ProductInfo(d)}
+                        </div>
+                       )
+                    })
+                    
+                );
+            }
+        }
+
+        const RenderFilter = () =>{
+            return(
+                <div className="side_filter_nav">
+                        <Breadcrumbs aria-label="Breadcrumb" className="DesktopBreadcrumb">
                             {BreadContent()}
                         </Breadcrumbs>
                         <div className={classes.FilterSubLink}>
@@ -372,10 +630,44 @@ class Page extends Component {
                                 </form>
                             </ExpansionPanelDetails>
                         </ExpansionPanel>
-                    
                     </div>
 
+            )
+        }
+
+        return (
+            <div className="page_container">
+                <div className="page_title">
+                    <h1>{this.props.title}</h1>
                 </div>
+                <div className="page_content">
+                    <Breadcrumbs aria-label="Breadcrumb" className="MobileBread">
+                            {BreadContent()}
+                    </Breadcrumbs>
+                    <ExpansionPanel className="Expansion_Panel">
+                            <ExpansionPanelSummary
+                            expandIcon={<ExpandMoreIcon />}
+                            aria-controls="panel1a-content"
+                            id="panel1a-header"
+                            >
+                            <h3 className={classes.PanelTitle}>Filter</h3>
+                            </ExpansionPanelSummary>
+                            <ExpansionPanelDetails className={classes.PanelDetailes}>
+                            {RenderFilter()}
+                            </ExpansionPanelDetails>
+                    </ExpansionPanel>  
+
+                    <div className="desktopFilter">
+                        {RenderFilter()}
+                    </div>
+                    
+
+                    <div className="ProductRows">
+                        {RenderProduts()} 
+                    </div>  
+
+                </div>
+
             </div>
         )
     }

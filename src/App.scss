@@ -154,6 +154,7 @@ body{
     background-color: #fff;
     color: #222;
     padding: 10px;
+    text-align: center;
 }
 
 .Slide_Price{
@@ -169,18 +170,19 @@ body{
 
 .DiscountTag{
     position: absolute;
-    background-color: #ffffff;
+    background-color: #ffffffa6;
     border-radius: 50%;
+    height: 45px;
+    width: 45px;
     top: 0;
-    padding: 0.90em 0.10em;
     left: 0;
     display: flex;
     flex-direction: column;
     justify-content: center;
     color: #f35353;
     font-size: 16px;
-    margin: 0.10em 0.30em;
     overflow: hidden;
+    text-align: center;
     letter-spacing: 2px;
 }
 
@@ -247,7 +249,8 @@ body{
     padding: 20px;
     display: flex;
     flex-direction: row;
-    margin: 20px 0;
+    margin: 20px auto;
+    max-width: 1500px;
 }
 
 .side_filter_nav{
@@ -257,3 +260,130 @@ body{
     overflow: hidden;
 }
 
+.ProductRows{
+    width: 100%;
+    display: flex;
+    padding: 0 20px;
+    overflow: hidden;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.ProductCard{
+    position: relative;
+    flex: 0 1 calc(25% - 1em);
+    height: auto;
+    margin: 10px auto;
+    display: flex;
+    min-width: 220px;
+    flex-direction: column;
+    padding: 20px 30px;
+    border: 1px solid #fff;
+    border-radius: 5px;
+    transition: 0.8s;
+    overflow: hidden;
+}
+
+.ProductOnHoverBG{
+    opacity: 0;
+    background-color: #00000066;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 7;
+    transition: 1.5s;
+}
+
+.ProductOnHoverInfo{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 8;
+    transition: 0.8s linear;
+    transform: translateY(100%);
+}
+
+.VisibilityProduct{
+    color: #e2e2e2;
+    width: 150px !important;
+    height: 60px !important;
+    margin: 0 auto;
+    padding: 5px 10px;
+    border: 1px solid #f1f1f1;
+    border-radius: 3px;
+    background-color: #ffffff42;
+    z-index: 8;
+    cursor: pointer;
+    transition: 0.8s !important;
+}
+
+.VisibilityProduct:hover{
+    color:#fff;
+    background-color: #00000069;
+}
+
+.ProductCard:hover{
+    border: 1px solid #e0e0e0;
+    .ProductOnHoverBG{
+        opacity: 1;
+    }
+    .ProductOnHoverInfo{
+        transform: translateY(0);  
+    }
+}
+
+.MobileBread{
+    display: none;
+}
+
+.Expansion_Panel{
+    display: none;
+    margin: 30px !important;
+}
+
+.DesktopBreadcrumb{
+    margin: 15px 20px !important;
+}
+
+.ProductImg{
+    height: auto;
+    min-height: 200px;
+    width: 100%;
+}
+
+@media(max-width: 1000px){
+    .page_container{
+        padding: 0;
+    }
+    .page_content{
+        padding: 0;
+    }
+    .desktopFilter{
+        display: none;
+    }
+    .side_filter_nav{
+        width: 100%;
+    }
+    .page_content{
+        flex-direction: column
+    }
+    .MobileBread{
+        display: flex;
+        margin: 20px auto !important;
+    }
+    .Expansion_Panel{
+        display: flex;
+        flex-direction: column;
+    }
+    .DesktopBreadcrumb{
+        display: none;
+    }
+}

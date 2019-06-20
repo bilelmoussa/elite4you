@@ -6,7 +6,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { Route, Switch } from 'react-router-dom';
-import Womens from '../Womens/Womens';
+import Women from '../Women/Women';
 import Kids from '../Kids/Kids';
 import Sale from '../Sale/Sale';
 import NewProducts from '../NewProducts/NewProducts';
@@ -120,7 +120,7 @@ class Client extends Component {
 
                               <Switch>
                                     <Route exact path={'/home'} component={home} />
-                                    <Route exact path={'/home/Womens'} component={Womens} />
+                                    <Route exact path={'/home/Women'} component={Women} />
                                     <Route exact path={'/home/Kids'} component={Kids} />
                                     <Route exact path={'/home/Sale'} component={Sale} />
                                     <Route exact path={'/home/NewProducts'} component={NewProducts} />
