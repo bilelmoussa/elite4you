@@ -48,7 +48,7 @@ const styles = theme =>({
         minWidth: 250,
         margin: `20px auto`,
     },
-    ColorsField:{
+    SelectField:{
         display: "flex",
         flexDirection: "column",
         width: "70%",
@@ -62,37 +62,35 @@ const styles = theme =>({
         minWidth: 250,
         maxWidth: 500,
         margin: '20px auto', 
-  },
-  Title:{
+    },
+    Title:{
         textTransform: "uppercase",
         textAlign: "center",
         marginBottom: 20,
         letterSpacing: 2
-  },
-  menu: {
-    width: 200,
-  },
-  color_button:{
-      display: "block",
-      width: "30%",
-      minWidth: 150,
-      overflow: "hidden",
-      maxHeight: 40,
-      margin: 'auto'
-  },
-  FormColors:{
-      width: "100%",
-      margin: " 0 0 20px 0"
-  },
-  ChipContainer:{
-      display: "flex",
-      flexDirection: "row",
-      flexWrap: "wrap",
-      margin: '20px 0',
-  },
-  chip: {  
-    margin: theme.spacing(0.5),
-  },
+    },
+    menu: {
+        width: 200,
+    },
+    select_button:{
+        display: "block",
+        minWidth: 150,
+        overflow: "hidden",
+        margin: 'auto'
+    },
+    FormSelect:{
+        width: "100%",
+        margin: " 0 0 20px 0"
+    },
+    ChipContainer:{
+        display: "flex",
+        flexDirection: "row",
+        flexWrap: "wrap",
+        margin: '20px 0',
+    },
+    chip: {  
+        margin: theme.spacing(0.5),
+    },
 
 })
 
@@ -106,7 +104,13 @@ class AddProduct extends Component {
             ProductQuantity: "",
             Color: "",
             ProductColors: [],
-            files: []
+            files: [],
+            Size: "",
+            ProductSize: [],
+            Categorie: "",
+            ProductCategories: [],
+            ChildCategorie: "",
+            ProductChildCategories: []
         }
     }
 
@@ -121,17 +125,59 @@ class AddProduct extends Component {
         } 
     }
 
+    AddCategorie = () =>{
+        const {Categorie, ProductCategories} = this.state;
+        if(!empty(Categorie) && Categorie != 0){
+            this.setState({ProductCategories: [...ProductCategories, Categorie], Categorie: "0"});
+        } 
+    }
+
+    AddChildCategorie = () =>{
+        const {ChildCategorie, ProductChildCategories} = this.state;
+        if(!empty(ChildCategorie) && ChildCategorie != 0){
+            this.setState({ProductChildCategories: [...ProductChildCategories, ChildCategorie], ChildCategorie: "0"});
+        } 
+    }
+
+    AddSize = () =>{
+        const {Size, ProductSize} = this.state;
+        if(!empty(Size) && Size != 0){
+            this.setState({ProductSize: [...ProductSize, Size], Size: "0"});
+        } 
+    }
+
     handleFileChange = (files)=>{
         this.setState({
           files: files
         });
     }
     
-    handleDelete = color => () =>{
+    handleCategorieDelete = categorie => () =>{
+        const {ProductCategories} = this.state;
+        const chipToDelete = ProductCategories.indexOf(categorie);
+        ProductCategories.splice(chipToDelete, 1);
+        this.setState({ProductCategories: ProductCategories})
+    }
+
+    handleChildCategorieDelete = childCategorie => () =>{
+        const {ProductChildCategories} = this.state;
+        const chipToDelete = ProductChildCategories.indexOf(childCategorie);
+        ProductChildCategories.splice(chipToDelete, 1);
+        this.setState({ProductChildCategories: ProductChildCategories})
+    }
+
+    handleColorDelete = color => () =>{
         const {ProductColors} = this.state;
         const chipToDelete = ProductColors.indexOf(color);
         ProductColors.splice(chipToDelete, 1);
         this.setState({ProductColors: ProductColors})
+    }
+
+    handleSizeDelete = size => () =>{
+        const {ProductSize} = this.state;
+        const chipToDelete = ProductSize.indexOf(size);
+        ProductSize.splice(chipToDelete, 1);
+        this.setState({ProductSize: ProductSize})
     }
 
     handleSubmit = (event) =>{
@@ -170,6 +216,74 @@ class AddProduct extends Component {
                         margin="normal"
                         variant="filled"
                     />
+
+                    <div className={classes.SelectField}>
+                        <FormControl variant="filled" className={classes.FormSelect}>
+                        <InputLabel htmlFor="filled-Categorie-native-simple">Categories</InputLabel>
+                            <Select
+                                native
+                                value={this.state.Categorie}
+                                onChange={this.handleChange('Categorie')}
+                                input={<FilledInput name="Categorie" id="filled-Categorie-native-simple" />}
+                            >
+                                <option value="" />
+                                <option value={'Women'}>Women</option>
+                                <option value={'Kids'}>Kids</option>
+                            </Select>
+                        </FormControl>
+                        <Button 
+                            className={classes.select_button}  variant="contained" 
+                            color="primary"
+                            onClick={this.AddCategorie}
+                        >
+                            ADD Categorie
+                        </Button>
+                        <div className={classes.ChipContainer}>
+                            {this.state.ProductCategories.map((Categorie, i)=>(
+                                <Chip
+                                    key={i}
+                                    label={Categorie}
+                                    className={classes.chip}
+                                    onDelete={this.handleCategorieDelete(Categorie)}                  
+                                />
+                            ))}
+                        </div>
+                    </div>
+
+                    <div className={classes.SelectField}>
+                        <FormControl variant="filled" className={classes.FormSelect}>
+                        <InputLabel htmlFor="filled-ChildCategorie-native-simple">Child Categories</InputLabel>
+                            <Select
+                                native
+                                value={this.state.ChildCategorie}
+                                onChange={this.handleChange('ChildCategorie')}
+                                input={<FilledInput name="ChildCategorie" id="filled-Categorie-native-simple" />}
+                            >
+                                <option value="" />
+                                <option value={'Clothing'}>Clothing</option>
+                                <option value={'Shoes'}>Shoes</option>
+                                <option value={'Accessories'}>Accessories</option>
+                            </Select>
+                        </FormControl>
+                        <Button 
+                            className={classes.select_button}  variant="contained" 
+                            color="primary"
+                            onClick={this.AddChildCategorie}
+                        >
+                            ADD Child Categorie
+                        </Button>
+                        <div className={classes.ChipContainer}>
+                            {this.state.ProductChildCategories.map((ChildCategorie, i)=>(
+                                <Chip
+                                    key={i}
+                                    label={ChildCategorie}
+                                    className={classes.chip}
+                                    onDelete={this.handleChildCategorieDelete(ChildCategorie)}                  
+                                />
+                            ))}
+                        </div>
+                    </div>
+
                     <NumberFormat
                         classes={{root: classes.textField}} 
                         customInput={TextField}
@@ -202,8 +316,8 @@ class AddProduct extends Component {
                         allowNegative={false}
                     />
 
-                    <div className={classes.ColorsField}>
-                        <FormControl variant="filled" className={classes.FormColors}>
+                    <div className={classes.SelectField}>
+                        <FormControl variant="filled" className={classes.FormSelect}>
                         <InputLabel htmlFor="filled-Color-native-simple">Colors</InputLabel>
                             <Select
                                 native
@@ -225,23 +339,58 @@ class AddProduct extends Component {
                             </Select>
                         </FormControl>
                         <Button 
-                            className={classes.color_button}  variant="contained" 
+                            className={classes.select_button}  variant="contained" 
                             color="primary"
                             onClick={this.AddColor}
                         >
                             ADD color
                         </Button>
                         <div className={classes.ChipContainer}>
-                        {this.state.ProductColors.map((color, i)=>(
-                            <Chip
-                                key={i}
-                                label={color}
-                                className={classes.chip}
-                                onDelete={this.handleDelete(color)}                  
-                            />
-                        ))}
+                            {this.state.ProductColors.map((color, i)=>(
+                                <Chip
+                                    key={i}
+                                    label={color}
+                                    className={classes.chip}
+                                    onDelete={this.handleColorDelete(color)}                  
+                                />
+                            ))}
                         </div>
-                       
+                    </div>
+
+                    <div className={classes.SelectField}>
+                        <FormControl variant="filled" className={classes.FormSelect}>
+                        <InputLabel htmlFor="filled-Size-native-simple">Size</InputLabel>
+                            <Select
+                                native
+                                value={this.state.Size}
+                                onChange={this.handleChange('Size')}
+                                input={<FilledInput name="Size" id="filled-Size-native-simple" />}
+                            >
+                                <option value="" />
+                                <option value={'M'}>M</option>
+                                <option value={'L'}>L</option>
+                                <option value={'XL'}>XL</option>
+                                <option value={'S'}>S</option>
+                                <option value={'XXL'}>XXL</option>
+                            </Select>
+                        </FormControl>
+                        <Button 
+                            className={classes.select_button}  variant="contained" 
+                            color="primary"
+                            onClick={this.AddSize}
+                        >
+                            ADD Size
+                        </Button>
+                        <div className={classes.ChipContainer}>
+                            {this.state.ProductSize.map((S, i)=>(
+                                <Chip
+                                    key={i}
+                                    label={S}
+                                    className={classes.chip}
+                                    onDelete={this.handleSizeDelete(S)}                  
+                                />
+                            ))}
+                        </div>
                     </div>
 
                     <Upload  onFilesAdded={this.onFilesAdded} handeleDeleteFile={this.handeleDeleteFile} />

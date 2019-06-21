@@ -107,8 +107,9 @@ class Page extends Component {
                     ProductImage: "Gallery_1.webp",
                     ProductName: "Knotted T-Shirt Midi Dress",
                     ProductPrice: 20.00,
-                    ProductOldPrice: 35.00,
-                    Discount: 10,
+                    colors: ["White", "Black", "Pink"],
+                    Size: ['M', 'L', 'XL', 'S', 'XXL'],
+                    description: "Black Short T-Shirt Midi Dress"
                 },
                 {
                     ProductImage: "Gallery_2.jpg",
