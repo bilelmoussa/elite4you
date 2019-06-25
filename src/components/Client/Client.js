@@ -120,7 +120,7 @@ class Client extends Component {
 
                               <Switch>
                                     <Route exact path={'/home'} component={home} />
-                                    <Route exact path={'/home/Women'} component={Women} />
+                                    <Route path={'/home/Women'} component={Women} />
                                     <Route exact path={'/home/Kids'} component={Kids} />
                                     <Route exact path={'/home/Sale'} component={Sale} />
                                     <Route exact path={'/home/NewProducts'} component={NewProducts} />

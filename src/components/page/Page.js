@@ -7,7 +7,6 @@ import {  withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import Typography from '@material-ui/core/Typography';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
-import Link from '@material-ui/core/Link';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -18,6 +17,7 @@ import Chip from '@material-ui/core/Chip';
 import Visibility from '@material-ui/icons/Visibility'
 import {empty} from '../../is-empty';
 import ProductDialog from '../../StyleComponents/ProductDialog/ProductDialog';
+import { Link } from 'react-router-dom';
 
 const styles = theme =>({
     PanelDetailes:{
@@ -29,7 +29,8 @@ const styles = theme =>({
     },
     Panel_Link:{
         margin: "5px 0",
-        textDecoration: "none !important"
+        textDecoration: "none !important",
+        textTransform: 'capitalize'
     },
     textField:{
         margin: "10px" 
@@ -84,226 +85,37 @@ class Page extends Component {
         super(props);
         this.state = {
             DialogOpen: false,
-            White: false,
-            Yellow: false,
-            Orange: false,
-            Red: false,
-            Pink: false,
-            Purple: false,
-            Blue: false,
-            Green: false,
-            Black: false,
-            M: false,
-            L: false,
-            XL: false,
-            S: false,
-            XXL: false,
+            colors:{
+            },
+            size:{ 
+            },
             MinPrice: "",
             MaxPrice: "",
             Filters: [],
             DialogProduct: {},
-            Products : [
-                {
-                    ProductImage: "Gallery_1.webp",
-                    ProductName: "Knotted T-Shirt Midi Dress",
-                    ProductPrice: 20.00,
-                    colors: ["White", "Black", "Pink"],
-                    Size: ['M', 'L', 'XL', 'S', 'XXL'],
-                    description: "Black Short T-Shirt Midi Dress"
-                },
-                {
-                    ProductImage: "Gallery_2.jpg",
-                    ProductName: "Zoey Button Up Tie-Front Maxi Dress",
-                    ProductPrice: 20.00,
-                    ProductOldPrice: 39.00,
-                    Discount: 10,
-                },
-                {
-                    ProductImage: "Gallery_3.jpg",
-                    ProductName: "Harlee Printed Button Front Midi Dress",
-                    ProductPrice: 30.00,
-                    ProductOldPrice: 39.00,
-                    Discount: 10,
-                    newProduct: true
-                },
-                {
-                    ProductImage: "Gallery_3.jpg",
-                    ProductName: "Harlee Printed Button Front Midi Dress",
-                    ProductPrice: 30.00,
-                    ProductOldPrice: 39.00,
-                    Discount: 10,
-                    newProduct: true
-                },
-                {
-                    ProductImage: "Gallery_3.jpg",
-                    ProductName: "Harlee Printed Button Front Midi Dress",
-                    ProductPrice: 30.00,
-                    ProductOldPrice: 39.00,
-                    Discount: 10,
-                    newProduct: true
-                },
-                {
-                    ProductImage: "Gallery_3.jpg",
-                    ProductName: "Harlee Printed Button Front Midi Dress",
-                    ProductPrice: 30.00,
-                    ProductOldPrice: 39.00,
-                    Discount: 10,
-                    newProduct: true
-                },
-                {
-                    ProductImage: "Gallery_3.jpg",
-                    ProductName: "Harlee Printed Button Front Midi Dress",
-                    ProductPrice: 30.00,
-                    ProductOldPrice: 39.00,
-                    Discount: 10,
-                    newProduct: true
-                },
-                {
-                    ProductImage: "Gallery_3.jpg",
-                    ProductName: "Harlee Printed Button Front Midi Dress",
-                    ProductPrice: 30.00,
-                    ProductOldPrice: 39.00,
-                    Discount: 10,
-                    newProduct: true
-                },
-                {
-                    ProductImage: "Gallery_3.jpg",
-                    ProductName: "Harlee Printed Button Front Midi Dress",
-                    ProductPrice: 30.00,
-                    ProductOldPrice: 39.00,
-                    Discount: 10,
-                    newProduct: true
-                },
-                {
-                    ProductImage: "Gallery_3.jpg",
-                    ProductName: "Harlee Printed Button Front Midi Dress",
-                    ProductPrice: 30.00,
-                    ProductOldPrice: 39.00,
-                    Discount: 10,
-                    newProduct: true
-                },
-                {
-                    ProductImage: "Gallery_3.jpg",
-                    ProductName: "Harlee Printed Button Front Midi Dress",
-                    ProductPrice: 30.00,
-                    ProductOldPrice: 39.00,
-                    Discount: 10,
-                    newProduct: true
-                },
-                {
-                    ProductImage: "Gallery_3.jpg",
-                    ProductName: "Harlee Printed Button Front Midi Dress",
-                    ProductPrice: 30.00,
-                    ProductOldPrice: 39.00,
-                    Discount: 10,
-                    newProduct: true
-                },
-                {
-                    ProductImage: "Gallery_3.jpg",
-                    ProductName: "Harlee Printed Button Front Midi Dress",
-                    ProductPrice: 30.00,
-                    ProductOldPrice: 39.00,
-                    Discount: 10,
-                    newProduct: true
-                },
-                {
-                    ProductImage: "Gallery_3.jpg",
-                    ProductName: "Harlee Printed Button Front Midi Dress",
-                    ProductPrice: 30.00,
-                    ProductOldPrice: 39.00,
-                    Discount: 10,
-                    newProduct: true
-                },
-                {
-                    ProductImage: "Gallery_3.jpg",
-                    ProductName: "Harlee Printed Button Front Midi Dress",
-                    ProductPrice: 30.00,
-                    ProductOldPrice: 39.00,
-                    Discount: 10,
-                    newProduct: true
-                },
-                {
-                    ProductImage: "Gallery_3.jpg",
-                    ProductName: "Harlee Printed Button Front Midi Dress",
-                    ProductPrice: 30.00,
-                    ProductOldPrice: 39.00,
-                    Discount: 10,
-                    newProduct: true
-                },
-                {
-                    ProductImage: "Gallery_3.jpg",
-                    ProductName: "Harlee Printed Button Front Midi Dress",
-                    ProductPrice: 30.00,
-                    ProductOldPrice: 39.00,
-                    Discount: 10,
-                    newProduct: true
-                },
-                {
-                    ProductImage: "Gallery_3.jpg",
-                    ProductName: "Harlee Printed Button Front Midi Dress",
-                    ProductPrice: 30.00,
-                    ProductOldPrice: 39.00,
-                    Discount: 10,
-                    newProduct: true
-                },
-                {
-                    ProductImage: "Gallery_3.jpg",
-                    ProductName: "Harlee Printed Button Front Midi Dress",
-                    ProductPrice: 30.00,
-                    ProductOldPrice: 39.00,
-                    Discount: 10,
-                    newProduct: true
-                },
-                {
-                    ProductImage: "Gallery_3.jpg",
-                    ProductName: "Harlee Printed Button Front Midi Dress",
-                    ProductPrice: 30.00,
-                    ProductOldPrice: 39.00,
-                    Discount: 10,
-                    newProduct: true
-                },
-                {
-                    ProductImage: "Gallery_3.jpg",
-                    ProductName: "Harlee Printed Button Front Midi Dress",
-                    ProductPrice: 30.00,
-                    ProductOldPrice: 39.00,
-                    Discount: 10,
-                    newProduct: true
-                },
-                {
-                    ProductImage: "Gallery_3.jpg",
-                    ProductName: "Harlee Printed Button Front Midi Dress",
-                    ProductPrice: 30.00,
-                    ProductOldPrice: 39.00,
-                    Discount: 10,
-                    newProduct: true
-                },
-                {
-                    ProductImage: "Gallery_3.jpg",
-                    ProductName: "Harlee Printed Button Front Midi Dress",
-                    ProductPrice: 30.00,
-                    ProductOldPrice: 39.00,
-                    Discount: 10,
-                    newProduct: true
-                },
-                {
-                    ProductImage: "Gallery_3.jpg",
-                    ProductName: "Harlee Printed Button Front Midi Dress",
-                    ProductPrice: 30.00,
-                    ProductOldPrice: 39.00,
-                    Discount: 10,
-                    newProduct: true
-                }
-            ],
         }
     }
 
-    handleChange  = (name) => event =>{
-        this.setState({...this.state, [name]: event.target.checked});
+    handleColorChange  = (name) => event =>{
+        this.setState({...this.state, colors: { ...this.state.colors, [name]: event.target.checked}});
         const {Filters} = this.state;
-        const FilterDelete = Filters.indexOf(name);
+        let Filter_value = {value: name, categorie: "color"}
+        const FilterDelete = Filters.map((e)=>{return e.value}).indexOf(Filter_value.value);
+
         if(FilterDelete === -1){
-            this.AddFilter(name);
+            this.AddFilter(Filter_value);
+        }else{
+            Filters.splice(FilterDelete, 1);
+        }
+    }
+
+    handleSizeChange  = (name) => event =>{
+        this.setState({...this.state, size:{...this.state.size,[name]: event.target.checked}});
+        const {Filters} = this.state;
+        let Filter_value = {value: name, categorie: "size"}
+        const FilterDelete = Filters.map((e)=>{return e.value}).indexOf(Filter_value.value);
+        if(FilterDelete === -1){
+            this.AddFilter(Filter_value);
         }else{
             Filters.splice(FilterDelete, 1);
         }
@@ -327,7 +139,7 @@ class Page extends Component {
     handlePriceSubmit = (event)=>{
         event.preventDefault();
         const {MinPrice, MaxPrice} = this.state;
-        const value = `${MinPrice}-${MaxPrice}`;
+        const value = {value:`${MinPrice}-${MaxPrice}`, categorie: 'price'};
         this.filterPrice();
         if(!empty(MinPrice) || !empty(MaxPrice)){
             this.AddFilter(value);
@@ -339,7 +151,13 @@ class Page extends Component {
         const {Filters} = this.state;
         const chipToDelete = Filters.indexOf(filter);
         Filters.splice(chipToDelete, 1);
-        this.setState({ProductColors: Filters, [filter]: false, MinPrice: "", MaxPrice: ""})
+        if(filter.categorie === "color"){
+            this.setState({Filters: Filters, colors:{[filter.value]: false}, MinPrice: "", MaxPrice: ""})
+        }else if(filter.categorie === "size"){
+            this.setState({Filters: Filters, size:{[filter.value]: false}, MinPrice: "", MaxPrice: ""})
+        }else{
+            this.setState({Filters: Filters, MinPrice: "", MaxPrice: ""})
+        }
     }
 
     AddFilter = (value) =>{
@@ -394,33 +212,10 @@ class Page extends Component {
     }
 
     render() {
-        const {classes, pathname} = this.props;
+        const {classes, pathname, colors, size, childrenLink, Products} = this.props;
         const pathnameLength = (pathname.match(/\//g) || []).length;
         let paths = [];
 
-        if(/\/$/g.test(pathname)){
-            if(pathnameLength === 2){
-                paths.push(pathname.replace(/\/(\w+)\//, '$1'));
-            }else if(pathnameLength === 3){
-                paths.push(pathname.replace(/\/(\w+)\/(\w+)\//, '$1'));
-                paths.push(pathname.replace(/\/(\w+)\/(\w+)\//, '$2'));
-            }else if(pathnameLength === 4){
-                paths.push(pathname.replace(/\/(\w+)\/(\w+)\/(\w+)\//, '$1'));
-                paths.push(pathname.replace(/\/(\w+)\/(\w+)\/(\w+)\//, '$2'));
-                paths.push(pathname.replace(/\/(\w+)\/(\w+)\/(\w+)\//, '$3'));
-            }else if(pathnameLength === 5){
-                paths.push(pathname.replace(/\/(\w+)\/(\w+)\/(\w+)\/(\w+)\//, '$1'));
-                paths.push(pathname.replace(/\/(\w+)\/(\w+)\/(\w+)\/(\w+)\//, '$2'));
-                paths.push(pathname.replace(/\/(\w+)\/(\w+)\/(\w+)\/(\w+)\//, '$3'));
-                paths.push(pathname.replace(/\/(\w+)\/(\w+)\/(\w+)\/(\w+)\//, '$4'));
-            }else if(pathnameLength === 6){
-                paths.push(pathname.replace(/\/(\w+)\/(\w+)\/(\w+)\/(\w+)\/(\w+)\//, '$1'));
-                paths.push(pathname.replace(/\/(\w+)\/(\w+)\/(\w+)\/(\w+)\/(\w+)\//, '$2'));
-                paths.push(pathname.replace(/\/(\w+)\/(\w+)\/(\w+)\/(\w+)\/(\w+)\//, '$3'));
-                paths.push(pathname.replace(/\/(\w+)\/(\w+)\/(\w+)\/(\w+)\/(\w+)\//, '$4'));
-                paths.push(pathname.replace(/\/(\w+)\/(\w+)\/(\w+)\/(\w+)\/(\w+)\//, '$5'));
-            }
-        }else{
             if(pathnameLength === 1){
                 paths.push(pathname.replace(/\/(\w+)/, '$1'));
             }else if(pathnameLength === 2){
@@ -442,33 +237,11 @@ class Page extends Component {
                 paths.push(pathname.replace(/\/(\w+)\/(\w+)\/(\w+)\/(\w+)\/(\w+)/, '$4'));
                 paths.push(pathname.replace(/\/(\w+)\/(\w+)\/(\w+)\/(\w+)\/(\w+)/, '$5'));
             }
-        }
+        
 
         const BreadContent = ()=>{
             return(
                 paths.map((path, i)=>{
-                    if(/\/$/g.test(pathname)){
-                        if(pathnameLength-2 === i){
-                            return(
-                                <Typography key={i} color="textPrimary">{path}</Typography>
-                            )
-                        }else{
-                            if(path === "home"){
-                                return(
-                                    <Link key={i} color="inherit" href={`/#home`}>
-                                        {path}
-                                    </Link>
-                                   )
-                            }else{
-                                return(
-                                    <Link key={i} color="inherit" href={`/home/${path}`}>
-                                        {path}
-                                    </Link>
-                                   )
-                            }
-                           
-                        }
-                    }else{
                         if(pathnameLength-1 === i){
                             return(
                                 <Typography key={i} color="textPrimary">{path}</Typography>
@@ -476,37 +249,35 @@ class Page extends Component {
                         }else{
                             if(path === "home"){
                                 return(
-                                    <Link key={i} color="inherit" href={`/#home`}>
-                                        {path}
-                                    </Link>
+                                    <Typography className={classes.Panel_Link} key={i} color="inherit" component={Link} to={`/home`}>{path}</Typography>
                                    )
                             }else{
                                 return(
-                                    <Link key={i} color="inherit" href={`/home/${path}`}>
-                                        {path}
-                                    </Link>
+                                    <Typography key={i} color="inherit" component={Link} to={`/home/${path}`}>{path}</Typography>
                                    )
                             }
                            
-                        }
-                    }   
+                        }  
                  })
             )
         };
 
         const ColorsPicker = ()=>{
+            if(empty(colors)){
+                return null;
+            }else{
             return(
             <FormGroup row={false}>
-                { ['White', 'Yellow', 'Orange', 'Red', 'Pink', 'Purple', 'Blue', 'Green', 'Black'].map((color, i)=>{
+                { colors.map((color, i)=>{
                         return(
                             <FormControlLabel
                             key={i}
                             control={
-                              <Checkbox
-                                color="default" 
-                                checked={this.state[color]} 
-                                onChange={this.handleChange(color)}
-                                value={color} 
+                                <Checkbox
+                                    color="default" 
+                                    checked={!!this.state.colors[color]} 
+                                    onChange={this.handleColorChange(color)}
+                                    value={color} 
                                 />
                             }
                             label={color}
@@ -515,29 +286,34 @@ class Page extends Component {
                     })}
             </FormGroup>
             )
+            }
         }
 
         const SizePicker = ()=>{
+            if(empty(size)){
+                return null;
+            }else{
             return(
             <FormGroup row={false}>
-                { ['M', 'L', 'XL', 'S', 'XXL'].map((size, i)=>{
+                { size.map((s, i)=>{
                         return(
                             <FormControlLabel
                             key={i}
                             control={
                               <Checkbox
                                 color="default" 
-                                checked={this.state[size]} 
-                                onChange={this.handleChange(size)}
-                                value={size} 
+                                checked={!!this.state.size[s]} 
+                                onChange={this.handleSizeChange(s)}
+                                value={s} 
                                 />
                             }
-                            label={size}
+                            label={s}
                           />
                         )
                     })}
             </FormGroup>
             )
+            }
         }
 
         const defaultRefine = ()=>{
@@ -551,13 +327,13 @@ class Page extends Component {
         }
 
         const RenderProduts = ()=>{
-            if(this.state.Products.length === 0){
+            if(empty(this.props.Products)){
                 return(
                     <p>No Products are Added yet !</p>
                 )
             }else{
                 return(
-                    this.state.Products.map((d, i)=>{
+                    this.props.Products.map((d, i)=>{
                        return(
                         <div key={i} className="ProductCard">
                             <div className="ProductOnHoverBG"></div>
@@ -577,6 +353,22 @@ class Page extends Component {
             }
         }
 
+        const RenderSubLink = () =>{
+            if(empty(childrenLink)){
+                return null;
+            }else{
+                return(
+                    <div className={classes.SubLinks}>
+                        {childrenLink.map((childLink, i)=>{
+                            return(
+                                <Typography key={i} className={classes.Panel_Link} color="inherit" component={Link} to={`${pathname}/${childLink}`}>{childLink}</Typography>
+                            )
+                        })}
+                    </div>
+                )
+            }
+        }
+
         const RenderFilter = () =>{
             return(
                 <div className="side_filter_nav">
@@ -585,11 +377,7 @@ class Page extends Component {
                         </Breadcrumbs>
                         <div className={classes.FilterSubLink}>
                             <h3 className={classes.PanelTitle}>{this.props.title}</h3>
-                            <div className={classes.SubLinks}>
-                                <Link className={classes.Panel_Link}  color="inherit" href={`${pathname}/clothing`}>Clothing</Link>
-                                    <Link className={classes.Panel_Link}  color="inherit" href={`${pathname}/Shoes`}>Shoes</Link>
-                                    <Link className={classes.Panel_Link} color="inherit" href={`${pathname}/Accessories`}>Accessories</Link>
-                            </div>
+                            {RenderSubLink()}
                         </div>
                         <div className={classes.FilterSubLink}>
                             <h3 className={classes.PanelTitle}>refine by</h3>
@@ -598,7 +386,7 @@ class Page extends Component {
                                 {this.state.Filters.map((filter, i)=>(
                                     <Chip
                                         key={i}
-                                        label={filter}
+                                        label={filter.value}
                                         className={classes.chip}
                                         onDelete={this.handleDelete(filter)} 
                                     />
@@ -700,6 +488,8 @@ class Page extends Component {
 
                 </div>
                 <ProductDialog open={this.state.DialogOpen} handleDialogClose={this.handleDialogClose} product={this.state.DialogProduct} />
+
+               
             </div>
         )
     }

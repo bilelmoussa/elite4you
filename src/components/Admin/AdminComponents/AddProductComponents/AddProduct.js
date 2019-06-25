@@ -99,6 +99,7 @@ class AddProduct extends Component {
         super();
         this.state = {
             ProductName: "",
+            ProductDescription: "",
             ProductPrice: "",
             ProductDiscount: "",
             ProductQuantity: "",
@@ -121,28 +122,54 @@ class AddProduct extends Component {
     AddColor = () =>{
         const {Color, ProductColors} = this.state;
         if(!empty(Color) && Color != 0){
-            this.setState({ProductColors: [...ProductColors, Color], Color: "0"});
+            const ExistColor = ProductColors.indexOf(Color);
+            if(ExistColor === -1){
+                this.setState({ProductColors: [...ProductColors, Color], Color: "0"});
+            }
         } 
     }
 
-    AddCategorie = () =>{
+    handleCategorieDelete = categorie => () =>{
+        const {ProductCategories} = this.state;
+        const chipToDelete = ProductCategories.indexOf(categorie);
+        ProductCategories.splice(chipToDelete, 1);
+        this.setState({ProductCategories: ProductCategories})
+    }
+
+    AddCategorie = ()  =>{
         const {Categorie, ProductCategories} = this.state;
         if(!empty(Categorie) && Categorie != 0){
-            this.setState({ProductCategories: [...ProductCategories, Categorie], Categorie: "0"});
+            if(ProductCategories.length === 0){
+                this.setState({ProductCategories: [...ProductCategories, Categorie], Categorie: "0"});
+            }else{
+                const chipToDelete = ProductCategories.indexOf(Categorie);
+                ProductCategories.splice(chipToDelete, 1);
+                this.setState({ProductCategories: [...ProductCategories, Categorie], Categorie: "0"});
+            }
         } 
     }
 
     AddChildCategorie = () =>{
         const {ChildCategorie, ProductChildCategories} = this.state;
         if(!empty(ChildCategorie) && ChildCategorie != 0){
-            this.setState({ProductChildCategories: [...ProductChildCategories, ChildCategorie], ChildCategorie: "0"});
+            if(ProductChildCategories.length === 0){
+                this.setState({ProductChildCategories: [...ProductChildCategories, ChildCategorie], ChildCategorie: "0"});
+            }else{
+                const chipToDelete = ProductChildCategories.indexOf(ChildCategorie);
+                ProductChildCategories.splice(chipToDelete, 1);
+                this.setState({ProductChildCategories: [...ProductChildCategories, ChildCategorie], ChildCategorie: "0"});
+            }
+            
         } 
     }
 
     AddSize = () =>{
         const {Size, ProductSize} = this.state;
         if(!empty(Size) && Size != 0){
-            this.setState({ProductSize: [...ProductSize, Size], Size: "0"});
+            const ExistSize = ProductSize.indexOf(Size);
+            if(ExistSize === -1){
+                this.setState({ProductSize: [...ProductSize, Size], Size: "0"});
+            }
         } 
     }
 
@@ -152,12 +179,7 @@ class AddProduct extends Component {
         });
     }
     
-    handleCategorieDelete = categorie => () =>{
-        const {ProductCategories} = this.state;
-        const chipToDelete = ProductCategories.indexOf(categorie);
-        ProductCategories.splice(chipToDelete, 1);
-        this.setState({ProductCategories: ProductCategories})
-    }
+
 
     handleChildCategorieDelete = childCategorie => () =>{
         const {ProductChildCategories} = this.state;
@@ -216,7 +238,14 @@ class AddProduct extends Component {
                         margin="normal"
                         variant="filled"
                     />
-
+                    <TextField 
+                        classes={{root: classes.textField}} 
+                        value={this.state.ProductDescription} 
+                        label="Description" 
+                        onChange={this.handleChange("ProductDescription")}
+                        margin="normal"
+                        variant="filled"
+                    />
                     <div className={classes.SelectField}>
                         <FormControl variant="filled" className={classes.FormSelect}>
                         <InputLabel htmlFor="filled-Categorie-native-simple">Categories</InputLabel>
