@@ -167,14 +167,14 @@ class home extends Component {
 
 
     render() {
-        const { classes } = this.props;
+        const { classes, match } = this.props;
         const { Sold_data, NewProducts_data } = this.state;
-
+        
         return (
                 <div id="home">
                     <div id="show_case">
                             <div id="bg_1" className={classes.bg_showcase}>
-                                <Button component={Link} to={`/home/Women`} className={classes.button_Base}>
+                                <Button component={Link} to={`${match.url}/women`} className={classes.button_Base}>
                                 <div className={classes.left_side_text}>
                                     <p className={classes.p_}><b className={classes.B_inside_p}>Womens</b> <br/> Id enim pariatur qui eiusmod. Ad velit mollit sint est in id culpa proident elit aliquip .</p> 
                                     <Button variant="contained" color="primary" classes={{root: classes.button}}>Explore</Button>  
@@ -183,10 +183,10 @@ class home extends Component {
                             </div>
                             <div  className={classes.under_side_text}>
                                     <p className={classes.under_p_}><b className={classes.under_B_inside_p}>Womens</b> <br/> Id enim pariatur qui eiusmod. Ad velit mollit sint est in id culpa proident elit aliquip .</p> 
-                                    <Button component={Link} to={`/home/Women`} variant="contained" color="primary" classes={{root: classes.button}}>Explore</Button>  
+                                    <Button component={Link} to={`${match.url}/women`} variant="contained" color="primary" classes={{root: classes.button}}>Explore</Button>  
                             </div>
                             <div id="bg_2" className={classes.bg_showcase}>
-                                <Button component={Link} to={`/home/kids`}  className={classes.button_Base}>
+                                <Button component={Link} to={`${match.url}/kids`}  className={classes.button_Base}>
                                 <div className={classes.left_side_text}>
                                     <p className={classes.p_}><b className={classes.B_inside_p}>Kids</b> <br/> Id enim pariatur qui eiusmod. Ad velit mollit sint est in id culpa proident elit aliquip .</p> 
                                     <Button  variant="contained" color="primary" classes={{root: classes.button}}>Explore</Button>  
@@ -195,10 +195,10 @@ class home extends Component {
                             </div>
                             <div  className={classes.under_side_text}>
                                     <p className={classes.under_p_}><b className={classes.under_B_inside_p}>Kids</b> <br/> Id enim pariatur qui eiusmod. Ad velit mollit sint est in id culpa proident elit aliquip .</p> 
-                                    <Button component={Link} to={`/home/Kids`} variant="contained" color="primary" classes={{root: classes.button}}>Explore</Button>  
+                                    <Button component={Link} to={`${match.url}/kids`} variant="contained" color="primary" classes={{root: classes.button}}>Explore</Button>  
                             </div>
                             <div id="bg_3" className={classes.bg_showcase}>
-                                <Button component={Link} to={`/home/Sale`} className={classes.button_Base}>
+                                <Button component={Link} to={`${match.url}/sale`} className={classes.button_Base}>
                                 <div className={classes.left_side_text}>
                                     <p className={classes.p_}><b className={classes.B_inside_p}>Find More</b> <br/> Id enim pariatur qui eiusmod. Ad velit mollit sint est in id culpa proident elit aliquip .</p> 
                                     <Button variant="contained" color="primary" classes={{root: classes.button}}>Explore</Button>  
@@ -207,7 +207,7 @@ class home extends Component {
                             </div>
                             <div  className={classes.under_side_text}>
                                     <p className={classes.under_p_}><b className={classes.under_B_inside_p}>Find More</b> <br/> Id enim pariatur qui eiusmod. Ad velit mollit sint est in id culpa proident elit aliquip .</p> 
-                                    <Button component={Link} to={`/home/Sale`} variant="contained" color="primary" classes={{root: classes.button}}>Explore</Button>  
+                                    <Button component={Link} to={`${match.url}/sale`} variant="contained" color="primary" classes={{root: classes.button}}>Explore</Button>  
                             </div>
                             
                     </div>

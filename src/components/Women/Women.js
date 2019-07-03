@@ -218,9 +218,9 @@ export default class Women extends Component {
                         <Page title="Women" colors={this.state.colors} size={this.state.size} childrenLink={this.state.childrenLink} Products={this.state.Products} pathname={this.props.match.path}/>
                         )}
                         />
-                    <Route exact path={`${match.path}/Clothing`} Component={Clothing}/>
-                    <Route exact path={`${match.path}/Shoes`} Component={Shoes}/>
-                    <Route exact path={`${match.path}/Accessories`} Component={Accessories}/>
+                    <Route exact path={`${match.path}/clothing`} component={Clothing}/>
+                    <Route exact path={`${match.path}/shoes`} component={Shoes}/>
+                    <Route exact path={`${match.path}/accessories`} component={Accessories}/>
                     <Route  component={PageNotFound}/>
                 </Switch>
              

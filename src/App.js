@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter  as Router, Route, Switch, Redirect } from 'react-router-dom';
+import { HashRouter  as Router, Route, Switch, Redirect } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from './store';
 import './App.scss';
@@ -8,6 +8,7 @@ import Admin from './components/Admin/Admin'
 import PageNotFound from './components/PageNotFound/PageNotFound'
 import setAuthToken from './setAuthToken';
 import { setCurrentUser } from './action/authentication';
+import Notification from './StyleComponents/Notification/Notification';
 
 if(localStorage.jwtToken) {
   setAuthToken(localStorage.jwtToken);
@@ -33,6 +34,7 @@ class App extends Component {
                   </div>
           </Router>
       </div>
+      <Notification />
       </Provider>
     );
   }

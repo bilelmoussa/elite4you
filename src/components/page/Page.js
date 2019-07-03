@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
@@ -18,6 +19,7 @@ import Visibility from '@material-ui/icons/Visibility'
 import {empty} from '../../is-empty';
 import ProductDialog from '../../StyleComponents/ProductDialog/ProductDialog';
 import { Link } from 'react-router-dom';
+import { AddToCart } from '../../action/authentication';
 
 const styles = theme =>({
     PanelDetailes:{
@@ -67,18 +69,8 @@ const styles = theme =>({
     chip: {  
         margin: theme.spacing(0.5),
     },
-    ButtonProduct:{
-        width: 150,
-        overflow: "hidden",
-        margin: "0 auto",
-        backgroundColor:"#ec6d6d",
-        '&:hover':{
-            backgroundColor: "#bd5555"
-        }
-    }
+
 })
-
-
 
 class Page extends Component {
     constructor(props){
@@ -211,8 +203,9 @@ class Page extends Component {
         this.setState({DialogOpen: false})
     }
 
+
     render() {
-        const {classes, pathname, colors, size, childrenLink, Products} = this.props;
+        const {classes, pathname, colors, size, childrenLink } = this.props;
         const pathnameLength = (pathname.match(/\//g) || []).length;
         let paths = [];
 
@@ -244,7 +237,7 @@ class Page extends Component {
                 paths.map((path, i)=>{
                         if(pathnameLength-1 === i){
                             return(
-                                <Typography key={i} color="textPrimary">{path}</Typography>
+                                <Typography className={classes.Panel_Link} key={i} color="textPrimary">{path}</Typography>
                             )
                         }else{
                             if(path === "home"){
@@ -253,7 +246,7 @@ class Page extends Component {
                                    )
                             }else{
                                 return(
-                                    <Typography key={i} color="inherit" component={Link} to={`/home/${path}`}>{path}</Typography>
+                                    <Typography className={classes.Panel_Link} key={i} color="inherit" component={Link} to={`/home/${path}`}>{path}</Typography>
                                    )
                             }
                            
@@ -264,7 +257,7 @@ class Page extends Component {
 
         const ColorsPicker = ()=>{
             if(empty(colors)){
-                return null;
+                return <div></div>;
             }else{
             return(
             <FormGroup row={false}>
@@ -291,7 +284,7 @@ class Page extends Component {
 
         const SizePicker = ()=>{
             if(empty(size)){
-                return null;
+                return <div></div>;
             }else{
             return(
             <FormGroup row={false}>
@@ -322,7 +315,7 @@ class Page extends Component {
                         <p>No filters applied</p>
                     )
                 }else{
-                    return null;
+                    return <p></p>;
                 }
         }
 
@@ -339,7 +332,6 @@ class Page extends Component {
                             <div className="ProductOnHoverBG"></div>
                             <div className="ProductOnHoverInfo">
                                 <Visibility className="VisibilityProduct" onClick={this.handleDialogOpen(d)}/>
-                                <Button className={classes.ButtonProduct} variant="contained" color="primary">add to cart</Button>
                             </div>
                             {this.Discount(d)}
                             {this.NewProduct(d)}
@@ -355,7 +347,7 @@ class Page extends Component {
 
         const RenderSubLink = () =>{
             if(empty(childrenLink)){
-                return null;
+                return <div></div>;
             }else{
                 return(
                     <div className={classes.SubLinks}>
@@ -497,6 +489,11 @@ class Page extends Component {
 
 Page.protoType = {
     classes: PropTypes.object.isRequired,
+    AddToCart: PropTypes.func.isRequired,
 }
 
-export default withStyles(styles)(Page);
+const mapStateToProps = (state)=> ({
+    user: state.user
+})
+
+export default connect(mapStateToProps, {AddToCart})(withStyles(styles)(Page));

@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -15,7 +16,7 @@ import {withStyles} from '@material-ui/core/styles';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
-
+import { AddToCart } from '../../action/authentication'
 
 const styles = theme => ({
     DialogContent:{
@@ -121,15 +122,32 @@ class ProductDialog extends Component {
 
 
     handleChange = name => event => {
-        this.setState({[name]: event.target.value });
+        if(empty(event.target.value)){
+           
+        }else{
+            this.setState({[name]: event.target.value });
+        }
     }
 
-    handleSubmit = (event) =>{
+    handleSubmit = (product) => (event) =>{
         event.preventDefault();
+        const {Quantity, Color, Size} = this.state;
+        product.ProductColor = Color;
+        product.ProductSize = Size;
+        product.ProductQuantity = Quantity;
+        this.props.AddToCart(product);
+
+        this.setState({Color: "", Quantity: "", Size: ""})
+    }
+
+    DialogClose = () =>{
+        this.props.handleDialogClose();
+        this.setState({Color: "", Quantity: "", Size: ""})
     }
 
     render() {
-        const{fullScreen, open, handleDialogClose, product, classes} = this.props;
+        const{fullScreen, open, product, classes} = this.props;
+
 
 
         const RenderDescription = (p) =>{
@@ -152,7 +170,7 @@ class ProductDialog extends Component {
                 return null;
             }else{
                 return(
-                <FormControl className={classes.SizeInput}>
+                <FormControl required className={classes.SizeInput}>
                 <InputLabel htmlFor="Size-native-simple">Size</InputLabel>
                     <Select
                         native
@@ -180,7 +198,7 @@ class ProductDialog extends Component {
                 return null;
             }else{
                 return(
-                    <FormControl className={classes.colorsInput}>
+                    <FormControl required className={classes.colorsInput}>
                     <InputLabel htmlFor="Color-native-simple">Colors</InputLabel>
                         <Select
                             native
@@ -227,7 +245,7 @@ class ProductDialog extends Component {
                     <Dialog
                         fullScreen={fullScreen}
                         open={open}
-                        onClose={handleDialogClose}
+                        onClose={this.DialogClose}
                         aria-labelledby="responsive-dialog-title"
                     >
                     <DialogTitle id="responsive-dialog-title">{"Product Not load it yet !"}</DialogTitle>
@@ -237,7 +255,7 @@ class ProductDialog extends Component {
                     </DialogContentText>
                     </DialogContent>
                     <DialogActions>
-                    <Button onClick={handleDialogClose} color="primary" autoFocus>
+                    <Button onClick={this.DialogClose} color="primary" autoFocus>
                         Go Back
                     </Button>
                     </DialogActions>
@@ -249,7 +267,7 @@ class ProductDialog extends Component {
                         fullScreen={fullScreen}
                         maxWidth="lg"
                         open={open}
-                        onClose={handleDialogClose}
+                        onClose={this.DialogClose}
                         aria-labelledby="responsive-dialog-title"
                     >
                     <DialogTitle id="responsive-dialog-title">{product.ProductName}</DialogTitle>
@@ -258,19 +276,20 @@ class ProductDialog extends Component {
                         <div className={classes.BigProductInfo}>
                             {ProductPrice(product)}
                             <Divider className={classes.ProductDivider}/>
-                            <form onSubmit={this.handleSubmit} className={classes.BigProductForm}>
+                            <form onSubmit={this.handleSubmit(product)} className={classes.BigProductForm}>
                                 {RenderColorPicker(product)}
                                 {RednerSizePicker(product)}
                                 <NumberFormat
+                                    required
                                     className={classes.QuantityInput}
                                     customInput={TextField}
                                     label="Quantity"
-                                    value={this.state.ProductQuantity}
-                                    onChange={this.handleChange("ProductQuantity")}
+                                    value={this.state.Quantity}
+                                    onChange={this.handleChange("Quantity")}
                                     margin="normal"
                                     allowNegative={false}
+                                    allowEmptyFormatting={false}
                                 />
-                               
                                 <Button type="submit" className={classes.BigProductBtn} variant="contained" color="primary">add to cart</Button>
                             </form>
                             <Divider className={classes.ProductDivider}/>
@@ -278,7 +297,7 @@ class ProductDialog extends Component {
                         </div>
                     </DialogContent>
                     <DialogActions>
-                    <Button onClick={handleDialogClose} color="primary" autoFocus>
+                    <Button onClick={this.DialogClose} color="primary" autoFocus>
                         Go Back
                     </Button>
                     </DialogActions>
@@ -298,6 +317,11 @@ class ProductDialog extends Component {
 ProductDialog.propTypes = {
     fullScreen: PropTypes.bool.isRequired,
     classes: PropTypes.object.isRequired,
+    AddToCart: PropTypes.func.isRequired,
 };
 
-export default withStyles(styles)(withMobileDialog()(ProductDialog));
+const mapStateTopProps = (state) => ({
+    user: state.user
+})
+
+export default connect(mapStateTopProps, {AddToCart})(withStyles(styles)(withMobileDialog()(ProductDialog)));

@@ -199,11 +199,10 @@ class Navigation extends Component {
     };
 
     render() {
-        const { classes } = this.props;
-    const { anchorEl, mobileMoreAnchorEl } = this.state;
-    const isMenuOpen = Boolean(anchorEl);
-    const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
+      const { classes, match } = this.props;
+      const { anchorEl, mobileMoreAnchorEl } = this.state;
+      const isMenuOpen = Boolean(anchorEl);
+      const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
 
     const renderMenu = (
@@ -244,7 +243,7 @@ class Navigation extends Component {
           </IconButton>
           <p>Notifications</p>
         </MenuItem>
-        <MenuItem onClick={this.handleMobileMenuClose}>
+        <MenuItem  component={Link} to={`${match.url}/cart`} onClick={this.handleMobileMenuClose}>
             <IconButton color="inherit">
                 <Badge badgeContent={1} color="secondary">
                 <LocalGroceryStore />
@@ -264,36 +263,36 @@ class Navigation extends Component {
     const drawer = (
       <div className={classes.InsidePaper}>
         <div className={classes.toolbar} />
-        <Typography onClick={this.handleCloseBtn} component={Link} to={`/home`} className="title"  variant="h3" color="inherit" noWrap>
+        <Typography onClick={this.handleCloseBtn} component={Link} to={`${match.url}`} className="title"  variant="h3" color="inherit" noWrap>
               Elite4Her
         </Typography>
         <Divider />
         <List>
-            <ListItem onClick={this.handleCloseBtn}  component={Link} to={`/home/Women`} button  className={classes.List_Item}>
+            <ListItem onClick={this.handleCloseBtn}  component={Link} to={`${match.url}/women`} button  className={classes.List_Item}>
               <ListItemText classes={{primary: classes.List_Text}} primary="Women" />
             </ListItem>
-            <ListItem onClick={this.handleCloseBtn} component={Link} to={`/home/Kids`} button className={classes.List_Item}>
+            <ListItem onClick={this.handleCloseBtn} component={Link} to={`${match.url}/kids`} button className={classes.List_Item}>
               <ListItemText classes={{primary: classes.List_Text}} primary="Kids" />
             </ListItem>
-            <ListItem onClick={this.handleCloseBtn} component={Link} to={`/home/Sale`} button className={classes.List_Item}>
+            <ListItem onClick={this.handleCloseBtn} component={Link} to={`${match.url}/sale`} button className={classes.List_Item}>
               <ListItemText classes={{primary: classes.List_Text}} primary="Sale" />
             </ListItem>
         </List>
         <Divider />
         <List>
-        <ListItem onClick={this.handleCloseBtn} component={Link} to={`/home/NewProducts`} button  className={classes.List_Item}>
+        <ListItem onClick={this.handleCloseBtn} component={Link} to={`${match.url}/NewProducts`} button  className={classes.List_Item}>
             <ListItemText classes={{primary: classes.List_Text}} primary="New Products" />
         </ListItem>
-        <ListItem onClick={this.handleCloseBtn} component={Link} to={`/home/Trend`} button  className={classes.List_Item}>
+        <ListItem onClick={this.handleCloseBtn} component={Link} to={`${match.url}/trend`} button  className={classes.List_Item}>
             <ListItemText classes={{primary: classes.List_Text}} primary="Trend" />
         </ListItem>
         </List>
         <Divider />
         <List>
-        <ListItem onClick={this.handleCloseBtn} component={Link} to={`/home/ContactUs`} button  className={classes.List_Item}>
+        <ListItem onClick={this.handleCloseBtn} component={Link} to={`${match.url}/ContactUs`} button  className={classes.List_Item}>
             <ListItemText classes={{primary: classes.List_Text}} primary="Contact Us" />
         </ListItem>
-        <ListItem onClick={this.handleCloseBtn} component={Link} to={`/home/AboutUs`} button  className={classes.List_Item}>
+        <ListItem onClick={this.handleCloseBtn} component={Link} to={`${match.url}/AboutUs`} button  className={classes.List_Item}>
             <ListItemText classes={{primary: classes.List_Text}} primary="About Us" />
         </ListItem>
         </List>
@@ -325,7 +324,7 @@ class Navigation extends Component {
                           >
                           <MenuIcon />
                           </IconButton>
-                          <Typography component={Link} to={`/`} className={classes.Title}  variant="h4" color="inherit">
+                          <Typography component={Link} to={`${match.url}`} className={classes.Title}  variant="h4" color="inherit">
                               Elite4Her
                           </Typography>
                           <div className={classes.search}>
@@ -352,7 +351,7 @@ class Navigation extends Component {
                                     <NotificationsIcon />
                                   </Badge>
                                 </IconButton>
-                                <IconButton color="inherit">
+                                <IconButton component={Link} to={`${match.url}/cart`} color="inherit">
                                   <Badge badgeContent={1} color="secondary">
                                       <LocalGroceryStore />
                                   </Badge>    

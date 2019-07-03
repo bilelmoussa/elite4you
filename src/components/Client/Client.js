@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { withStyles, createMuiTheme } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import List from '@material-ui/core/List';
@@ -18,6 +19,8 @@ import NewsLetter from '../../StyleComponents/NewsLetter/NewsLetter';
 import Navigation from '../../StyleComponents/Navigation/Navigation';
 import PageNotFound from '../PageNotFound/PageNotFound'
 import { ThemeProvider } from '@material-ui/styles';
+import Cart from '../Cart/Cart';
+
 
 const theme = createMuiTheme({
   palette: {
@@ -107,75 +110,77 @@ const styles = theme => ({
 class Client extends Component {
  
   render() {
-    const { classes } = this.props;
- 
+    const { classes, match } = this.props;
+
     return (
       <div className={classes.root}>
         <CssBaseline />
+
         <ThemeProvider theme={theme} >
 
-        <Navigation />
+        <Navigation match={match} />
 
         <main className={classes.content}>
 
-                              <Switch>
-                                    <Route exact path={'/home'} component={home} />
-                                    <Route path={'/home/Women'} component={Women} />
-                                    <Route exact path={'/home/Kids'} component={Kids} />
-                                    <Route exact path={'/home/Sale'} component={Sale} />
-                                    <Route exact path={'/home/NewProducts'} component={NewProducts} />
-                                    <Route exact path={'/home/Trend'} component={Trend} />
-                                    <Route exact path={'/home/ContactUs'} component={ContactUs} />
-                                    <Route exact path={'/home/AboutUs'} component={AboutUs} />
-                                    <Route component={PageNotFound}/>
-                              </Switch>
+          <Switch>
+              <Route exact path={`${match.path}`} component={home} />
+              <Route path={`${match.path}/women`} component={Women} />
+              <Route exact path={`${match.path}/kids`} component={Kids} />
+              <Route exact path={`${match.path}/sale`} component={Sale} />
+              <Route exact path={`${match.path}/NewProducts`} component={NewProducts} />
+              <Route exact path={`${match.path}/trend`} component={Trend} />
+              <Route exact path={`${match.path}/ContactUs`} component={ContactUs} />
+              <Route exact path={`${match.path}/AboutUs`} component={AboutUs} />
+              <Route path={`${match.path}/cart`} component={Cart} />
+              <Route component={PageNotFound}/>
+          </Switch>
 
-                          <NewsLetter />
+        <NewsLetter />
 
-                        <ThemeProvider theme={theme_2} >
-                        <div className={classes.footer}>
-                              <List className={classes.ListMenu}>
-                                  <p className={classes.List_Name}>useful links</p>          
-                                  <ListItem button  classes={{root:classes.List_Item, button: classes.rootListText}}>
-                                    <ListItemText classes={{primary: classes.Footer_List_Text}} primary="About us" />
-                                  </ListItem>
-                                  <ListItem  button classes={{root:classes.List_Item, button: classes.rootListText}}>
-                                    <ListItemText classes={{primary: classes.Footer_List_Text}} primary="My account" />
-                                  </ListItem>
-                              </List>
+        <ThemeProvider theme={theme_2} >
+            <div className={classes.footer}>
 
-                              <List className={classes.ListMenu}>
-                                  <p className={classes.List_Name}>help</p>          
-                                  <ListItem button  classes={{root:classes.List_Item, button: classes.rootListText}}>
-                                    <ListItemText classes={{primary: classes.Footer_List_Text}} primary="Contact Us" />
-                                  </ListItem>
-                                  <ListItem  button classes={{root:classes.List_Item, button: classes.rootListText}}>
-                                    <ListItemText classes={{primary: classes.Footer_List_Text}} primary="FAQ" />
-                                  </ListItem>
-                                  <ListItem  button classes={{root:classes.List_Item, button: classes.rootListText}}>
-                                    <ListItemText classes={{primary: classes.Footer_List_Text}} primary="shipping" />
-                                  </ListItem>
-                                  <ListItem  button classes={{root:classes.List_Item, button: classes.rootListText}}>
-                                    <ListItemText classes={{primary: classes.Footer_List_Text}} primary="payment" />
-                                  </ListItem>
-                              </List>
+                <List className={classes.ListMenu}>
+                    <p className={classes.List_Name}>useful links</p>          
+                    <ListItem button  classes={{root:classes.List_Item, button: classes.rootListText}}>
+                        <ListItemText classes={{primary: classes.Footer_List_Text}} primary="About us" />
+                    </ListItem>
+                    <ListItem  button classes={{root:classes.List_Item, button: classes.rootListText}}>
+                        <ListItemText classes={{primary: classes.Footer_List_Text}} primary="My account" />
+                    </ListItem>
+                </List>
 
-                              <List className={classes.ListMenu}>
-                                  <p className={classes.List_Name}>Social media</p>          
-                                  <ListItem button  classes={{root:classes.List_Item, button: classes.rootListText}}>
-                                    <ListItemText classes={{primary: classes.Footer_List_Text}} primary="facebook" />
-                                  </ListItem>
-                                  <ListItem  button classes={{root:classes.List_Item, button: classes.rootListText}}>
-                                    <ListItemText classes={{primary: classes.Footer_List_Text}} primary="instagram" />
-                                  </ListItem>
-                              </List>
+                <List className={classes.ListMenu}>
+                    <p className={classes.List_Name}>help</p>          
+                    <ListItem button  classes={{root:classes.List_Item, button: classes.rootListText}}>
+                        <ListItemText classes={{primary: classes.Footer_List_Text}} primary="Contact Us" />
+                    </ListItem>
+                    <ListItem  button classes={{root:classes.List_Item, button: classes.rootListText}}>
+                        <ListItemText classes={{primary: classes.Footer_List_Text}} primary="FAQ" />
+                    </ListItem>
+                    <ListItem  button classes={{root:classes.List_Item, button: classes.rootListText}}>
+                        <ListItemText classes={{primary: classes.Footer_List_Text}} primary="shipping" />
+                    </ListItem>
+                    <ListItem  button classes={{root:classes.List_Item, button: classes.rootListText}}>
+                        <ListItemText classes={{primary: classes.Footer_List_Text}} primary="payment" />
+                    </ListItem>
+                </List>
 
-                        </div>
-                        </ThemeProvider>
+                <List className={classes.ListMenu}>
+                    <p className={classes.List_Name}>Social media</p>          
+                    <ListItem button  classes={{root:classes.List_Item, button: classes.rootListText}}>
+                        <ListItemText classes={{primary: classes.Footer_List_Text}} primary="facebook" />
+                    </ListItem>
+                    <ListItem  button classes={{root:classes.List_Item, button: classes.rootListText}}>
+                        <ListItemText classes={{primary: classes.Footer_List_Text}} primary="instagram" />
+                    </ListItem>
+                </List>
 
-              </main>
-              </ThemeProvider>
+            </div>
+        </ThemeProvider>
 
+        </main>
+        </ThemeProvider>
       </div>
     )
   }
@@ -185,4 +190,9 @@ Client.propTypes = {
   classes: PropTypes.object.isRequired,
 }
 
-export default withStyles(styles)(Client)
+const mapStateToProps = (state) =>({
+  user: state.user
+})
+
+
+export default connect(mapStateToProps)(withStyles(styles)(Client));
