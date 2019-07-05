@@ -25,6 +25,8 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import Badge from '@material-ui/core/Badge';
 import LocalGroceryStore from '@material-ui/icons/LocalGroceryStore'
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import {empty} from '../../is-empty';
 
 const theme = createMuiTheme({
 
@@ -169,8 +171,46 @@ class Navigation extends Component {
           anchorEl: null,
           mobileMoreAnchorEl: null,
           Email_User: "",
+          Products: [],
         }
     
+      }
+
+      componentDidMount(){
+        const localStorageCartItem = localStorage.getItem('CardItems');
+        const ProductsItem = JSON.parse(localStorageCartItem);
+        if(empty(ProductsItem)){
+            return null;
+        }else{
+            ProductsItem.forEach((item, i)=>{
+                item.ClientId = i;
+                this.setState(prevState => ({Products: [ ...prevState.Products, item ]}));
+            })
+        }
+      }
+
+      static getDerivedStateFromProps(nextProps, prevState){
+        if(nextProps !== prevState){
+            if(empty(nextProps.cart.CartItems)){
+                return null;
+            }else{
+                return{Products: nextProps.cart.CartItems}    
+            }
+        }else{
+            return null;
+        }
+      }
+
+      componentDidUpdate(prevProps, prevState){
+        if(prevProps !== this.props){
+            if(empty(this.props.cart.CartItems)){
+                return null;
+            }else{
+               this.setState({Products: this.props.cart.CartItems});
+            }
+        }else{
+            return null;
+        }
       }
     
       handleDrawerToggle = () => {
@@ -200,10 +240,19 @@ class Navigation extends Component {
 
     render() {
       const { classes, match } = this.props;
-      const { anchorEl, mobileMoreAnchorEl } = this.state;
+      const { anchorEl, mobileMoreAnchorEl, Products } = this.state;
       const isMenuOpen = Boolean(anchorEl);
       const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
+      let AllItemsQuantity = Products.map((product)=>{
+        return(parseInt(product.ProductQuantity, 10))
+      })
+      let sum = 0;
+      AllItemsQuantity.forEach((q, i)=>{
+        sum += q
+      })
+
+    let itemsQuantity = sum;
 
     const renderMenu = (
       <Menu
@@ -245,7 +294,7 @@ class Navigation extends Component {
         </MenuItem>
         <MenuItem  component={Link} to={`${match.url}/cart`} onClick={this.handleMobileMenuClose}>
             <IconButton color="inherit">
-                <Badge badgeContent={1} color="secondary">
+                <Badge badgeContent={itemsQuantity} color="secondary">
                 <LocalGroceryStore />
                 </Badge>
             </IconButton>
@@ -352,7 +401,7 @@ class Navigation extends Component {
                                   </Badge>
                                 </IconButton>
                                 <IconButton component={Link} to={`${match.url}/cart`} color="inherit">
-                                  <Badge badgeContent={1} color="secondary">
+                                  <Badge badgeContent={itemsQuantity} color="secondary">
                                       <LocalGroceryStore />
                                   </Badge>    
                                 </IconButton>
@@ -408,6 +457,11 @@ class Navigation extends Component {
 
 Navigation.protoType ={
     classes: PropTypes.object.isRequired,
+    cart: PropTypes.object.isRequired,
 }
 
-export default withStyles(styles)(Navigation)
+const mapStateToProps = (state) => ({
+  cart: state.cart
+})
+
+export default connect(mapStateToProps)(withStyles(styles)(Navigation))

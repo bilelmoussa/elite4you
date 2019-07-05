@@ -16,6 +16,7 @@ if(localStorage.jwtToken) {
   store.dispatch(setCurrentUser(decoded));
 }
 
+
 class App extends Component {
 
   render(){

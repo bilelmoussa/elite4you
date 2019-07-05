@@ -1,6 +1,6 @@
-import { SET_CURRENT_USER, CARD_ITEMS, NOTIFICATION_ERROR, NOTIFICATION_SUCCESS, NOTIFICATION_WARNING, NOTIFICATION_INFO } from './types';
+import { SET_CURRENT_USER, CARD_ITEMS, NOTIFICATION_ERROR, NOTIFICATION_SUCCESS, NOTIFICATION_WARNING, NOTIFICATION_INFO, GEO_INFO } from './types';
 import setAuthToken from '../setAuthToken';
-
+import axios from 'axios';
 
 
 export const CloseNotification = (type) => dispatch =>{
@@ -61,7 +61,6 @@ const getLocalCartItem = () =>{
 export const AddToCart = CardItem => dispatch => {
     const localCardItems = getLocalCartItem() || [];
     const sameItemName = localCardItems.map((item)=>{return item.ProductName}).indexOf(CardItem.ProductName);
-  
     const SaveItem = () =>{
         let message = "A New Product Added To Your Cart !"
         localCardItems.push(CardItem);
@@ -124,7 +123,7 @@ export const AddToCart = CardItem => dispatch => {
     }
 }
 
-export const DeleteCartProduct = (Products) => (dispatch) =>{
+export const ChangeProducts = (Products) => (dispatch) =>{
     localStorage.removeItem('CardItems');
     let StoreItems = JSON.stringify(Products);
     localStorage.setItem('CardItems', StoreItems);
@@ -132,5 +131,36 @@ export const DeleteCartProduct = (Products) => (dispatch) =>{
         type: CARD_ITEMS,
         payload: Products
     })    
+}
+
+export const getGeoInfo = () => (dispatch) => {
+    axios.get('https://ipapi.co/json/').then((response) => {
+        let data = response.data;
+        dispatch({
+            type: GEO_INFO,
+            payload: data,
+        })
+    }).catch((error) => {
+        console.log(error);
+        let message= "Can't Get 'https://ipapi.co/json/' Error 404 !"
+        dispatch({
+            type: NOTIFICATION_ERROR,
+            payload: {message: message}
+        })
+        setTimeout(() => {
+            CloseNotification("error")
+        }, 5000); 
+    });
+};
+
+export const ChangeClientCountry = (val) => (dispatch) =>{
+    let data ={
+        country: val
+    }
+    
+    dispatch({
+        type:GEO_INFO,
+        payload: data
+    })
 }
 

@@ -135,6 +135,7 @@ class ProductDialog extends Component {
         product.ProductColor = Color;
         product.ProductSize = Size;
         product.ProductQuantity = Quantity;
+        product.PriceTotal = product.ProductPrice * Quantity;
         this.props.AddToCart(product);
 
         this.setState({Color: "", Quantity: "", Size: ""})

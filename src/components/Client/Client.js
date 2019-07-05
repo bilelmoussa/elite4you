@@ -20,7 +20,7 @@ import Navigation from '../../StyleComponents/Navigation/Navigation';
 import PageNotFound from '../PageNotFound/PageNotFound'
 import { ThemeProvider } from '@material-ui/styles';
 import Cart from '../Cart/Cart';
-
+import {getGeoInfo} from '../../action/authentication';
 
 const theme = createMuiTheme({
   palette: {
@@ -108,7 +108,10 @@ const styles = theme => ({
 
 
 class Client extends Component {
- 
+  
+  componentDidMount(){
+    this.props.getGeoInfo()
+  }
   render() {
     const { classes, match } = this.props;
 
@@ -188,6 +191,7 @@ class Client extends Component {
 
 Client.propTypes = {
   classes: PropTypes.object.isRequired,
+  getGeoInfo: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = (state) =>({
@@ -195,4 +199,4 @@ const mapStateToProps = (state) =>({
 })
 
 
-export default connect(mapStateToProps)(withStyles(styles)(Client));
+export default connect(mapStateToProps, {getGeoInfo})(withStyles(styles)(Client));
