@@ -261,7 +261,6 @@ class Cart extends Component {
             }else if(!empty(this.props.cart.CartItems) && empty(this.props.GeoInfo.data)){
                 this.setState({Products: this.props.cart.CartItems});
             }else if(empty(this.props.cart.CartItems) && !empty(this.props.GeoInfo.data)){
-                this.refs.userFlag.updateSelected(this.props.GeoInfo.data.country)
                 this.setState({
                     country: this.props.GeoInfo.data.country
                 })
