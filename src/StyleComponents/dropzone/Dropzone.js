@@ -79,11 +79,12 @@ export default class Dropzone extends Component {
                     className="Icon" 
                 />
                 <input
+                    onChange={this.onFilesAdded}
                     ref={this.fileInputRef}
                     className="FileInput"
+                    value={""}
                     type="file"
                     multiple
-                    onChange={this.onFilesAdded}
                 />
                 <span>Upload Files</span>
              

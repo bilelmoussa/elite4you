@@ -1,9 +1,6 @@
 import React, { Component } from 'react'
 import './Upload.scss';
 import Dropzone from '../dropzone/Dropzone';
-import Progress from '../progress/Progress';
-import CheckCircleOutline from '@material-ui/icons/CheckCircleOutline'
-import {Button} from '@material-ui/core';
 import Delete from '@material-ui/icons/Delete';
 
 export default class Upload extends Component {
@@ -15,146 +12,71 @@ export default class Upload extends Component {
             uploadProgress: {},
             successfullUploaded: false
         };
-
-        this.uploadFiles = this.uploadFiles.bind(this);
-
     }
 
     onFilesAdded = (files) => {
+      let FilesNmb =  files.length + this.state.files.length;
+      let maxFileUploads = false;
+      let FileToDelete = [];
+
+
+      if(FilesNmb > 3){
+          maxFileUploads = true;
+      }
+
+
+      if(!maxFileUploads){
         let key_id  = 0;
         if(this.state.files.length === 0){
           key_id = this.state.files.length;
         }else{
           key_id = this.state.files[this.state.files.length - 1].id +1;
         }
+  
 
-
-        files.forEach((file)=>{
+        files.forEach((file, i)=>{
           file.id = key_id;
           key_id++;
+
+          if(file.size > 1000000){
+            console.log("Heigh Size !!!");
+            FileToDelete.push(file);
+          }
+
+          this.state.files.forEach((f)=>{
+            if(file.name === f.name && file.lastModified === f.lastModified && file.size === f.size && file.type === f.type ){
+                FileToDelete.push(file);
+            }
+          })
+          
         });
+
+        
+        if(FileToDelete.length > 0){
+          FileToDelete.forEach((F)=>{
+            let index = files.indexOf(F)
+            files.splice(index, 1);
+          })
+        }
+
+
+
+        console.log("Choosed Files: ",files);
 
         this.setState(prevState => ({
           files: prevState.files.concat(files)
         }));
+  
         if (this.props.onFilesAdded) {
           this.props.onFilesAdded(files);
         }
+
+      }else{
+        console.log('max files');
+      }
+     
     }
 
-    renderProgress = (file) => {
-        const uploadProgress = this.state.uploadProgress[file.name];
-        if (this.state.uploading || this.state.successfullUploaded) {
-          return (
-            <div className="ProgressWrapper">
-              <Progress progress={uploadProgress ? uploadProgress.percentage : 0} />
-              <CheckCircleOutline 
-                className="CheckIcon"
-                style={{
-                    opacity:
-                      uploadProgress && uploadProgress.state === "done" ? 0.5 : 0
-                }}
-              />
-            </div>
-          );
-        }
-    }
-
-  renderActions = () => {
-        if (this.state.successfullUploaded) {
-          return (
-            <Button
-              onClick={() =>
-                this.setState({ files: [], successfullUploaded: false })
-              }
-              color="primary"
-              variant="contained"
-              className="upload_btn"
-            >
-              Clear
-            </Button>
-          );
-        } else {
-          if(this.state.files.length === 0 || this.state.uploading){
-            return(
-              <Button
-                className="upload_btn"
-                onClick={this.uploadFiles}
-                disabled 
-                color="primary"
-                variant="contained"
-              >
-              Upload
-            </Button>
-            )
-          }else{
-            return(
-              <Button
-                className="upload_btn"
-                onClick={this.uploadFiles}
-                color="primary"
-                variant="contained"
-              >
-              Upload
-            </Button>
-            )
-          }
-
-        }
-    }
-
-    async uploadFiles(){
-        this.setState({ uploadProgress: {}, uploading: true });
-        const promises = [];
-        this.state.files.forEach(file => {
-          promises.push(this.sendRequest(file));
-        });
-        try {
-          await Promise.all(promises);
-      
-          this.setState({ successfullUploaded: true, uploading: false });
-        } catch (e) {
-          // Not Production ready! Do some error handling here instead...
-          this.setState({ successfullUploaded: true, uploading: false });
-        }
-    }
-
-    sendRequest = (file) => {
-        return new Promise((resolve, reject) => {
-          const req = new XMLHttpRequest();
-
-          req.upload.addEventListener("progress", event => {
-            if (event.lengthComputable) {
-             const copy = { ...this.state.uploadProgress };
-             copy[file.name] = {
-              state: "pending",
-              percentage: (event.loaded / event.total) * 100
-             };
-             this.setState({ uploadProgress: copy });
-            }
-           });
-            
-           req.upload.addEventListener("load", event => {
-            const copy = { ...this.state.uploadProgress };
-            copy[file.name] = { state: "done", percentage: 100 };
-            this.setState({ uploadProgress: copy });
-            resolve(req.response);
-           });
-            
-           req.upload.addEventListener("error", event => {
-            const copy = { ...this.state.uploadProgress };
-            copy[file.name] = { state: "error", percentage: 0 };
-            this.setState({ uploadProgress: copy });
-            reject(req.response);
-           });
-
-          const formData = new FormData();
-          formData.append("file", file, file.name);
-      
-          req.open("POST", "http://localhost:5000/api/upload/file");
-          req.send(formData);
-        });
-    }
 
     handeleDeleteFile = (target) => () =>{
       const {files} = this.state;
@@ -163,7 +85,11 @@ export default class Upload extends Component {
         files.splice(index, 1);
         this.setState({files: files});
       }
-      this.props.handeleDeleteFile(target);
+
+      if(this.props.handeleDeleteFile){
+        this.props.handeleDeleteFile(target);
+      }
+      
     }
 
     render() {
@@ -178,7 +104,7 @@ export default class Upload extends Component {
                     <div className="Files" >
                         {this.state.files.map(file => {
                             return (
-                                <div key={file.id} className="Row">
+                                <div key={file.id+Date()} className="Row">
                                 <div className="delete_file" onClick={this.handeleDeleteFile(file)}><Delete/></div>   
                                 <span className="Filename">{file.name}</span>
                                 <div className="ImageContainer">
@@ -189,7 +115,6 @@ export default class Upload extends Component {
                                         height="100%"
                                     />
                                 </div>  
-                                {this.renderProgress(file)}
                                 </div>
                             );
                         })}

@@ -359,7 +359,18 @@ body{
     width: 100%;
 }
 
+.react-phone-number-input__icon{
+    width: 40px !important;
+    height: 30px !important; 
+}
 
+.react-phone-number-input__input:focus{
+    border-color: #303f9f !important;
+}
+
+.SelectPhone{
+    padding-right: 0 !important
+}
 
 
 @media(max-width: 1000px){

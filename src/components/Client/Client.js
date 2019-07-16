@@ -45,7 +45,7 @@ const styles = theme => ({
     width: "100%",
     margin: "32px 0 0 0",
     padding: `${theme.spacing(3)}px 0 0 0`,
-    [theme.breakpoints.up('md')]: {
+    [theme.breakpoints.up('xl')]: {
       width: `calc(100% - ${drawerWidth}px)`,
     },
   },
@@ -134,7 +134,7 @@ class Client extends Component {
               <Route exact path={`${match.path}/trend`} component={Trend} />
               <Route exact path={`${match.path}/ContactUs`} component={ContactUs} />
               <Route exact path={`${match.path}/AboutUs`} component={AboutUs} />
-              <Route path={`${match.path}/cart`} component={Cart} />
+              <Route path={`${match.path}/cart`} render={()=><Cart Tax={2.5} />} />
               <Route component={PageNotFound}/>
           </Switch>
 

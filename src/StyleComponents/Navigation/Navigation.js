@@ -36,7 +36,7 @@ const drawerWidth = 280;
 
 const styles = theme =>({
       drawer: {
-        [theme.breakpoints.up('lg')]: {
+        [theme.breakpoints.up('xl')]: {
           width: drawerWidth,
           flexShrink: 0,
         },
@@ -47,24 +47,24 @@ const styles = theme =>({
       appBar: {
         marginLeft: drawerWidth,
         backgroundColor: '#ec6d6d',
-        [theme.breakpoints.up('lg')]: {
+        [theme.breakpoints.up('xl')]: {
           width: `calc(100% - ${drawerWidth}px)`,
         },
       },
     
       menuButton: {
         marginRight: 20,
-        [theme.breakpoints.up('lg')]: {
+        [theme.breakpoints.up('xl')]: {
           display: 'none',
         },
       },
 
       Title:{
         letterSpacing: 5,
-        [theme.breakpoints.up('lg')]: {
+        [theme.breakpoints.up('xl')]: {
           display: 'none',
         },
-        [theme.breakpoints.down('md')]: {
+        [theme.breakpoints.down('sm')]: {
           display: 'none',
         },
         fontFamily: "'Dancing Script', cursive;",
@@ -83,7 +83,7 @@ const styles = theme =>({
         width: "100%",
         margin: "32px 0 0 0",
         padding: `${theme.spacing(3)}px 0 0 0`,
-        [theme.breakpoints.up('lg')]: {
+        [theme.breakpoints.up('xl')]: {
           width: `calc(100% - ${drawerWidth}px)`,
         },
       },
@@ -128,13 +128,13 @@ const styles = theme =>({
       },
       sectionMobile: {
         display: 'flex',
-        [theme.breakpoints.up('lg')]: {
+        [theme.breakpoints.up('md')]: {
           display: 'none',
         },
       },
       sectionDesktop: {
         display: 'none',
-        [theme.breakpoints.up('lg')]: {
+        [theme.breakpoints.up('md')]: {
           display: 'flex',
         },
       },
@@ -424,7 +424,7 @@ class Navigation extends Component {
             {renderMenu}
             {renderMobileMenu}
             <nav className={classes.drawer}>
-                <Hidden lgUp implementation="css">
+                <Hidden xlUp implementation="css">
                     <Drawer
                       container={this.props.container}
                       variant="temporary"
@@ -438,7 +438,7 @@ class Navigation extends Component {
                       {drawer}
                     </Drawer>
                     </Hidden>
-                    <Hidden mdDown implementation="css">
+                    <Hidden lgDown implementation="css">
                       <Drawer
                         classes={{
                           paper: classes.drawerPaper,

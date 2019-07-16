@@ -47,8 +47,16 @@ const ZipInput = withStyles(theme => ({
 const styles = theme =>({
     CartContainer:{
         display: "flex",
-        padding: 20,
-        flexDirection: "column"
+        padding: "20px 20px 20px 10px",
+        flexDirection: "column",
+        [theme.breakpoints.down('sm')]: {
+            padding: "20px 5px",
+        }
+    },
+    CartContainerTit:{
+        display: "flex",
+        width: "100%",
+        justifyContent: "center"
     },
     CartTitle:{
         textAlign: "center",
@@ -56,31 +64,46 @@ const styles = theme =>({
         color: "#333",
         letterSpacing: 3,
         marginTop: 20,
-        marginBottom: 20
+        marginBottom: 20,
+        paddingBottom: 10,
+        borderBottom: '2px solid #ec6d6d'
     },
     Main:{
         display: "flex",
         flexDirection: "row",
         flexWrap: "wrap",
         justifyContent: "space-evenly",
-        overflow: "hidden"
+        overflow: "hidden",
+        width: "100%",
+        maxWidth: 1800,
+        margin: "0 auto",
+        [theme.breakpoints.down('sm')]: {
+            flexDirection: "column",
+        }
     },
     TableContainer:{
-        width: "90%",
+        width: "75%",
         maxWidth: 850,
-        minWidth: 280,
-        marginBottom: 40,
+        minWidth: 300,
+        marginBottom: 10,
         marginTop: 40,
         overflow: "hidden",
         padding: 5,
+        [theme.breakpoints.down('sm')]:{
+           display: "none"
+        }
     },
     facture:{
-        width: "10%",
+        width: "25%",
         minWidth: 280,
-        maxWidth: 320,
+        maxWidth: 600,
         marginBottom: 40,
         marginTop: 40,
         padding: "10px",
+        [theme.breakpoints.down('sm')]:{
+            width: "100%",
+            margin: "10px auto 40px auto"
+        }
     },
     PaperFac:{
         width: "100%",
@@ -107,7 +130,7 @@ const styles = theme =>({
         overflowX: 'auto',
     },
     table:{
-        minWidth: 650,
+        minWidth: 780,
     },
     TBCellInfo:{
         display: "flex",
@@ -180,7 +203,8 @@ const styles = theme =>({
         display: "flex",
         flexDirection: "column",
         width: "100%",
-        margin: "10px 0"
+        margin: "10px 0",
+        position: "relative"
     },
     ShippingLabel:{
         margin: "10px 0",
@@ -198,10 +222,91 @@ const styles = theme =>({
     },
     RegionSelect:{
         padding: "10px 5px"
+    }, 
+    Address:{
+        border: "1px solid #ccc",
+        padding: "10px 7px"
+    },
+    invisInput:{
+        position: "absolute",
+        top: "60%",
+        opacity: 0,
+    },
+    MobileTable:{
+        display: "none",
+        width: "100%",
+        minWidth: 300,
+        minHeight: 200,
+        maxWidth: 600,
+        margin: "0 auto",
+        padding: 5,
+        [theme.breakpoints.down('sm')]:{
+            display: "flex"
+        }
+    },
+    MobilePaper:{
+        width: '100%',
+        height: '100%',
+        minHeight: 200,
+        maxHeight: 800,
+        overflow: "auto",
+        display: "flex",
+        flexDirection: "column",
+    },
+    MbEmptyTitle:{
+        margin: "auto",
+        textTransform: "uppercase",
+        letterSpacing: 2,
+        color: "#f00"
+    },
+    MbFormControl:{
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        padding: "12px 10px",
+        margin: "10px 0 0 0",
+        borderBottom: "1px solid #ccc"
     }
 
 
 })
+
+const countItems = (Products)=>{
+    let Sum = 0;
+    let ItemsQuantity = Products.map((product)=>{
+        let reVal = parseInt(product.ProductQuantity, 10) || 0;
+        return(reVal)
+    })
+    ItemsQuantity.forEach((q, i)=>{
+        Sum += q;
+    });
+    return Sum;
+}
+
+const countSubTot = (Products) =>{
+    let AllItemsPrice = Products.map((product)=>{
+        return(parseInt(product.PriceTotal, 10))
+    })
+
+    let SubTotal = 0;
+    AllItemsPrice.forEach((q, i)=>{
+        SubTotal += q
+    })
+
+    return(SubTotal);
+}
+
+const CountTax = (q, tax) =>{
+    let itemsTax = q * tax || 0;
+    return(itemsTax)
+}
+
+const Total = (SubTotal,  TaxTot) =>{
+    let Total = SubTotal + TaxTot || 0;
+    return Total;
+}
+
+
 
 class Cart extends Component {
     constructor(){
@@ -212,7 +317,12 @@ class Cart extends Component {
             countryCode: '',
             country: '',
             region: '',
-            ZipPostCode: '' 
+            ZipPostCode: '' ,
+            Address: '',
+            ItemsQuantity: 0,
+            SubTotal: 0,
+            TotalTax: 0,
+            TotalPrice: 0,
         }
     }
 
@@ -223,12 +333,18 @@ class Cart extends Component {
         if(empty(ProductsItem)){
             return null;
         }else{
+            let TotalItems = countItems(ProductsItem);
+            let SubTotal = countSubTot(ProductsItem);
+            let TotalTax = CountTax(TotalItems, this.props.Tax);
+            let TotalPrice = Total(SubTotal, TotalTax)
             ProductsItem.forEach((item, i)=>{
                 item.ClientId = i;
                 this.setState(prevState => ({Products: [ ...prevState.Products, item ]}));
             })
+            this.setState({ItemsQuantity: TotalItems, SubTotal: SubTotal, TotalTax: TotalTax, TotalPrice: TotalPrice});
         }
     }
+
 
     static getDerivedStateFromProps(nextProps, prevState){
         if(nextProps !== prevState){
@@ -259,17 +375,33 @@ class Cart extends Component {
             if(empty(this.props.cart.CartItems) && empty(this.props.GeoInfo.data)){
                 return null;
             }else if(!empty(this.props.cart.CartItems) && empty(this.props.GeoInfo.data)){
-                this.setState({Products: this.props.cart.CartItems});
+                let TotalItems = countItems(this.props.cart.CartItems);
+                let SubTotal = countSubTot(this.props.cart.CartItems);
+                let TotalTax = CountTax(TotalItems, this.props.Tax);
+                let TotalPrice = Total(SubTotal, TotalTax);
+                this.setState({Products: this.props.cart.CartItems, ItemsQuantity: TotalItems, SubTotal: SubTotal, TotalTax: TotalTax, TotalPrice: TotalPrice});
             }else if(empty(this.props.cart.CartItems) && !empty(this.props.GeoInfo.data)){
+                if(!empty(prevState.Products)){
+                    this.refs.userFlag.updateSelected(this.props.GeoInfo.data.country)
+                }
                 this.setState({
                     country: this.props.GeoInfo.data.country
                 })
             }
             else{
-                this.refs.userFlag.updateSelected(this.props.GeoInfo.data.country)
+                this.refs.userFlag.updateSelected(this.props.GeoInfo.data.country);
+                let TotalItems = countItems(this.props.cart.CartItems);
+                let SubTotal = countSubTot(this.props.cart.CartItems);
+                let TotalTax = CountTax(TotalItems, this.props.Tax);
+                let TotalPrice = Total(SubTotal, TotalTax);
+
                 this.setState({
                    Products: this.props.cart.CartItems,
                    country: this.props.GeoInfo.data.country,
+                   ItemsQuantity: TotalItems, 
+                   SubTotal: SubTotal, 
+                   TotalTax: TotalTax, 
+                   TotalPrice: TotalPrice,
                 });
             }
         }else{
@@ -299,8 +431,20 @@ class Cart extends Component {
         this.props.ChangeProducts(Products);
     }
 
-    handleSubmitCheckout = () => event =>{
+    handeleCheckoutSubmit = event =>{
         event.preventDefault();
+        const {ItemsQuantity, SubTotal, TotalTax, TotalPrice, country, region, ZipPostCode, Address} = this.state;
+        const checkout= {
+            Quantity: ItemsQuantity,
+             SubTotal: SubTotal,
+             TotalTax: TotalTax,
+             TotalPrice: TotalPrice,
+             country: country,
+             region: region,
+             ZipPostCode: ZipPostCode,
+             Address: Address
+        }
+        console.log(checkout);
     }
 
     handeleAddQuantity = (item) => event =>{
@@ -329,8 +473,6 @@ class Cart extends Component {
         this.props.ChangeClientCountry(countryCode);
     }
 
-
-
     selectRegion (val) {
         this.setState({ region: val });
     }
@@ -339,32 +481,14 @@ class Cart extends Component {
         this.setState({ZipPostCode: event.target.value})
     }
 
+    handleChangeAddress= (event) =>{
+        this.setState({Address: event.target.value})
+    }
+
     render() {
         const { classes } = this.props;
-        const { Products, region, country, ZipPostCode } = this.state;
-        const taxval = 2.5;
-        let AllItemsQuantity = Products.map((product)=>{
-            let reVal = parseInt(product.ProductQuantity, 10) || 0;
-            return(reVal)
-        });
-
-        let sum = 0;
-        AllItemsQuantity.forEach((q, i)=>{
-            sum += q
-        })
-
-        let itemsQuantity = sum;
-        let itemsTax = itemsQuantity * taxval || 0;
-
-        let AllItemsPrice = Products.map((product)=>{
-            return(parseInt(product.PriceTotal, 10))
-        })
-
-        let SubTotal = 0;
-        AllItemsPrice.forEach((q, i)=>{
-            SubTotal += q
-        })
-
+        const { Products, region, country, ZipPostCode, Address, TotalTax, ItemsQuantity, SubTotal, TotalPrice } = this.state;
+        
 
         const ProductName = (item) =>{
             if(empty(item.ProductName)){
@@ -427,15 +551,14 @@ class Cart extends Component {
             }
         }
 
-        const ProductTotal = (item) =>{
-            if(empty(item.ProductPrice) || empty(item.ProductQuantity)){
-                return null;
+       const ProductTotal = (item) =>{
+            if(!empty(item.ProductQuantity) && !empty(item.ProductPrice)){
+                return `$${item.ProductQuantity * item.ProductPrice}`
             }else{
-                return(
-                    `$${item.ProductPrice * item.ProductQuantity}`
-                )
+                return null;
             }
         }
+
 
         const RenderProducts = () =>{
             if(empty(Products)){
@@ -485,31 +608,38 @@ class Cart extends Component {
             }
         }
 
-        
-        const TotlaItemsCount = () =>{
-            return(
-                <p className={classes.Facval}>{itemsQuantity}</p>
-            )
-        }
-
-        const TotlaItemsSubTotal = () =>{
-            return(<p className={classes.Facval}>${SubTotal}</p>)
-        }
-
-        const Tax = () =>{
-            return(<p className={classes.Facval}>${itemsTax}</p>)
-        }
-
-        const GrandTotal = () =>{
-            let val = SubTotal + itemsTax;
-            return(<p className={classes.Facval}>${val}</p>)
+        const disableBtn = () =>{
+            if(empty(ItemsQuantity) || empty(SubTotal) || empty(TotalTax) || empty(TotalPrice) || empty(country) || empty(region) || empty(ZipPostCode) || empty(Address) ){
+                return(
+                    <Button 
+                    disabled
+                    type="submit" 
+                    variant="contained"
+                    color="primary"
+                    className={classes.BtnSelf}
+                >
+                    Proceed to checkout
+                </Button>
+                )
+            }else{
+                return(
+                <Button 
+                    type="submit" 
+                    variant="contained"
+                    color="primary"
+                    className={classes.BtnSelf}
+                >
+                    Proceed to checkout
+                </Button>
+                )
+            }
         }
         
         const Facture = (items) =>{
             if(empty(items)){
                 return(
                     <Paper className={classes.PaperFac} onSubmit={this.handleSubmitCheckout} >
-                        <form className={classes.FacContainer}>
+                        <div className={classes.FacContainer}>
                             <div className={classes.FormControll}>
                                 <label className={classes.FacLabel}>Total Items :</label>
                                 <p className={classes.Facval}>0</p>
@@ -518,7 +648,7 @@ class Cart extends Component {
                                 <label className={classes.FacLabel}>SubTotal :</label>
                                 <p className={classes.Facval}>$0</p>
                             </div>
-                            <ExpansionPanel className={classes.Expansion_Panel}>
+                            <ExpansionPanel className={classes.Expansion_Panel} >
                                 <ExpansionPanelSummary
                                     expandIcon={<ExpandMoreIcon />}
                                     aria-controls="panel1a-content"
@@ -552,22 +682,22 @@ class Cart extends Component {
                                 Proceed to checkout
                             </Button>
                             </div>
-                        </form>
+                        </div>
                     </Paper>
                 )
             }else{
                 return(
                     <Paper className={classes.PaperFac} >
-                        <form className={classes.FacContainer} onSubmit={this.handleSubmitCheckout}>
+                        <div className={classes.FacContainer}>
                             <div className={classes.FormControll}>
                                 <label className={classes.FacLabel}>Total Items :</label>
-                                {TotlaItemsCount()}
+                                <p className={classes.Facval}>{ItemsQuantity}</p>
                             </div>
                             <div className={classes.FormControll}>
                                 <label className={classes.FacLabel}>SubTotal :</label>
-                                {TotlaItemsSubTotal()}
+                                <p className={classes.Facval}>${SubTotal}</p>
                             </div>
-                            <ExpansionPanel className={classes.Expansion_Panel}>
+                            <ExpansionPanel className={classes.Expansion_Panel} defaultExpanded>
                                 <ExpansionPanelSummary
                                     expandIcon={<ExpandMoreIcon />}
                                     aria-controls="panel1a-content"
@@ -587,6 +717,11 @@ class Cart extends Component {
                                             searchPlaceholder="Search for a country" 
                                             onSelect={this.onSelectFlag}
                                         />
+                                        <Input 
+                                            required
+                                            value={country}
+                                            className={classes.invisInput}
+                                        />
                                     </div>
                                     <div className={classes.ShippingForm}>
                                         <label className={classes.ShippingLabel}>Region :</label>
@@ -598,6 +733,11 @@ class Cart extends Component {
                                             value={region}
                                             onChange={(val) => this.selectRegion(val)} 
                                         />
+                                        <Input 
+                                            required
+                                            value={region}
+                                            className={classes.invisInput}
+                                        />
                                     </div>
                                     <div className={classes.ShippingForm}>
                                         <label className={classes.ShippingLabel}>Zip/Postcode :</label>
@@ -608,35 +748,119 @@ class Cart extends Component {
                                             onChange={this.handleChangeZipPostCode}
                                         />
                                     </div>
+                                    <div className={classes.ShippingForm}>
+                                        <label className={classes.ShippingLabel}>Address:</label>
+                                        <Input
+                                            required
+                                            multiline={true}
+                                            rows={3}
+                                            className={classes.Address}
+                                            value={Address}
+                                            onChange={this.handleChangeAddress}
+                                        />
+                                    </div>
                                 </ExpansionPanelDetails>
                             </ExpansionPanel>
                             <div className={classes.FormControll}>
                                 <label className={classes.FacLabel}>Tax :</label>
-                                {Tax()}
+                                <p className={classes.Facval}>${TotalTax}</p>
                             </div>
                             <div className={classes.FormControll}>
                                 <label className={classes.FacLabel}>Grand Total :</label>
-                                {GrandTotal()}
+                                <p className={classes.Facval}>${TotalPrice}</p>
                             </div>
                             <div className={classes.SubmitBtn}>
-                            <Button 
-                                type="submit" 
-                                variant="contained"
-                                color="primary"
-                                className={classes.BtnSelf}
-                            >
-                                Proceed to checkout
-                            </Button>
+                            {disableBtn()}
                             </div>
-                        </form>
+                        </div>
                     </Paper>
                 )
             }
         }
 
+
+        const MobilePColor = (item) =>{
+            if(empty(item.ProductColor)){
+                return null;
+            }else{
+                return(
+                    <div style={{display: "flex", flexDirection: 'row', marginTop: 8, justifyContent:"center"}}>
+                    <label style={{textTransform: "capitalize", fontWeight: "bold", marginRight: 5}}>color :</label>
+                    <p>{item.ProductColor}</p>
+                    </div>
+                )
+            }
+        }
+
+        const MobilePSize= (item) =>{
+            if(empty(item.ProductSize)){
+                return null;
+            }else{
+                return(
+                    <div style={{display: "flex", flexDirection: 'row', marginTop: 8, justifyContent:"center"}}>
+                    <label style={{textTransform: "capitalize", fontWeight: "bold", marginRight: 5}}>size :</label>
+                    <p>{item.ProductSize}</p>
+                    </div>
+                )
+            }
+        }
+
+
+        const MobileTableProd = () =>{
+            if(empty(Products)){
+                return(
+                    <h1 className={classes.MbEmptyTitle}>empty cart !</h1>
+                )
+            }else{
+              return(
+                Products.map((item, i)=>{
+                    return(
+                                <div key={i} style={{position: "relative", padding: "10px 0 0 0", display: "flex", flexDirection: "column", margin: "25px 10px", border: "1px solid #dcdcdc"}}>
+                                    <div style={{width: 50, height: 25, textAlign: "center", backgroundColor: "#ff9b9b", fontSize: 18, color: "#fff", overflow: "hidden"}}>{i+1}</div>
+                                    <div className={classes.MbFormControl}>
+                                        
+                                            <label className={classes.FacLabel} style={{marginRight: "5px", whiteSpace: 'nowrap'}}>item :</label>
+                                            
+                                            <div style={{display: "flex", width: "100%", flexDirection: "row", flexWrap: "wrap-reverse", justifyContent:"space-evenly"}}>
+                                                <div style={{display: "flex", flexDirection: "column", textAlign: "center"}}>
+                                                    {ProductName(item)}
+                                                    {MobilePColor(item)}
+                                                    {MobilePSize(item)}
+                                                </div>
+                                                <div className={classes.imgLogo}>
+                                                    <img alt="" width={60} height={"auto"} className={classes.logo} src={require(`../../static/${item.ProductImage}`)} />
+                                                </div>
+                                            </div>
+                                    </div>
+                                    <div className={classes.MbFormControl}>
+                                            <label className={classes.FacLabel}>Price :</label>
+                                            {ProductPrice(item)}
+                                    </div>
+                                    <div className={classes.MbFormControl}>
+                                            <label className={classes.FacLabel}>Quantity :</label>
+                                            {ProductQuantity(item)}
+                                    </div>
+                                    <div className={classes.MbFormControl}>
+                                            <label className={classes.FacLabel}>Total :</label>
+                                            {ProductTotal(item)}
+                                    </div>
+                                    <div className={classes.MbFormControl}>
+                                            <label className={classes.FacLabel}>Action :</label>
+                                            <Fab color="secondary" aria-label="Delete" className={classes.fab} onClick={this.handleDelete(item)} >
+                                                <DeleteIcon />
+                                            </Fab>
+                                    </div>
+                                </div>
+                    )
+                })
+              )
+            }
+        }
+
         return (
             <div className={classes.CartContainer}>
-                <h1 className={classes.CartTitle}>Your cart</h1>
+                <div className={classes.CartContainerTit}><h1 className={classes.CartTitle}>Your cart</h1></div>
+                <form style={{width: "100%", }} onSubmit={this.handeleCheckoutSubmit}>
                 <main className={classes.Main}>
                     <div className={classes.TableContainer}>
                         <Paper className={classes.paper}>
@@ -656,11 +880,17 @@ class Cart extends Component {
                             </Table>
                         </Paper>
                     </div>
+                    <div className={classes.MobileTable}>
+                        <Paper className={classes.MobilePaper}>
+                            {MobileTableProd()}
+                        </Paper>
+                    </div>
                     <div className={classes.facture}>
                         {Facture(Products)}
                     </div>
                 </main>
-                
+                </form>
+
             </div>
         )
     }

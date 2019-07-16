@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import Card from '@material-ui/core/Card';
 import {withStyles} from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
@@ -13,7 +14,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import {empty} from '../../../../is-empty';
 import Chip from '@material-ui/core/Chip';
 import Upload from '../../../../StyleComponents/upload/Upload';
-
+import { uploadFile } from '../../../../action/authentication';
 
 const styles = theme =>({
     paper: {
@@ -180,7 +181,6 @@ class AddProduct extends Component {
     }
     
 
-
     handleChildCategorieDelete = childCategorie => () =>{
         const {ProductChildCategories} = this.state;
         const chipToDelete = ProductChildCategories.indexOf(childCategorie);
@@ -204,6 +204,23 @@ class AddProduct extends Component {
 
     handleSubmit = (event) =>{
         event.preventDefault();
+        const {files, ProductName, ProductDescription, ProductPrice, ProductDiscount, ProductQuantity, ProductColors, ProductSize, ProductCategories, ProductChildCategories  } = this.state;
+        if(empty(files) && empty(ProductName) && empty(ProductDescription) && empty(ProductPrice) && empty(ProductDiscount) && empty(ProductQuantity) && empty(ProductColors) && empty(ProductSize) && empty(ProductCategories) && empty(ProductChildCategories)){
+            console.log('field are empty')
+        }else{
+            const Data = {
+                ProductName: ProductName,
+                ProductDescription: ProductDescription,
+                ProductPrice: ProductPrice,
+                ProductDiscount: ProductDiscount,
+                ProductQuantity: ProductQuantity,
+                ProductColors: ProductColors,
+                ProductSize: ProductSize,
+                ProductCategories: ProductCategories,
+                ProductChildCategories: ProductChildCategories
+            }
+            this.props.uploadFile(files, Data);
+        }
     }
 
     onFilesAdded = (files) => {
@@ -440,6 +457,10 @@ class AddProduct extends Component {
 
 AddProduct.protoType = {
     classes: PropTypes.object.isRequired,
+    uploadFile: PropTypes.func.isRequired
 }
+const mapStateToProps = (state) => ({
+    GeoInfo: state.GeoInfo
+})
 
-export default withStyles(styles)(AddProduct)
+export default connect(mapStateToProps, {uploadFile})(withStyles(styles)(AddProduct))

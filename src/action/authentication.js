@@ -136,10 +136,12 @@ export const ChangeProducts = (Products) => (dispatch) =>{
 export const getGeoInfo = () => (dispatch) => {
     axios.get('https://ipapi.co/json/').then((response) => {
         let data = response.data;
+        
         dispatch({
             type: GEO_INFO,
             payload: data,
         })
+        
     }).catch((error) => {
         console.log(error);
         let message= "Can't Get 'https://ipapi.co/json/' Error 404 !"
@@ -161,6 +163,32 @@ export const ChangeClientCountry = (val) => (dispatch) =>{
     dispatch({
         type:GEO_INFO,
         payload: data
+    })
+}
+
+export const uploadFile = (files, data) => dispatch =>{
+    const config = {
+        headers: {
+            'content-type': 'multipart/form-data'
+        }
+    };
+
+    let formdata = new FormData();
+
+    files.forEach((file)=>{
+            formdata.append("MyImage", file);
+    });
+    
+    for ( var key in data ) {
+        formdata.append(key, data[key]);
+    }
+
+    axios.post("/api/upload/file", formdata, config)
+    .then((res)=>{
+        console.log(res);
+    })
+    .catch((err)=>{
+        console.log(err);
     })
 }
 
