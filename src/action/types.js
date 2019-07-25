@@ -16,3 +16,12 @@ export const NOTIFICATION_INFO = "NOTIFICATION_INFO";
 
 //GEO INFO
 export const GEO_INFO = "GEO_INFO";
+
+//LOADING
+export const LOADING = "LOADING";
+
+//LOGIN ERRORS
+export const LOG_ERRORS = "LOG_ERRORS";
+
+//PRODUCTS
+export const PRODUCTS = "PRODUCTS"

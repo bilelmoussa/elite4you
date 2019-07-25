@@ -5,7 +5,7 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import LogIn from '../LogIn/LogIn';
 import DashboardComponent from './AdminComponents/DashboardComponents/Dashboard';
 import PageNotFound from '../PageNotFound/PageNotFound';
-
+import Notification from '../../StyleComponents/Notification/Notification';
 
 class Admin extends Component {
     constructor(){
@@ -37,18 +37,22 @@ class Admin extends Component {
     render() {
 
         return (
-            <Switch>
-                <Route  exact path='/Admin' render={()=>(
-                        this.state.IsLoggedIn ? (
-                            <Redirect exact to="/Admin/login"/>
-                        ) : (
-                            <Redirect exact to="/Admin/dashboard"/>
-                        ) 
-                    )}/>
-                <Route exact path='/Admin/login' component={LogIn} />
-                <Route path='/Admin/dashboard' component={DashboardComponent} />
-                <Route component={PageNotFound}/>
-            </Switch>
+            <div>
+                <Switch>
+                    <Route  exact path='/Admin' render={()=>(
+                            this.state.IsLoggedIn ? (
+                                <Redirect exact to="/Admin/login"/>
+                            ) : (
+                                <Redirect exact to="/Admin/dashboard"/>
+                            ) 
+                        )}/>
+                    <Route exact path='/Admin/login' component={LogIn} />
+                    <Route path='/Admin/dashboard' component={DashboardComponent} />
+                    <Route component={PageNotFound}/>
+                </Switch>
+                <Notification ThemeType="dark"/>
+            </div>
+           
         )
     }
 }

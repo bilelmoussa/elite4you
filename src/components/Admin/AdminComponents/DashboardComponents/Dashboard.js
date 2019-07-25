@@ -9,12 +9,9 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import { Link } from 'react-router-dom';
 import MenuIcon from '@material-ui/icons/Menu';
-import MoreIcon from '@material-ui/icons/MoreVert';
 import ExitToApp from '@material-ui/icons/ExitToApp';
 import Button from '@material-ui/core/Button';
 import {logoutUser} from '../../../../action/authentication';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
 import Drawer from '@material-ui/core/Drawer';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
@@ -33,9 +30,17 @@ import { Route, Switch } from 'react-router-dom';
 import PageNotFound from '../../../PageNotFound/PageNotFound';
 import DashboardHome from './DashboardHomeComponents/DashboardHome';
 import AddProduct from '../AddProductComponents/AddProduct';
-import Users from '../UsersComponents/Users'
+import Users from '../UsersComponents/Users';
+import {empty} from '../../../../is-empty';
 
 const drawerWidth = 260;
+
+const theme = createMuiTheme({
+    palette: {
+        type: 'dark',
+        primary: {main: '#8a5fde'}
+    },
+});
 
 const styles = theme =>({
     dashboard:{
@@ -135,7 +140,8 @@ const styles = theme =>({
     InsidePaper:{
         display: 'flex',
         flexDirection: "column",
-        height: "100%"
+        height: "100%",
+        backgroundColor: "#424242"
     },
     List_Item:{
         textAlign: "center",
@@ -166,7 +172,6 @@ class DashboardComponent extends Component {
             IsLoggedIn: false,
             user: '',
             MenuOpen: false,
-            MoreAnchorEl: null,
             mobileOpen: false,
             open: true,
         }
@@ -206,22 +211,10 @@ class DashboardComponent extends Component {
         this.setState(state => ({ mobileOpen: !state.mobileOpen }));
     };
 
-    handleMenuOpen = event => {
-        this.setState({ MoreAnchorEl: event.currentTarget });
-    };
-
-    handleMenuClose = () => {
-        this.setState({ MoreAnchorEl: null });
-    };
-
     onLogout(e){
 		e.preventDefault();
         this.props.logoutUser(this.props.history);
     }
-
-    handleCloseBtn = () =>{
-        this.setState({MenuOpen: false})
-    };
 
     handleDrawerClose = () =>{
         this.setState({open: false})
@@ -233,22 +226,71 @@ class DashboardComponent extends Component {
     
     render() {
         const {classes} = this.props;
-        const { MoreAnchorEl, open } = this.state;
-        const isMenuOpen = Boolean(MoreAnchorEl);
+        const { open } = this.state;
 
-        const renderMenu = (
-            <Menu
-              anchorEl={MoreAnchorEl}
-              anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-              transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-              open={isMenuOpen}
-              onClose={this.handleMenuClose}
-            >
-              <MenuItem onClick={this.handleMenuClose}>Profile</MenuItem>
-              <MenuItem onClick={this.handleMenuClose}>My account</MenuItem>
-            </Menu>
-        );
-        
+        let user_role = this.props.user.user.role || "";
+
+        const RenderMBAddProduct = () => {
+            if(!empty(user_role) || user_role === "admin" || user_role === "staff"){
+                return(
+                    <ListItem onClick={this.handleMobileDrawerClose}  component={Link} to={`/Admin/dashboard/add-product`} button  className={classes.List_Item}>
+                    <ListItemIcon>
+                        <AddBox style={styles.account_circle} />
+                    </ListItemIcon>
+                    <ListItemText classes={{primary: classes.List_Text}} primary="Add Product" />
+                    </ListItem>
+                )
+            }else{
+                return null
+            }
+        }
+
+        const RenderAddProduct = () => {
+            if(!empty(user_role) || user_role === "admin" || user_role === "staff"){
+                return(
+                    <ListItem onClick={this.handleDrawerClose}  component={Link} to={`/Admin/dashboard/add-product`} button  className={classes.List_Item}>
+                    <ListItemIcon>
+                        <AddBox style={styles.account_circle} />
+                    </ListItemIcon>
+                    <ListItemText classes={{primary: classes.List_Text}} primary="Add Product" />
+                    </ListItem>
+                )
+            }else{
+                return null
+            }
+        }
+
+        const RenderMBUsers = () =>{
+            if(!empty(user_role) || user_role === "admin"){
+                return(
+                    <ListItem onClick={this.handleMobileDrawerClose}  component={Link} to={`/Admin/dashboard/users`} button  className={classes.List_Item}>
+                    <ListItemIcon>
+                        <Group style={styles.account_circle} />
+                    </ListItemIcon>
+                    <ListItemText classes={{primary: classes.List_Text}} primary="users" />
+                    </ListItem>  
+                )
+            }else{
+                return null;
+            }
+        }
+
+        const RenderUsers = () =>{
+            if(!empty(user_role) || user_role === "admin"){
+                return(
+                    <ListItem onClick={this.handleDrawerClose}  component={Link} to={`/Admin/dashboard/users`} button  className={classes.List_Item}>
+                    <ListItemIcon>
+                        <Group style={styles.account_circle} />
+                    </ListItemIcon>
+                    <ListItemText classes={{primary: classes.List_Text}} primary="users" />
+                    </ListItem>
+                )
+            }else{
+                return null;
+            }
+        }
+
+    
         const drawer = (theme)=>{
             return(
                 <div className={classes.InsidePaper}>
@@ -272,18 +314,8 @@ class DashboardComponent extends Component {
                                 </ListItemIcon>
                                 <ListItemText classes={{primary: classes.List_Text}} primary="dashboard" />
                                 </ListItem>
-                                <ListItem onClick={this.handleMobileDrawerClose}  component={Link} to={`/Admin/dashboard/add-product`} button  className={classes.List_Item}>
-                                <ListItemIcon>
-                                    <AddBox style={styles.account_circle} />
-                                </ListItemIcon>
-                                <ListItemText classes={{primary: classes.List_Text}} primary="Add Product" />
-                                </ListItem>
-                                <ListItem onClick={this.handleMobileDrawerClose}  component={Link} to={`/Admin/dashboard/users`} button  className={classes.List_Item}>
-                                <ListItemIcon>
-                                    <Group style={styles.account_circle} />
-                                </ListItemIcon>
-                                <ListItemText classes={{primary: classes.List_Text}} primary="users" />
-                                </ListItem>   
+                                {RenderMBAddProduct()}
+                                {RenderMBUsers()}
                             </List>
                         </Hidden>
                         <Hidden smDown implementation="css">
@@ -306,30 +338,15 @@ class DashboardComponent extends Component {
                                     </ListItemIcon>
                                     <ListItemText classes={{primary: classes.List_Text}} primary="dashboard" />
                                     </ListItem>
-                                    <ListItem onClick={this.handleDrawerClose}  component={Link} to={`/Admin/dashboard/add-product`} button  className={classes.List_Item}>
-                                    <ListItemIcon>
-                                        <AddBox style={styles.account_circle} />
-                                    </ListItemIcon>
-                                    <ListItemText classes={{primary: classes.List_Text}} primary="Add Product" />
-                                    </ListItem>
-                                    <ListItem onClick={this.handleDrawerClose}  component={Link} to={`/Admin/dashboard/users`} button  className={classes.List_Item}>
-                                    <ListItemIcon>
-                                        <Group style={styles.account_circle} />
-                                    </ListItemIcon>
-                                    <ListItemText classes={{primary: classes.List_Text}} primary="users" />
-                                    </ListItem>   
+                                    {RenderAddProduct()}
+                                    {RenderUsers()}
                                 </List>
                         </Hidden>
                 </div>   
             )
         }
         
-        const theme = createMuiTheme({
-            palette: {
-                type: 'dark',
-                primary: {main: '#8a5fde'}
-            },
-        });
+
 
         return (
             <ThemeProvider theme={theme}>
@@ -376,12 +393,10 @@ class DashboardComponent extends Component {
 						            <ExitToApp />
 						            Logout
 					            </Button>
-                                <IconButton className={classes.MoreIcon} aria-haspopup="true" onClick={this.handleMenuOpen} color="inherit">
-                                    <MoreIcon />
-                              </IconButton>
+                            
                         </Toolbar>
                     </AppBar>
-                    {renderMenu}
+ 
                     <nav className={classes.drawer}>
                         <Hidden mdUp implementation="css">
                         <Drawer

@@ -14,12 +14,18 @@ import InputLabel from '@material-ui/core/InputLabel';
 import {empty} from '../../../../is-empty';
 import Chip from '@material-ui/core/Chip';
 import Upload from '../../../../StyleComponents/upload/Upload';
-import { uploadFile } from '../../../../action/authentication';
+import { Add_Products } from '../../../../action/authentication';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 const styles = theme =>({
     paper: {
         display: "flex",
         flexDirection: "column",
+        backgroundColor: "#424242",
         flexWrap: "nowrap",
         padding: theme.spacing(3, 2),
         width: "80%",
@@ -92,6 +98,9 @@ const styles = theme =>({
     chip: {  
         margin: theme.spacing(0.5),
     },
+    dialog: {
+        width: 'calc(100% - 16px)',
+    },
 
 })
 
@@ -112,8 +121,22 @@ class AddProduct extends Component {
             Categorie: "",
             ProductCategories: [],
             ChildCategorie: "",
-            ProductChildCategories: []
+            ProductChildCategories: [],
+            emptyFields: false,
+            womenClothingSize: ['xs','s', 'm', 'l', 'xl', 'xxl', 'xxxl', 'xxxxl'],
+            womenShoesSize : [35, 36, 37, 38, 39, 40, 41, 42, 43]
+
         }
+    }
+
+    componentDidMount() {
+        let user_role = this.props.user.user.role || "";
+
+        if(!empty(user_role) || user_role === "admin" || user_role === "staff"){
+        }else{
+            this.props.history.push('/Admin/login');
+        }
+
     }
 
     handleChange = name => event => {
@@ -125,7 +148,7 @@ class AddProduct extends Component {
         if(!empty(Color) && Color != 0){
             const ExistColor = ProductColors.indexOf(Color);
             if(ExistColor === -1){
-                this.setState({ProductColors: [...ProductColors, Color], Color: "0"});
+                this.setState({ProductColors: [...ProductColors, Color], Color: ""});
             }
         } 
     }
@@ -169,7 +192,7 @@ class AddProduct extends Component {
         if(!empty(Size) && Size != 0){
             const ExistSize = ProductSize.indexOf(Size);
             if(ExistSize === -1){
-                this.setState({ProductSize: [...ProductSize, Size], Size: "0"});
+                this.setState({ProductSize: [...ProductSize, Size], Size: ""});
             }
         } 
     }
@@ -205,21 +228,24 @@ class AddProduct extends Component {
     handleSubmit = (event) =>{
         event.preventDefault();
         const {files, ProductName, ProductDescription, ProductPrice, ProductDiscount, ProductQuantity, ProductColors, ProductSize, ProductCategories, ProductChildCategories  } = this.state;
-        if(empty(files) && empty(ProductName) && empty(ProductDescription) && empty(ProductPrice) && empty(ProductDiscount) && empty(ProductQuantity) && empty(ProductColors) && empty(ProductSize) && empty(ProductCategories) && empty(ProductChildCategories)){
-            console.log('field are empty')
+        if(empty(files) || empty(ProductName) || empty(ProductDescription) || empty(ProductPrice) || empty(ProductDiscount) || empty(ProductQuantity) || empty(ProductColors) || empty(ProductSize) || empty(ProductCategories) || empty(ProductChildCategories)){
+            this.setState({emptyFields: true});
         }else{
+            let indexOFSymbol = ProductDiscount.indexOf("%");
             const Data = {
                 ProductName: ProductName,
                 ProductDescription: ProductDescription,
-                ProductPrice: ProductPrice,
-                ProductDiscount: ProductDiscount,
-                ProductQuantity: ProductQuantity,
+                ProductPrice: Number(ProductPrice),
+                ProductDiscount: Number(ProductDiscount.substring(0, indexOFSymbol)),
+                ProductQuantity: Number(ProductQuantity),
                 ProductColors: ProductColors,
                 ProductSize: ProductSize,
-                ProductCategories: ProductCategories,
-                ProductChildCategories: ProductChildCategories
+                ProductCategories: ProductCategories[0],
+                ProductChildCategories: ProductChildCategories[0]
             }
-            this.props.uploadFile(files, Data);
+
+            console.log(Data);
+            this.props.Add_Products(files, Data);
         }
     }
 
@@ -238,8 +264,12 @@ class AddProduct extends Component {
         }
     }
 
+    exitDialog = () => this.setState({ emptyFields : false });
+
+
     render() {
         const {classes} = this.props;
+        const {emptyFields} = this.state;
 
         return (
             <Card className={classes.paper}>
@@ -248,6 +278,7 @@ class AddProduct extends Component {
                 </Typography>
                 <form className={classes.form} onSubmit={this.handleSubmit}>
                     <TextField 
+                        required
                         classes={{root: classes.textField}} 
                         value={this.state.ProductName} 
                         label="Name" 
@@ -256,6 +287,7 @@ class AddProduct extends Component {
                         variant="filled"
                     />
                     <TextField 
+                        required
                         classes={{root: classes.textField}} 
                         value={this.state.ProductDescription} 
                         label="Description" 
@@ -265,7 +297,7 @@ class AddProduct extends Component {
                     />
                     <div className={classes.SelectField}>
                         <FormControl variant="filled" className={classes.FormSelect}>
-                        <InputLabel htmlFor="filled-Categorie-native-simple">Categories</InputLabel>
+                        <InputLabel htmlFor="filled-Categorie-native-simple">Categories *</InputLabel>
                             <Select
                                 native
                                 value={this.state.Categorie}
@@ -273,8 +305,9 @@ class AddProduct extends Component {
                                 input={<FilledInput name="Categorie" id="filled-Categorie-native-simple" />}
                             >
                                 <option value="" />
+                                <option value={'Man'}>Man</option>
                                 <option value={'Women'}>Women</option>
-                                <option value={'Kids'}>Kids</option>
+                                <option value={'Kids'}>Kids</option> 
                             </Select>
                         </FormControl>
                         <Button 
@@ -298,7 +331,7 @@ class AddProduct extends Component {
 
                     <div className={classes.SelectField}>
                         <FormControl variant="filled" className={classes.FormSelect}>
-                        <InputLabel htmlFor="filled-ChildCategorie-native-simple">Child Categories</InputLabel>
+                        <InputLabel htmlFor="filled-ChildCategorie-native-simple">Child Categories *</InputLabel>
                             <Select
                                 native
                                 value={this.state.ChildCategorie}
@@ -331,6 +364,7 @@ class AddProduct extends Component {
                     </div>
 
                     <NumberFormat
+                        required
                         classes={{root: classes.textField}} 
                         customInput={TextField}
                         label="Price"
@@ -341,6 +375,7 @@ class AddProduct extends Component {
                         allowNegative={false}
                     />
                     <NumberFormat
+                        required    
                         classes={{root: classes.textField}} 
                         customInput={TextField}
                         label="Discount"
@@ -352,6 +387,7 @@ class AddProduct extends Component {
                         allowNegative={false}
                     />
                     <NumberFormat
+                        required
                         classes={{root: classes.textField}} 
                         customInput={TextField}
                         label="Quantity"
@@ -363,33 +399,20 @@ class AddProduct extends Component {
                     />
 
                     <div className={classes.SelectField}>
-                        <FormControl variant="filled" className={classes.FormSelect}>
-                        <InputLabel htmlFor="filled-Color-native-simple">Colors</InputLabel>
-                            <Select
-                                native
-                                value={this.state.Color}
-                                onChange={this.handleChange('Color')}
-                                input={<FilledInput name="Color" id="filled-Color-native-simple" />}
-                            >
-                                <option value="" />
-                                <option value={'White'}>White</option>
-                                <option value={'Yellow'}>Yellow</option>
-                                <option value={'Orange'}>Orange</option>
-                                <option value={'Red'}>Red</option>
-                                <option value={'Pink'}>Pink</option>
-                                <option value={'Purple'}>Purple</option>
-                                <option value={"Blue"}>Blue</option>
-                                <option value={"Green"}>Green</option>
-                                <option value={'Grey'}>Brown</option>         
-                                <option value={'Black'}>Black</option>
-                            </Select>
-                        </FormControl>
+                        <TextField 
+                            style={{margin: "20px 0"}} 
+                            value={this.state.Color} 
+                            label="Color *" 
+                            onChange={this.handleChange("Color")}
+                            margin="normal"
+                            variant="filled"
+                        />
                         <Button 
                             className={classes.select_button}  variant="contained" 
                             color="primary"
                             onClick={this.AddColor}
                         >
-                            ADD color
+                            add color
                         </Button>
                         <div className={classes.ChipContainer}>
                             {this.state.ProductColors.map((color, i)=>(
@@ -404,28 +427,20 @@ class AddProduct extends Component {
                     </div>
 
                     <div className={classes.SelectField}>
-                        <FormControl variant="filled" className={classes.FormSelect}>
-                        <InputLabel htmlFor="filled-Size-native-simple">Size</InputLabel>
-                            <Select
-                                native
-                                value={this.state.Size}
-                                onChange={this.handleChange('Size')}
-                                input={<FilledInput name="Size" id="filled-Size-native-simple" />}
-                            >
-                                <option value="" />
-                                <option value={'M'}>M</option>
-                                <option value={'L'}>L</option>
-                                <option value={'XL'}>XL</option>
-                                <option value={'S'}>S</option>
-                                <option value={'XXL'}>XXL</option>
-                            </Select>
-                        </FormControl>
+                        <TextField 
+                            style={{margin: "20px 0"}} 
+                            value={this.state.Size} 
+                            label="Size *" 
+                            onChange={this.handleChange("Size")}
+                            margin="normal"
+                            variant="filled"
+                        />
                         <Button 
                             className={classes.select_button}  variant="contained" 
                             color="primary"
                             onClick={this.AddSize}
                         >
-                            ADD Size
+                            add Size
                         </Button>
                         <div className={classes.ChipContainer}>
                             {this.state.ProductSize.map((S, i)=>(
@@ -450,6 +465,30 @@ class AddProduct extends Component {
                     </Button>
 
                 </form>
+
+                <Dialog
+                    open={emptyFields}
+                    onClose={this.exitDialog}
+                    classes={{ paper: classes.dialog }}
+                >
+                <DialogTitle>
+                    Some field are Empty
+                </DialogTitle>
+
+                <DialogContent>
+                    <DialogContentText>
+                        Please fill all fields !
+                    </DialogContentText>
+                </DialogContent>
+
+                <DialogActions>
+                    <Button onClick={this.exitDialog} color="secondary" >
+                    Exit
+                    </Button>
+                </DialogActions>
+
+            </Dialog>                    
+
             </Card>
         )
     }
@@ -457,10 +496,13 @@ class AddProduct extends Component {
 
 AddProduct.protoType = {
     classes: PropTypes.object.isRequired,
-    uploadFile: PropTypes.func.isRequired
+    Add_Products: PropTypes.func.isRequired,
+    user: PropTypes.object.isRequired,
+    GeoInfo: PropTypes.object.isRequired,
 }
 const mapStateToProps = (state) => ({
-    GeoInfo: state.GeoInfo
+    GeoInfo: state.GeoInfo,
+    user: state.user
 })
 
-export default connect(mapStateToProps, {uploadFile})(withStyles(styles)(AddProduct))
+export default connect(mapStateToProps, {Add_Products})(withStyles(styles)(AddProduct))

@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import Page from '../page/Page';
 import Clothing from './Clothing/Clothing';
 import Shoes from './Shoes/Shoes';
 import Accessories from './Accessories/Accessories';
 import PageNotFound from '../../components/PageNotFound/PageNotFound'
+import {GetProducts} from '../../action/authentication';
 
-export default class Women extends Component {
+class Women extends Component {
     constructor(){
         super();
         this.state={
@@ -208,6 +211,11 @@ export default class Women extends Component {
             colors:['White', 'Yellow', 'Orange', 'Red', 'Pink', 'Purple', 'Blue', 'Green', 'Black'],
         }
     }
+
+    componentDidMount(){
+        this.props.GetProducts({ProductCategories: "women"})
+    }
+
     render() {
         const{match} = this.props;
        
@@ -229,3 +237,13 @@ export default class Women extends Component {
     }
 }
 
+Women.protoType = {
+    GetProducts: PropTypes.func.isRequired,
+    ProductsInfo: PropTypes.object.isRequired
+}
+
+const mapStateToProps = (state)=>({
+    ProductsInfo: state.ProductsInfo
+})
+
+export default connect(mapStateToProps, {GetProducts})(Women)

@@ -11,10 +11,12 @@ import IconButton from '@material-ui/core/IconButton';
 import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 import WarningIcon from '@material-ui/icons/Warning';
-import { withStyles } from '@material-ui/core/styles';
+import { createMuiTheme, withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import { empty } from '../../is-empty';
 import { CloseNotification } from '../../action/authentication';
+import { ThemeProvider } from '@material-ui/styles';
+
 
 const variantIcon = {
     success: CheckCircleIcon,
@@ -174,24 +176,33 @@ const variantIcon = {
   render() {
     const { variant_type, open, message } = this.state;
 
+
+    const theme = createMuiTheme({
+      palette: {
+          type: this.props.ThemeType,
+          primary: {main: '#8a5fde'}
+      },
+    });
+
     return (
-      <div>
+        <ThemeProvider theme={theme}>
           <Snackbar
           anchorOrigin={{
             vertical: 'bottom',
             horizontal: 'left',
           }}
           open={open}
-          autoHideDuration={6000}
+          autoHideDuration={5000}
           onClose={this.handleClose}
         >
           <MySnackbarContentWrapper
             onClose={this.handleClose}
             variant={variant_type}
             message={message}
+            style={{color: "#fff"}}
           />
         </Snackbar>
-      </div>
+        </ThemeProvider>
     )
   }
 }

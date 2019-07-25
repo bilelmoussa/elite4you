@@ -1,6 +1,7 @@
-import { SET_CURRENT_USER, CARD_ITEMS, NOTIFICATION_ERROR, NOTIFICATION_SUCCESS, NOTIFICATION_WARNING, NOTIFICATION_INFO, GEO_INFO } from './types';
+import { SET_CURRENT_USER, CARD_ITEMS, NOTIFICATION_ERROR, NOTIFICATION_SUCCESS, NOTIFICATION_WARNING, NOTIFICATION_INFO, GEO_INFO, LOADING, LOG_ERRORS, PRODUCTS} from './types';
 import setAuthToken from '../setAuthToken';
 import axios from 'axios';
+import jwt_decode from 'jwt-decode';
 
 
 export const CloseNotification = (type) => dispatch =>{
@@ -26,21 +27,56 @@ export const CloseNotification = (type) => dispatch =>{
 			payload: {}
 		})
 	}
+}
 
+export const ResetLogErr = () => (dispatch) =>{
+    dispatch({
+        type: LOG_ERRORS,
+        payload: {},
+    })
+}
+
+export const AddOrRemoveLoading = (loading, dispatch)  => {
+	dispatch({
+		type: LOADING,
+		payload: loading
+	})
 }
 
 export const LogInUser = (user, history) => dispatch => {
-    let user_obj =  JSON.stringify(user)
-    localStorage.setItem('jwtToken', user_obj);
-    setAuthToken(user);
-    dispatch(setCurrentUser(user));
-    history.push('/Admin/dashboard');
+    AddOrRemoveLoading(true, dispatch);
+    axios.post('/api/user/login', user)
+    .then(res=>{
+        const  { token } = res.data;
+        localStorage.setItem('jwtToken', token);
+		setAuthToken(token);
+        const decoded = jwt_decode(token);
+        dispatch(setCurrentUser(decoded));
+        dispatch({
+            type: NOTIFICATION_SUCCESS,
+            payload: {message: "Loged in With Success !"}
+        })
+        history.push('/Admin/dashboard');
+        AddOrRemoveLoading(false, dispatch)
+    })
+    .catch(err=>{
+        dispatch({
+            type: LOG_ERRORS,
+            payload: err.response.data.msg
+        });
+       console.log(err)
+        AddOrRemoveLoading(false, dispatch)
+    })
 }
 
 export const logoutUser = (history) => dispatch => {
     localStorage.removeItem('jwtToken');
     setAuthToken(false);
     dispatch(setCurrentUser({}));
+    dispatch({
+        type: NOTIFICATION_SUCCESS,
+        payload: {message: "Loged out With Success !"}
+    })
 	if(history){
 		history.push('/Admin/login')
 	}
@@ -149,9 +185,6 @@ export const getGeoInfo = () => (dispatch) => {
             type: NOTIFICATION_ERROR,
             payload: {message: message}
         })
-        setTimeout(() => {
-            CloseNotification("error")
-        }, 5000); 
     });
 };
 
@@ -166,7 +199,8 @@ export const ChangeClientCountry = (val) => (dispatch) =>{
     })
 }
 
-export const uploadFile = (files, data) => dispatch =>{
+export const Add_Products = (files, data) => dispatch =>{
+    AddOrRemoveLoading(true, dispatch);
     const config = {
         headers: {
             'content-type': 'multipart/form-data'
@@ -180,15 +214,51 @@ export const uploadFile = (files, data) => dispatch =>{
     });
     
     for ( var key in data ) {
-        formdata.append(key, data[key]);
+        if(key === "ProductSize" || key === "ProductColors"){
+            formdata.append(key, JSON.stringify(data[key]));
+        }
+       else{
+            formdata.append(key, data[key]);
+        }
     }
 
-    axios.post("/api/upload/file", formdata, config)
+    axios.post("/api/product/AddProduct", formdata, config)
     .then((res)=>{
         console.log(res);
+        AddOrRemoveLoading(false, dispatch)
+        dispatch({
+            type: NOTIFICATION_SUCCESS,
+            payload: {message: "Product Added With Success !"}
+        })
     })
     .catch((err)=>{
         console.log(err);
+        AddOrRemoveLoading(false, dispatch);
+        dispatch({
+            type: NOTIFICATION_ERROR,
+            payload: {message: "Server Error !"}
+        })
+    })
+}
+
+export const GetProducts = (query) => dispatch =>{
+    AddOrRemoveLoading(true, dispatch);
+    axios.get(`/api/product/getProduct?ProductCategories=${query.ProductCategories}`)
+    .then(res=>{
+        AddOrRemoveLoading(false, dispatch);
+        console.log(res);
+        dispatch({ 
+            type: PRODUCTS,
+            payload: res.data.data
+        })
+    })
+    .catch(err=>{
+        console.log(err)
+        AddOrRemoveLoading(false, dispatch);
+        dispatch({
+            type: NOTIFICATION_ERROR,
+            payload: {message: err.response.data.Error}
+        })
     })
 }
 

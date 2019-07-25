@@ -7,7 +7,8 @@ import Paper from '@material-ui/core/Paper';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import TextField from "@material-ui/core/TextField";
 import Button from '@material-ui/core/Button';
-import { LogInUser } from '../../action/authentication'
+import { LogInUser, ResetLogErr } from '../../action/authentication'
+import { empty } from '../../is-empty';
 
 const theme = createMuiTheme({
     palette: {
@@ -37,16 +38,18 @@ const styles = theme =>({
         maxWidth: 800,
         margin: "auto",
         overflow: "hidden",
+        backgroundColor: "#424242"
     },
     Avatar:{
         width: '25%',
         minWidth: 130,
         height: 'auto',
-        margin: '10px auto',
+        margin: '10px auto'
     },
     AccountCircle:{
         width: '100%',
-        height: '100%'
+        height: '100%',
+        fill: "#fff"
     },
     form:{
         width: "100%",
@@ -76,7 +79,8 @@ class LogIn extends Component {
         this.state={
             UserName: "",
             Password: "",
-            IsLoggedIn: false
+            IsLoggedIn: false,
+            ErrorMsg: ""
         }
     }
 
@@ -90,7 +94,20 @@ class LogIn extends Component {
     
     static getDerivedStateFromProps(nextProps, prevState){
         if(nextProps !== prevState){
-            return {IsLoggedIn: nextProps.user.IsLoggedIn}
+
+            if(!empty(nextProps.Errors.LogErrors)){
+                return {ErrorMsg: nextProps.Errors.LogErrors}
+            }
+
+            if(!empty(nextProps.user.IsLoggedIn)){
+                return {IsLoggedIn: nextProps.user.IsLoggedIn}
+            }
+
+            if(empty(nextProps.Errors.LogErrors)){
+                return {ErrorMsg: ""}
+            }
+
+           
         }else{
             return null;
         }
@@ -98,40 +115,70 @@ class LogIn extends Component {
 
     componentDidUpdate(prevProps, prevState) {
         if(prevProps !== this.props){
-            this.setState({
-                IsLoggedIn: this.props.user.IsLoggedIn
-            })
+
+            if(!empty(this.props.user.IsLoggedIn)){
+                this.setState({
+                    IsLoggedIn: this.props.user.IsLoggedIn
+                })
+            }
+
+            if(!empty(this.props.Errors.LogErrors)){
+                this.setState({ErrorMsg: this.props.Errors.LogErrors})
+            }
+            
+            if(empty(this.props.Errors.LogErrors)){
+                this.setState({ErrorMsg: ""})
+            } 
+
         }else{
             return null;
         }
     }
 
     handleChange = name => event => {
+        if(!empty(this.state.ErrorMsg)){
+            this.props.ResetLogErr();
+        }
         this.setState({[name]: event.target.value });
     };
 
     handleSubmit = (e) =>{
         e.preventDefault();
         const user = {
-            UserName: this.state.UserName,
-            Password: this.state.Password
+            user_name: this.state.UserName,
+            password: this.state.Password
         }
         this.props.LogInUser(user, this.props.history)
     };
 
     render() {
         const {classes} = this.props;
+        const {ErrorMsg} = this.state;
+
+        const RenderErrorMsg = () =>{
+            if(empty(ErrorMsg)){
+                return null;
+            }else{
+                return(
+                    <div style={{width:"70%", maxWidth:"700", minWidth: "250", margin: "20px auto", backgroundColor: "#f00", padding: 10, borderRadius: 5, textAlign: "center"}}>
+                        <p style={{color: "#fff", textTransform: "uppercase", fontSize: 14, letterSpacing: 1}}>{ErrorMsg}</p>
+                    </div>
+                )
+            }
+        }
 
         return (
             <ThemeProvider theme={theme}>
                 <div className="container_route">
                     <div className={classes.login}>
-                        <Paper className={classes.paper}>
+                        <Paper classes={{root: classes.paper}}>
                                 <div className={classes.Avatar}>
                                     <AccountCircle className={classes.AccountCircle}/>
                                 </div>
                                 <form className={classes.form} onSubmit={this.handleSubmit}>
+                                    {RenderErrorMsg()}
                                     <TextField 
+                                        required
                                         classes={{root: classes.textField}} 
                                         value={this.state.UserName} 
                                         label="Username" 
@@ -140,6 +187,7 @@ class LogIn extends Component {
                                         variant="filled"
                                     />
                                     <TextField 
+                                        required
                                         classes={{root: classes.textField}} 
                                         value={this.state.Password} 
                                         type="password"
@@ -168,10 +216,13 @@ LogIn.protoType = {
     classes: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
     LogInUser: PropTypes.func.isRequired,
+    Errors: PropTypes.object.isRequired,
+    ResetLogErr: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = (state) => ({
-	user: state.user,
+    user: state.user,
+    Errors: state.Errors
 });
 
-export default connect(mapStateToProps, {LogInUser})(withStyles(styles)(LogIn))
+export default connect(mapStateToProps, {LogInUser, ResetLogErr})(withStyles(styles)(LogIn))

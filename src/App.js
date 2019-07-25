@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { HashRouter  as Router, Route, Switch, Redirect } from 'react-router-dom';
+import { BrowserRouter  as Router, Route, Switch, Redirect } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from './store';
 import './App.scss';
@@ -7,15 +7,31 @@ import Client from './components/Client/Client';
 import Admin from './components/Admin/Admin'
 import PageNotFound from './components/PageNotFound/PageNotFound'
 import setAuthToken from './setAuthToken';
-import { setCurrentUser } from './action/authentication';
-import Notification from './StyleComponents/Notification/Notification';
+import { setCurrentUser, logoutUser } from './action/authentication';
+
+import Loading from './StyleComponents/Loading/Loading';
+import jwt_decode from 'jwt-decode';
+
+function decodeToken(token) {
+  let decoded = {};
+  try {
+    decoded = jwt_decode(token);
+  } catch (err) {
+    console.log(err)
+    store.dispatch(logoutUser());
+  }
+  return decoded;
+};
 
 if(localStorage.jwtToken) {
   setAuthToken(localStorage.jwtToken);
-  const decoded = localStorage.jwtToken;
+  const decoded = decodeToken(localStorage.jwtToken);
   store.dispatch(setCurrentUser(decoded));
+  const currentTime = Date.now() / 1000;
+  if(decoded.exp < currentTime) {
+    store.dispatch(logoutUser());
+  }
 }
-
 
 class App extends Component {
 
@@ -35,7 +51,7 @@ class App extends Component {
                   </div>
           </Router>
       </div>
-      <Notification />
+      <Loading />
       </Provider>
     );
   }

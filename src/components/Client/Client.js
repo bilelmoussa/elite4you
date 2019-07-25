@@ -21,6 +21,7 @@ import PageNotFound from '../PageNotFound/PageNotFound'
 import { ThemeProvider } from '@material-ui/styles';
 import Cart from '../Cart/Cart';
 import {getGeoInfo} from '../../action/authentication';
+import Notification from '../../StyleComponents/Notification/Notification';
 
 const theme = createMuiTheme({
   palette: {
@@ -184,6 +185,7 @@ class Client extends Component {
 
         </main>
         </ThemeProvider>
+        <Notification  ThemeType="light"/>
       </div>
     )
   }
