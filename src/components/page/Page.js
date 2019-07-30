@@ -19,7 +19,7 @@ import Visibility from '@material-ui/icons/Visibility'
 import {empty} from '../../is-empty';
 import ProductDialog from '../../StyleComponents/ProductDialog/ProductDialog';
 import { Link } from 'react-router-dom';
-import { AddToCart } from '../../action/authentication';
+import { AddToCart, GetProducts, ResetPageProducts, GetSize, GetColor } from '../../action/authentication';
 
 const styles = theme =>({
     PanelDetailes:{
@@ -88,6 +88,13 @@ class Page extends Component {
         }
     }
 
+    componentDidMount(){
+        this.props.ResetPageProducts();
+        this.props.GetProducts({ProductCategories: this.props.categorie, ProductChildCategories: this.props.childCategorie});
+        this.props.GetSize({ProductCategories: this.props.categorie, ProductChildCategories: this.props.childCategorie});
+        this.props.GetColor({ProductCategories: this.props.categorie, ProductChildCategories: this.props.childCategorie});
+    }
+
     handleColorChange  = (name) => event =>{
         this.setState({...this.state, colors: { ...this.state.colors, [name]: event.target.checked}});
         const {Filters} = this.state;
@@ -98,6 +105,13 @@ class Page extends Component {
             this.AddFilter(Filter_value);
         }else{
             Filters.splice(FilterDelete, 1);
+            const colors = [];
+            Filters.forEach((f)=>{
+                if(f.categorie === "color"){
+                    colors.push(f.value)
+                }
+            })
+            this.props.GetProducts({ProductCategories: this.props.categorie, ProductChildCategories: this.props.childCategorie, ProductColors: colors});
         }
     }
 
@@ -110,6 +124,13 @@ class Page extends Component {
             this.AddFilter(Filter_value);
         }else{
             Filters.splice(FilterDelete, 1);
+            const sizes = [];
+            Filters.forEach((f)=>{
+                if(f.categorie === "size"){
+                    sizes.push(f.value)
+                }
+            })
+            this.props.GetProducts({ProductCategories: this.props.categorie, ProductChildCategories: this.props.childCategorie, ProductSize: sizes});
         }
     }
 
@@ -142,25 +163,75 @@ class Page extends Component {
     handleDelete = filter => () =>{
         const {Filters} = this.state;
         const chipToDelete = Filters.indexOf(filter);
+        const colors = [];
+        const sizes = [];
+
         Filters.splice(chipToDelete, 1);
+
+        Filters.forEach((f)=>{
+            if(f.categorie === "color"){
+                colors.push(f.value)
+            }
+            if(f.categorie === "size"){
+                sizes.push(f.value)
+            }
+        })
+
+
         if(filter.categorie === "color"){
-            this.setState({Filters: Filters, colors:{[filter.value]: false}, MinPrice: "", MaxPrice: ""})
-        }else if(filter.categorie === "size"){
-            this.setState({Filters: Filters, size:{[filter.value]: false}, MinPrice: "", MaxPrice: ""})
-        }else{
-            this.setState({Filters: Filters, MinPrice: "", MaxPrice: ""})
+            this.setState(prevState => ({
+                colors:{
+                    ...prevState.colors,
+                    [filter.value]: false
+                }
+            }))
         }
+
+        if(filter.categorie === "size"){
+            this.setState(prevState => ({
+                size:{
+                    ...prevState.size,
+                    [filter.value]: false
+                }
+            }))
+        }
+
+        console.log("from delete: ", `colors: ${colors} ----- sizes: ${sizes}`);
+
+        this.props.GetProducts({ProductCategories: this.props.categorie, ProductChildCategories: this.props.childCategorie, ProductSize: sizes, ProductColors: colors});
+
     }
 
     AddFilter = (value) =>{
         const { Filters } = this.state;
+        const sizes = [];
+        const colors = [];
+
+        Filters.forEach((f)=>{
+            if(f.categorie === "size"){
+                sizes.push(f.value);
+            }
+            if(f.categorie === "color"){
+                colors.push(f.value);
+            }
+        });
+
+        if(value.categorie === "size"){
+            sizes.push(value.value);
+        }
+
+        if(value.categorie === "color"){
+            colors.push(value.value)
+        }
+        
+        this.props.GetProducts({ProductCategories: this.props.categorie, ProductChildCategories: this.props.childCategorie, ProductSize: sizes, ProductColors: colors});
         this.setState({Filters: [...Filters, value]});
     }
 
     Discount(d){
-        if(d.Discount !== 0 && d.Discount){
+        if(d.ProductDiscount !== 0 && d.ProductDiscount){
             return(
-                <div className="DiscountTag" style={{margin: "20px 30px"}}>-{d.Discount}%</div>
+                <div className="DiscountTag" style={{margin: "20px 30px"}}>-{d.ProductDiscount}%</div>
             )
         }else{
             return null;
@@ -168,7 +239,7 @@ class Page extends Component {
     }
 
     NewProduct(d){
-        if(d.newProduct){
+        if(d.NewProduct){
             return(
                 <div className="NewTag" style={{margin: "20px 30px"}}>New</div>
             )
@@ -178,11 +249,12 @@ class Page extends Component {
     }
 
     ProductInfo(d){
-        if(d.ProductOldPrice !== 0 && d.ProductOldPrice){
+        if(d.ProductDiscount !== 0 && d.ProductDiscount){
+            const NewPrice = d.ProductPrice - (d.ProductPrice * (d.ProductDiscount / 100));
             return(
                 <div className="under_Img_Gallery">
                     <p className="slide_title">{d.ProductName}</p>
-                    <p className="Slide_Price"><b className="old_price">${d.ProductOldPrice}</b>${d.ProductPrice}</p>
+                    <p className="Slide_Price"><b className="old_price">${d.ProductPrice}</b>${NewPrice}</p>
                 </div>
             )
         }else{
@@ -205,10 +277,11 @@ class Page extends Component {
 
 
     render() {
-        const {classes, pathname, colors, size, childrenLink } = this.props;
+        const {classes, pathname, childrenLink } = this.props;
+        const { Colors, Size, Products } = this.props.ProductsInfo;
         const pathnameLength = (pathname.match(/\//g) || []).length;
         let paths = [];
-
+            
             if(pathnameLength === 1){
                 paths.push(pathname.replace(/\/(\w+)/, '$1'));
             }else if(pathnameLength === 2){
@@ -230,7 +303,6 @@ class Page extends Component {
                 paths.push(pathname.replace(/\/(\w+)\/(\w+)\/(\w+)\/(\w+)\/(\w+)/, '$4'));
                 paths.push(pathname.replace(/\/(\w+)\/(\w+)\/(\w+)\/(\w+)\/(\w+)/, '$5'));
             }
-        
 
         const BreadContent = ()=>{
             return(
@@ -256,25 +328,28 @@ class Page extends Component {
         };
 
         const ColorsPicker = ()=>{
-            if(empty(colors)){
+            if(empty(Colors)){
                 return <div></div>;
             }else{
             return(
             <FormGroup row={false}>
-                { colors.map((color, i)=>{
+                { Colors.map((color, i)=>{
                         return(
+                            <div key={i}>
                             <FormControlLabel
-                            key={i}
+                            style={{textTransform: "capitalize"}}
                             control={
                                 <Checkbox
                                     color="default" 
-                                    checked={!!this.state.colors[color]} 
-                                    onChange={this.handleColorChange(color)}
+                                    checked={!!this.state.colors[color.name]} 
+                                    onChange={this.handleColorChange(color.name)}
                                     value={color} 
                                 />
                             }
-                            label={color}
+                            label={color.name}
                           />
+                          <span>({color.count})</span>
+                          </div>
                         )
                     })}
             </FormGroup>
@@ -283,25 +358,28 @@ class Page extends Component {
         }
 
         const SizePicker = ()=>{
-            if(empty(size)){
+            if(empty(Size)){
                 return <div></div>;
             }else{
             return(
             <FormGroup row={false}>
-                { size.map((s, i)=>{
+                { Size.map((s, i)=>{
                         return(
+                            <div  key={i}>
                             <FormControlLabel
-                            key={i}
+                            style={{textTransform: "capitalize"}}
                             control={
                               <Checkbox
                                 color="default" 
-                                checked={!!this.state.size[s]} 
-                                onChange={this.handleSizeChange(s)}
+                                checked={!!this.state.size[s.name]} 
+                                onChange={this.handleSizeChange(s.name)}
                                 value={s} 
                                 />
                             }
-                            label={s}
+                            label={s.name}
                           />
+                          <span>({s.count})</span>
+                          </div>
                         )
                     })}
             </FormGroup>
@@ -320,22 +398,22 @@ class Page extends Component {
         }
 
         const RenderProduts = ()=>{
-            if(empty(this.props.Products)){
+            if(empty(Products)){
                 return(
                     <p>No Products are Added yet !</p>
                 )
             }else{
                 return(
-                    this.props.Products.map((d, i)=>{
+                    Products.map((d, i)=>{
                        return(
                         <div key={i} className="ProductCard">
                             <div className="ProductOnHoverBG"></div>
                             <div className="ProductOnHoverInfo">
                                 <Visibility className="VisibilityProduct" onClick={this.handleDialogOpen(d)}/>
                             </div>
-                            {this.Discount(d)}
                             {this.NewProduct(d)}
-                            <img className="ProductImg" alt="" src={require(`../../static/${d.ProductImage}`)}/>
+                            {this.Discount(d)}
+                            <img className="ProductImg" alt="" src={d.ProductFrontImage.url}/>
                             {this.ProductInfo(d)}
                         </div>
                        )
@@ -378,6 +456,7 @@ class Page extends Component {
                                 {this.state.Filters.map((filter, i)=>(
                                     <Chip
                                         key={i}
+                                        style={{textTransform: "capitalize"}}
                                         label={filter.value}
                                         className={classes.chip}
                                         onDelete={this.handleDelete(filter)} 
@@ -447,10 +526,35 @@ class Page extends Component {
             )
         }
 
+        const Title = ()=>{
+            return(
+                paths.map((path, i)=>{
+                        if(pathnameLength-1 === i){
+                            return(
+                                <Typography style={{fontSize: 30}} className={classes.Panel_Link} key={i} color="textPrimary">{path}</Typography>
+                            )
+                        }else{
+                            if(path === "home"){
+                                return(
+                                    <Typography style={{fontSize: 30}} className={classes.Panel_Link} key={i} color="inherit" component={Link} to={`/home`}>{path}</Typography>
+                                   )
+                            }else{
+                                return(
+                                    <Typography style={{fontSize: 30}} className={classes.Panel_Link} key={i} color="inherit" component={Link} to={`/home/${path}`}>{path}</Typography>
+                                   )
+                            }
+                           
+                        }  
+                 })
+            )
+        };
+
         return (
             <div className="page_container">
                 <div className="page_title">
-                    <h1>{this.props.title}</h1>
+                    <Breadcrumbs style={{fontSize: 30}} aria-label="PathTitle" className="PathTitle">
+                        {Title()}
+                    </Breadcrumbs>
                 </div>
                 <div className="page_content">
                     <Breadcrumbs aria-label="Breadcrumb" className="MobileBread">
@@ -490,10 +594,15 @@ class Page extends Component {
 Page.protoType = {
     classes: PropTypes.object.isRequired,
     AddToCart: PropTypes.func.isRequired,
+    GetProducts: PropTypes.func.isRequired,
+    ProductsInfo: PropTypes.object.isRequired,
+    GetSize: PropTypes.func.isRequired,
+    GetColor: PropTypes.func.isRequired,
+    ResetPageProducts: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = (state)=> ({
-    user: state.user
+    ProductsInfo: state.ProductsInfo
 })
 
-export default connect(mapStateToProps, {AddToCart})(withStyles(styles)(Page));
+export default connect(mapStateToProps, {AddToCart, GetProducts, GetSize, GetColor, ResetPageProducts})(withStyles(styles)(Page));

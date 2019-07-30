@@ -5,7 +5,7 @@ export default class Shoes extends Component {
     render() {
         return (
             <div>
-                <Page title="shoes"  pathname={this.props.match.path}/>
+                <Page categorie={this.props.categorie} childCategorie={this.props.childCategorie}  pathname={this.props.pathname}/>
             </div>
         )
     }

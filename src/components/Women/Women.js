@@ -3,218 +3,13 @@ import { Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Page from '../page/Page';
-import Clothing from './Clothing/Clothing';
-import Shoes from './Shoes/Shoes';
-import Accessories from './Accessories/Accessories';
+import Clothing from '../childrenCatRoutes/Clothing/Clothing';
+import Shoes from '../childrenCatRoutes/Shoes/Shoes';
+import Accessories from '../childrenCatRoutes/Accessories/Accessories';
 import PageNotFound from '../../components/PageNotFound/PageNotFound'
-import {GetProducts} from '../../action/authentication';
+import {GetProducts, GetSize, GetColor, ResetPageProducts} from '../../action/authentication';
 
 class Women extends Component {
-    constructor(){
-        super();
-        this.state={
-            Products:[
-                {
-                    ProductImage: "Gallery_1.webp",
-                    ProductName: "Knotted T-Shirt Midi Dress",
-                    ProductPrice: 20.00,
-                    colors: ["White", "Black", "Pink"],
-                    Size: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
-                    description: "Black Short T-Shirt Midi Dress"
-                },
-                {
-                    ProductImage: "Gallery_2.jpg",
-                    ProductName: "Zoey Button Up Tie-Front Maxi Dress",
-                    ProductPrice: 20.00,
-                    ProductOldPrice: 39.00,
-                    Discount: 10,
-                },
-                {
-                    ProductImage: "Gallery_3.jpg",
-                    ProductName: "Harlee Printed Button Front Midi Dress",
-                    ProductPrice: 30.00,
-                    ProductOldPrice: 39.00,
-                    Discount: 10,
-                    newProduct: true
-                },
-                {
-                    ProductImage: "Gallery_3.jpg",
-                    ProductName: "Harlee Printed Button Front Midi Dress",
-                    ProductPrice: 30.00,
-                    ProductOldPrice: 39.00,
-                    Discount: 10,
-                    newProduct: true
-                },
-                {
-                    ProductImage: "Gallery_3.jpg",
-                    ProductName: "Harlee Printed Button Front Midi Dress",
-                    ProductPrice: 30.00,
-                    ProductOldPrice: 39.00,
-                    Discount: 10,
-                    newProduct: true
-                },
-                {
-                    ProductImage: "Gallery_3.jpg",
-                    ProductName: "Harlee Printed Button Front Midi Dress",
-                    ProductPrice: 30.00,
-                    ProductOldPrice: 39.00,
-                    Discount: 10,
-                    newProduct: true
-                },
-                {
-                    ProductImage: "Gallery_3.jpg",
-                    ProductName: "Harlee Printed Button Front Midi Dress",
-                    ProductPrice: 30.00,
-                    ProductOldPrice: 39.00,
-                    Discount: 10,
-                    newProduct: true
-                },
-                {
-                    ProductImage: "Gallery_3.jpg",
-                    ProductName: "Harlee Printed Button Front Midi Dress",
-                    ProductPrice: 30.00,
-                    ProductOldPrice: 39.00,
-                    Discount: 10,
-                    newProduct: true
-                },
-                {
-                    ProductImage: "Gallery_3.jpg",
-                    ProductName: "Harlee Printed Button Front Midi Dress",
-                    ProductPrice: 30.00,
-                    ProductOldPrice: 39.00,
-                    Discount: 10,
-                    newProduct: true
-                },
-                {
-                    ProductImage: "Gallery_3.jpg",
-                    ProductName: "Harlee Printed Button Front Midi Dress",
-                    ProductPrice: 30.00,
-                    ProductOldPrice: 39.00,
-                    Discount: 10,
-                    newProduct: true
-                },
-                {
-                    ProductImage: "Gallery_3.jpg",
-                    ProductName: "Harlee Printed Button Front Midi Dress",
-                    ProductPrice: 30.00,
-                    ProductOldPrice: 39.00,
-                    Discount: 10,
-                    newProduct: true
-                },
-                {
-                    ProductImage: "Gallery_3.jpg",
-                    ProductName: "Harlee Printed Button Front Midi Dress",
-                    ProductPrice: 30.00,
-                    ProductOldPrice: 39.00,
-                    Discount: 10,
-                    newProduct: true
-                },
-                {
-                    ProductImage: "Gallery_3.jpg",
-                    ProductName: "Harlee Printed Button Front Midi Dress",
-                    ProductPrice: 30.00,
-                    ProductOldPrice: 39.00,
-                    Discount: 10,
-                    newProduct: true
-                },
-                {
-                    ProductImage: "Gallery_3.jpg",
-                    ProductName: "Harlee Printed Button Front Midi Dress",
-                    ProductPrice: 30.00,
-                    ProductOldPrice: 39.00,
-                    Discount: 10,
-                    newProduct: true
-                },
-                {
-                    ProductImage: "Gallery_3.jpg",
-                    ProductName: "Harlee Printed Button Front Midi Dress",
-                    ProductPrice: 30.00,
-                    ProductOldPrice: 39.00,
-                    Discount: 10,
-                    newProduct: true
-                },
-                {
-                    ProductImage: "Gallery_3.jpg",
-                    ProductName: "Harlee Printed Button Front Midi Dress",
-                    ProductPrice: 30.00,
-                    ProductOldPrice: 39.00,
-                    Discount: 10,
-                    newProduct: true
-                },
-                {
-                    ProductImage: "Gallery_3.jpg",
-                    ProductName: "Harlee Printed Button Front Midi Dress",
-                    ProductPrice: 30.00,
-                    ProductOldPrice: 39.00,
-                    Discount: 10,
-                    newProduct: true
-                },
-                {
-                    ProductImage: "Gallery_3.jpg",
-                    ProductName: "Harlee Printed Button Front Midi Dress",
-                    ProductPrice: 30.00,
-                    ProductOldPrice: 39.00,
-                    Discount: 10,
-                    newProduct: true
-                },
-                {
-                    ProductImage: "Gallery_3.jpg",
-                    ProductName: "Harlee Printed Button Front Midi Dress",
-                    ProductPrice: 30.00,
-                    ProductOldPrice: 39.00,
-                    Discount: 10,
-                    newProduct: true
-                },
-                {
-                    ProductImage: "Gallery_3.jpg",
-                    ProductName: "Harlee Printed Button Front Midi Dress",
-                    ProductPrice: 30.00,
-                    ProductOldPrice: 39.00,
-                    Discount: 10,
-                    newProduct: true
-                },
-                {
-                    ProductImage: "Gallery_3.jpg",
-                    ProductName: "Harlee Printed Button Front Midi Dress",
-                    ProductPrice: 30.00,
-                    ProductOldPrice: 39.00,
-                    Discount: 10,
-                    newProduct: true
-                },
-                {
-                    ProductImage: "Gallery_3.jpg",
-                    ProductName: "Harlee Printed Button Front Midi Dress",
-                    ProductPrice: 30.00,
-                    ProductOldPrice: 39.00,
-                    Discount: 10,
-                    newProduct: true
-                },
-                {
-                    ProductImage: "Gallery_3.jpg",
-                    ProductName: "Harlee Printed Button Front Midi Dress",
-                    ProductPrice: 30.00,
-                    ProductOldPrice: 39.00,
-                    Discount: 10,
-                    newProduct: true
-                },
-                {
-                    ProductImage: "Gallery_3.jpg",
-                    ProductName: "Harlee Printed Button Front Midi Dress",
-                    ProductPrice: 30.00,
-                    ProductOldPrice: 39.00,
-                    Discount: 10,
-                    newProduct: true
-                }
-            ],
-            childrenLink: ['clothing', 'shoes', 'accessories'],
-            size: ['XXXS','XXS','XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL', '37', '38', '39', '40', '41', '42'],
-            colors:['White', 'Yellow', 'Orange', 'Red', 'Pink', 'Purple', 'Blue', 'Green', 'Black'],
-        }
-    }
-
-    componentDidMount(){
-        this.props.GetProducts({ProductCategories: "women"})
-    }
 
     render() {
         const{match} = this.props;
@@ -223,27 +18,57 @@ class Women extends Component {
             <div>
                 <Switch>
                     <Route exact path={`${match.path}`} render={()=>(
-                        <Page title="Women" colors={this.state.colors} size={this.state.size} childrenLink={this.state.childrenLink} Products={this.state.Products} pathname={this.props.match.path}/>
-                        )}
+                        <Page 
+                            categorie="women"
+                            childCategorie="" 
+                            pathname={this.props.history.location.pathname}
+                            childrenLink={['clothing', 'shoes', 'accessories']}
                         />
-                    <Route exact path={`${match.path}/clothing`} component={Clothing}/>
-                    <Route exact path={`${match.path}/shoes`} component={Shoes}/>
-                    <Route exact path={`${match.path}/accessories`} component={Accessories}/>
+                    )}/>
+                    <Route exact path={`${match.path}/clothing`} render={()=>(
+                        <Clothing 
+                            categorie="women"
+                            childCategorie="clothing"
+                            pathname={this.props.history.location.pathname} 
+                        />
+                    )}/>
+                    <Route exact path={`${match.path}/shoes`} render={()=>(
+                        <Shoes 
+                            categorie="women"
+                            childCategorie="shoes"
+                            pathname={this.props.history.location.pathname}
+                        />
+                    )}/>
+                    <Route exact path={`${match.path}/accessories`} render={()=>(
+                        <Accessories 
+                            categorie="women"
+                            childCategorie="accessories"
+                            pathname={this.props.history.location.pathname} 
+                        />
+                    )}/>
                     <Route  component={PageNotFound}/>
                 </Switch>
              
             </div>
         )
     }
+
+    componentWillUnmount(){
+        this.props.ResetPageProducts();
+    }
+    
 }
 
 Women.protoType = {
     GetProducts: PropTypes.func.isRequired,
-    ProductsInfo: PropTypes.object.isRequired
+    ProductsInfo: PropTypes.object.isRequired,
+    GetSize: PropTypes.func.isRequired,
+    GetColor: PropTypes.func.isRequired,
+    ResetPageProducts: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = (state)=>({
     ProductsInfo: state.ProductsInfo
 })
 
-export default connect(mapStateToProps, {GetProducts})(Women)
+export default connect(mapStateToProps, {GetProducts, GetSize, GetColor, ResetPageProducts})(Women)

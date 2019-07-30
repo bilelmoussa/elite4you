@@ -24,4 +24,10 @@ export const LOADING = "LOADING";
 export const LOG_ERRORS = "LOG_ERRORS";
 
 //PRODUCTS
-export const PRODUCTS = "PRODUCTS"
+export const PRODUCTS = "PRODUCTS";
+
+//SIZE
+export const SIZE = "SIZE";
+
+//COLOR
+export const COLOR = "COLOR";

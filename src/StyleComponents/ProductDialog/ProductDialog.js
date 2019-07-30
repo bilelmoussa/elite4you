@@ -4,7 +4,6 @@ import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import withMobileDialog from '@material-ui/core/withMobileDialog';
 import PropTypes from 'prop-types';
@@ -132,9 +131,9 @@ class ProductDialog extends Component {
     handleSubmit = (product) => (event) =>{
         event.preventDefault();
         const {Quantity, Color, Size} = this.state;
-        product.ProductColor = Color;
-        product.ProductSize = Size;
-        product.ProductQuantity = Quantity;
+        product.ChoosedColor = Color;
+        product.ChoosedSize = Size;
+        product.ChoosedQuantity = Quantity;
         product.PriceTotal = product.ProductPrice * Quantity;
         this.props.AddToCart(product);
 
@@ -149,10 +148,8 @@ class ProductDialog extends Component {
     render() {
         const{fullScreen, open, product, classes} = this.props;
 
-
-
         const RenderDescription = (p) =>{
-            if(empty(p.description)){
+            if(empty(p.ProductDescription)){
                 return null;
             }else{
                 return(
@@ -160,14 +157,14 @@ class ProductDialog extends Component {
                         <label className={classes.DescLabel} >
                             description
                         </label>
-                        <p className={classes.DescVal}>{p.description}</p>
+                        <p className={classes.DescVal}>{p.ProductDescription}</p>
                     </div>
                 )
             }
         }
 
         const RednerSizePicker = (p) =>{
-            if(empty(p.Size)){
+            if(empty(p.ProductSize)){
                 return null;
             }else{
                 return(
@@ -183,9 +180,9 @@ class ProductDialog extends Component {
                         }}
                     >   
                         <option value=""></option>
-                        {p.Size.map((s, i)=>{
+                        {p.ProductSize.map((s, i)=>{
                             return(
-                                <option key={i} value={s}>{s}</option>
+                                <option style={{textTransform: "uppercase"}} key={i} value={s}>{s}</option>
                             )
                         })}
                     </Select>
@@ -195,7 +192,7 @@ class ProductDialog extends Component {
         }
 
         const RenderColorPicker = (p) =>{
-            if(empty(p.colors)){
+            if(empty(p.ProductColors)){
                 return null;
             }else{
                 return(
@@ -211,9 +208,9 @@ class ProductDialog extends Component {
                             }}
                         >   
                             <option value=""></option>
-                            {p.colors.map((color, i)=>{
+                            {p.ProductColors.map((color, i)=>{
                                 return(
-                                    <option key={i} value={color}>{color}</option>
+                                    <option style={{textTransform: "capitalize"}} key={i} value={color}>{color}</option>
                                 )
                             })}
                         </Select>
@@ -223,11 +220,12 @@ class ProductDialog extends Component {
         }
 
         const ProductPrice = (d)=>{
-            if(d.ProductOldPrice !== 0 && d.ProductOldPrice){
+            if(d.ProductDiscount !== 0 && d.ProductDiscount){
+                const NewPrice = d.ProductPrice - (d.ProductPrice * (d.ProductDiscount / 100));
                 return(
                     <div>
                         <label className={classes.BPPLabel}>Price:</label>
-                        <p className={classes.BPPPriceVal}><b className={classes.BPPOldPrice}>${d.ProductOldPrice}</b>${d.ProductPrice}</p>
+                        <p className={classes.BPPPriceVal}><b className={classes.BPPOldPrice}>${d.ProductPrice}</b>${NewPrice}</p>
                     </div>
                 )
             }else{
@@ -241,28 +239,7 @@ class ProductDialog extends Component {
         }
 
         const RenderDialog = () =>{
-            if(empty(product)){
-                return(
-                    <Dialog
-                        fullScreen={fullScreen}
-                        open={open}
-                        onClose={this.DialogClose}
-                        aria-labelledby="responsive-dialog-title"
-                    >
-                    <DialogTitle id="responsive-dialog-title">{"Product Not load it yet !"}</DialogTitle>
-                    <DialogContent>
-                    <DialogContentText>
-                        No description
-                    </DialogContentText>
-                    </DialogContent>
-                    <DialogActions>
-                    <Button onClick={this.DialogClose} color="primary" autoFocus>
-                        Go Back
-                    </Button>
-                    </DialogActions>
-                    </Dialog>
-                )
-            }else{
+            if(!empty(product)){
                 return(
                     <Dialog
                         fullScreen={fullScreen}
@@ -273,7 +250,7 @@ class ProductDialog extends Component {
                     >
                     <DialogTitle id="responsive-dialog-title">{product.ProductName}</DialogTitle>
                     <DialogContent className={classes.DialogContent}>
-                     <div className={classes.BigProduct}><img className={classes.BigProductImg} alt="" src={require(`../../static/${product.ProductImage}`)} /></div>
+                     <div className={classes.BigProduct}><img className={classes.BigProductImg} alt="" src={product.ProductFrontImage.url} /></div>
                         <div className={classes.BigProductInfo}>
                             {ProductPrice(product)}
                             <Divider className={classes.ProductDivider}/>
@@ -304,6 +281,8 @@ class ProductDialog extends Component {
                     </DialogActions>
                     </Dialog>
                 )
+            }else{
+                return null;
             }
         }
 

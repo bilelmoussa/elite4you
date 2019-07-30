@@ -1,7 +1,8 @@
-import { SET_CURRENT_USER, CARD_ITEMS, NOTIFICATION_ERROR, NOTIFICATION_SUCCESS, NOTIFICATION_WARNING, NOTIFICATION_INFO, GEO_INFO, LOADING, LOG_ERRORS, PRODUCTS} from './types';
+import { SET_CURRENT_USER, CARD_ITEMS, NOTIFICATION_ERROR, NOTIFICATION_SUCCESS, NOTIFICATION_WARNING, NOTIFICATION_INFO, GEO_INFO, LOADING, LOG_ERRORS, PRODUCTS, SIZE, COLOR} from './types';
 import setAuthToken from '../setAuthToken';
 import axios from 'axios';
 import jwt_decode from 'jwt-decode';
+import { empty } from '../is-empty';
 
 
 export const CloseNotification = (type) => dispatch =>{
@@ -243,10 +244,10 @@ export const Add_Products = (files, data) => dispatch =>{
 
 export const GetProducts = (query) => dispatch =>{
     AddOrRemoveLoading(true, dispatch);
-    axios.get(`/api/product/getProduct?ProductCategories=${query.ProductCategories}`)
+    axios.get(`/api/product/getProduct`, {params: query})
     .then(res=>{
         AddOrRemoveLoading(false, dispatch);
-        console.log(res);
+        //console.log(res);
         dispatch({ 
             type: PRODUCTS,
             payload: res.data.data
@@ -255,10 +256,67 @@ export const GetProducts = (query) => dispatch =>{
     .catch(err=>{
         console.log(err)
         AddOrRemoveLoading(false, dispatch);
-        dispatch({
-            type: NOTIFICATION_ERROR,
-            payload: {message: err.response.data.Error}
-        })
     })
+}
+
+export const GetSize = (query) => dispatch =>{
+    let url = '';
+
+    if(!empty(query.ProductCategories)){
+        url = `?ProductCategories=${query.ProductCategories}`;
+    }
+
+    AddOrRemoveLoading(true, dispatch);
+    axios.get(`/api/product/sizes${url}`)
+    .then(res=>{
+        AddOrRemoveLoading(false, dispatch);
+        dispatch({ 
+            type: SIZE,
+            payload: res.data.size
+        })
+       // console.log(res);
+    })
+    .catch(err=>{
+        console.log(err);
+        AddOrRemoveLoading(false, dispatch);
+    })
+}
+
+export const GetColor = (query) => dispatch =>{
+    let url = '';
+
+    if(!empty(query.ProductCategories)){
+        url = `?ProductCategories=${query.ProductCategories}`;
+    }
+    
+    AddOrRemoveLoading(true, dispatch);
+    axios.get(`/api/product/colors${url}`)
+    .then(res=>{
+        AddOrRemoveLoading(false, dispatch);
+        dispatch({ 
+            type: COLOR,
+            payload: res.data.colors
+        })
+        //console.log(res);
+    })
+    .catch(err=>{
+        console.log(err);
+        AddOrRemoveLoading(false, dispatch);
+    })
+}
+
+export const ResetPageProducts = () => dispatch =>{
+    dispatch({ 
+        type: PRODUCTS,
+        payload: []
+    });
+    dispatch({ 
+        type: SIZE,
+        payload: []
+    });
+    dispatch({ 
+        type: COLOR,
+        payload: []
+    });
 }
 

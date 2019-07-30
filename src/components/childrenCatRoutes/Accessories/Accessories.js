@@ -3,9 +3,10 @@ import Page from '../../page/Page';
 
 export default class Accessories extends Component {
     render() {
+        console.log(this.props)
         return (
             <div>
-                <Page title="accessories"  pathname={this.props.match.path}/>
+                <Page categorie={this.props.categorie} childCategorie={this.props.childCategorie}  pathname={this.props.pathname}/>
             </div>
         )
     }

@@ -4,7 +4,9 @@ export default class Sale extends Component {
     render() {
         return (
             <div>
-                <Page title="Sale" pathname={this.props.history.location.pathname}/>
+                <Page 
+                title="Sale" 
+                pathname={this.props.history.location.pathname}/>
             </div>
         )
     }
