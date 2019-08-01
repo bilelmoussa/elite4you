@@ -98,20 +98,32 @@ class Page extends Component {
     handleColorChange  = (name) => event =>{
         this.setState({...this.state, colors: { ...this.state.colors, [name]: event.target.checked}});
         const {Filters} = this.state;
-        let Filter_value = {value: name, categorie: "color"}
+        let Filter_value = {value: name, categorie: "color"};
         const FilterDelete = Filters.map((e)=>{return e.value}).indexOf(Filter_value.value);
+        const colors = [];
+        const sizes = [];
+        Filters.forEach((f)=>{
+            if(f.categorie === "color"){
+                colors.push(f.value)
+            }
+            if(f.categorie === "size"){
+                sizes.push(f.value)
+            }
+        })
 
         if(FilterDelete === -1){
+            colors.push(name);
             this.AddFilter(Filter_value);
+            this.props.GetSize({ProductCategories: this.props.categorie, ProductChildCategories: this.props.childCategorie, ProductColors: colors});
         }else{
             Filters.splice(FilterDelete, 1);
-            const colors = [];
-            Filters.forEach((f)=>{
-                if(f.categorie === "color"){
-                    colors.push(f.value)
-                }
-            })
-            this.props.GetProducts({ProductCategories: this.props.categorie, ProductChildCategories: this.props.childCategorie, ProductColors: colors});
+            let colorDelete = colors.indexOf(name);
+            colors.splice(colorDelete, 1);
+            let newStateColors = this.state.colors;
+            delete newStateColors[name];
+            this.setState({...this.state, colors: newStateColors});
+            this.props.GetProducts({ProductCategories: this.props.categorie, ProductChildCategories: this.props.childCategorie, ProductColors: colors, ProductSize:sizes, gtePrice: this.state.MinPrice, ltePrice: this.state.MaxPrice});
+            this.props.GetSize({ProductCategories: this.props.categorie, ProductChildCategories: this.props.childCategorie, ProductColors: colors});
         }
     }
 
@@ -120,17 +132,29 @@ class Page extends Component {
         const {Filters} = this.state;
         let Filter_value = {value: name, categorie: "size"}
         const FilterDelete = Filters.map((e)=>{return e.value}).indexOf(Filter_value.value);
+        const sizes = [];
+        const colors = [];
+        Filters.forEach((f)=>{
+            if(f.categorie === "size"){
+                sizes.push(f.value)
+            }
+            if(f.categorie === "color"){
+                colors.push(f.value)
+            }
+        })
         if(FilterDelete === -1){
+            sizes.push(name);
             this.AddFilter(Filter_value);
+            this.props.GetColor({ProductCategories: this.props.categorie, ProductChildCategories: this.props.childCategorie, ProductSize: sizes});
         }else{
             Filters.splice(FilterDelete, 1);
-            const sizes = [];
-            Filters.forEach((f)=>{
-                if(f.categorie === "size"){
-                    sizes.push(f.value)
-                }
-            })
-            this.props.GetProducts({ProductCategories: this.props.categorie, ProductChildCategories: this.props.childCategorie, ProductSize: sizes});
+            let sizeDelete = sizes.indexOf(name);
+            sizes.splice(sizeDelete, 1);
+            let newStateSize = this.state.size;
+            delete newStateSize[name];
+            this.setState({ ...this.state, size: newStateSize});
+            this.props.GetProducts({ProductCategories: this.props.categorie, ProductChildCategories: this.props.childCategorie, ProductSize: sizes, ProductColors: colors, gtePrice: this.state.MinPrice, ltePrice: this.state.MaxPrice});
+            this.props.GetColor({ProductCategories: this.props.categorie, ProductChildCategories: this.props.childCategorie, ProductSize: sizes});
         }
     }
 
@@ -151,13 +175,28 @@ class Page extends Component {
 
     handlePriceSubmit = (event)=>{
         event.preventDefault();
-        const {MinPrice, MaxPrice} = this.state;
+        const {MinPrice, MaxPrice, Filters} = this.state;
         const value = {value:`${MinPrice}-${MaxPrice}`, categorie: 'price'};
+        const FilterDelete = Filters.map((e)=>{return e.value}).indexOf(value.value);
+        const FilterDeleteCat = Filters.map((e)=>{return e.categorie}).indexOf(value.categorie);
+        Filters.splice(FilterDeleteCat, 1);            
         this.filterPrice();
         if(!empty(MinPrice) || !empty(MaxPrice)){
-            this.AddFilter(value);
+            if(FilterDelete === -1){
+                this.AddFilter(value);
+                const colors = [];
+                const sizes = [];
+                Filters.forEach((f)=>{
+                    if(f.categorie === "color"){
+                        colors.push(f.value)
+                    }
+                    if(f.categorie === "size"){
+                        sizes.push(f.value)
+                    }
+                })
+                this.props.GetProducts({ProductCategories: this.props.categorie, ProductChildCategories: this.props.childCategorie, ProductSize: sizes, ProductColors: colors, gtePrice: MinPrice, ltePrice: MaxPrice});
+            }
         }
-        this.setState({MinPrice: "", MaxPrice: ""});
     }
 
     handleDelete = filter => () =>{
@@ -165,6 +204,8 @@ class Page extends Component {
         const chipToDelete = Filters.indexOf(filter);
         const colors = [];
         const sizes = [];
+        let MaxPrice =  this.state.MaxPrice;
+        let MinPrice = this.state.MinPrice;
 
         Filters.splice(chipToDelete, 1);
 
@@ -196,10 +237,16 @@ class Page extends Component {
             }))
         }
 
-        console.log("from delete: ", `colors: ${colors} ----- sizes: ${sizes}`);
-
-        this.props.GetProducts({ProductCategories: this.props.categorie, ProductChildCategories: this.props.childCategorie, ProductSize: sizes, ProductColors: colors});
-
+        if(filter.categorie === "price"){
+            this.setState({MinPrice: "", MaxPrice: ""});
+            MaxPrice = "";
+            MinPrice = "";
+            this.props.GetProducts({ProductCategories: this.props.categorie, ProductChildCategories: this.props.childCategorie, ProductSize: sizes, ProductColors: colors, gtePrice: "", ltePrice: ""});
+        }
+        
+        this.props.GetProducts({ProductCategories: this.props.categorie, ProductChildCategories: this.props.childCategorie, ProductSize: sizes, ProductColors: colors, gtePrice: MinPrice, ltePrice: MaxPrice});
+        this.props.GetColor({ProductCategories: this.props.categorie, ProductChildCategories: this.props.childCategorie, ProductSize: sizes});
+        this.props.GetSize({ProductCategories: this.props.categorie, ProductChildCategories: this.props.childCategorie, ProductColors: colors});
     }
 
     AddFilter = (value) =>{
@@ -226,6 +273,8 @@ class Page extends Component {
         
         this.props.GetProducts({ProductCategories: this.props.categorie, ProductChildCategories: this.props.childCategorie, ProductSize: sizes, ProductColors: colors});
         this.setState({Filters: [...Filters, value]});
+        this.props.GetSize({ProductCategories: this.props.categorie, ProductChildCategories: this.props.childCategorie, ProductColors: colors});
+        this.props.GetColor({ProductCategories: this.props.categorie, ProductChildCategories: this.props.childCategorie, ProductSize: sizes});
     }
 
     Discount(d){

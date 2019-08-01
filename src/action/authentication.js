@@ -260,21 +260,15 @@ export const GetProducts = (query) => dispatch =>{
 }
 
 export const GetSize = (query) => dispatch =>{
-    let url = '';
-
-    if(!empty(query.ProductCategories)){
-        url = `?ProductCategories=${query.ProductCategories}`;
-    }
-
     AddOrRemoveLoading(true, dispatch);
-    axios.get(`/api/product/sizes${url}`)
+    axios.get(`/api/product/sizes`, {params: query})
     .then(res=>{
         AddOrRemoveLoading(false, dispatch);
         dispatch({ 
             type: SIZE,
             payload: res.data.size
         })
-       // console.log(res);
+        console.log(res);
     })
     .catch(err=>{
         console.log(err);
@@ -283,14 +277,8 @@ export const GetSize = (query) => dispatch =>{
 }
 
 export const GetColor = (query) => dispatch =>{
-    let url = '';
-
-    if(!empty(query.ProductCategories)){
-        url = `?ProductCategories=${query.ProductCategories}`;
-    }
-    
     AddOrRemoveLoading(true, dispatch);
-    axios.get(`/api/product/colors${url}`)
+    axios.get(`/api/product/colors`, {params: query})
     .then(res=>{
         AddOrRemoveLoading(false, dispatch);
         dispatch({ 
